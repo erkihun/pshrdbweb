@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -9,7 +11,7 @@ use App\Services\SiteSettingsService;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
-class SettingsController extends Controller
+final class SettingsController extends Controller
 {
     public function edit(SiteSettingsService $settings)
     {
@@ -28,26 +30,34 @@ class SettingsController extends Controller
     {
         $validated = $request->validated();
 
-        $branding = [
-            'site_name_am' => $validated['site_name_am'],
-            'site_name_en' => $validated['site_name_en'],
-            'logo_path' => $settings->get('site.branding.logo_path'),
-            'favicon_path' => $settings->get('site.branding.favicon_path'),
-        ];
+        // Current stored paths (from cache/db)
+        $currentLogoPath = $settings->get('site.branding.logo_path');
+        $currentFaviconPath = $settings->get('site.branding.favicon_path');
+
+        // Upload first (so we can persist new paths)
+        $newLogoPath = $currentLogoPath;
+        $newFaviconPath = $currentFaviconPath;
 
         if ($request->hasFile('logo')) {
-            $branding['logo_path'] = $this->storeFile(
+            $newLogoPath = $this->storeFile(
                 $request->file('logo'),
-                $branding['logo_path']
+                is_string($currentLogoPath) ? $currentLogoPath : null
             );
         }
 
         if ($request->hasFile('favicon')) {
-            $branding['favicon_path'] = $this->storeFile(
+            $newFaviconPath = $this->storeFile(
                 $request->file('favicon'),
-                $branding['favicon_path']
+                is_string($currentFaviconPath) ? $currentFaviconPath : null
             );
         }
+
+        $branding = [
+            'site_name_am' => $validated['site_name_am'] ?? null,
+            'site_name_en' => $validated['site_name_en'] ?? null,
+            'logo_path' => $newLogoPath ?: null,
+            'favicon_path' => $newFaviconPath ?: null,
+        ];
 
         $contact = [
             'address_am' => $validated['address_am'] ?? null,
@@ -81,17 +91,21 @@ class SettingsController extends Controller
 
         $settings->clearCache();
 
-        return redirect()->route('admin.settings.edit')->with('success', __('common.messages.settings_saved'));
+        return redirect()
+            ->route('admin.settings.edit')
+            ->with('success', __('common.messages.settings_saved'));
     }
 
     private function normalizeLinks(array $links): array
     {
         return collect($links)
-            ->map(function (array $link) {
+            ->map(function ($link): array {
+                $link = is_array($link) ? $link : [];
+
                 return [
-                    'label_am' => trim($link['label_am'] ?? ''),
-                    'label_en' => trim($link['label_en'] ?? ''),
-                    'url' => trim($link['url'] ?? ''),
+                    'label_am' => trim((string) ($link['label_am'] ?? '')),
+                    'label_en' => trim((string) ($link['label_en'] ?? '')),
+                    'url' => trim((string) ($link['url'] ?? '')),
                 ];
             })
             ->filter(fn (array $link) => filled($link['url']))

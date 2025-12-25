@@ -48,7 +48,7 @@
                     <p class="mt-6 text-lg text-gray-700">{{ $post->display_excerpt }}</p>
                 @endif
 
-                <div class="prose prose-gray mt-6 max-w-none">
+                <div class="prose prose-gray mt-6 max-w-none text-justify">
                     {!! nl2br(e($post->display_body)) !!}
                 </div>
 

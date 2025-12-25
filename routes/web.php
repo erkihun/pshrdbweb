@@ -45,9 +45,15 @@ use App\Http\Controllers\DocumentRequestController;
 use App\Http\Controllers\LocaleController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Admin\OfficialMessageController;
+use App\Http\Controllers\Admin\HomeSlideController;
 
 Route::get('/', HomepageController::class);
+Route::get('official-message', [OfficialMessageController::class, 'edit'])
+    ->name('admin.official-message.edit');
 
+Route::put('official-message', [OfficialMessageController::class, 'update'])
+    ->name('admin.official-message.update');
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -62,6 +68,7 @@ Route::middleware(['auth', 'verified'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
+         Route::resource('home-slides', HomeSlideController::class)->except(['show']);
         Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
         Route::resource('posts', PostController::class)->middleware('permission:manage posts');
         Route::resource('services', AdminServiceController::class)->middleware('permission:manage services');
@@ -69,7 +76,7 @@ Route::middleware(['auth', 'verified'])
         Route::resource('documents', AdminDocumentController::class)->middleware('permission:manage documents');
         Route::get('tenders', [TenderController::class, 'index'])->name('tenders.index');
         Route::resource('users', UserController::class)->only(['index', 'edit', 'update'])->middleware('permission:manage users');
-        Route::get('roles', [RoleController::class, 'index'])->name('roles.index');
+       // Route::get('roles', [RoleController::class, 'index'])->name('roles.index');
         Route::resource('audit-logs', AuditLogController::class)->only(['index', 'show'])->middleware('permission:view audit logs');
         Route::get('homepage', [AdminHomepageController::class, 'edit'])->name('homepage.edit')->middleware('permission:manage homepage');
         Route::put('homepage', [AdminHomepageController::class, 'update'])->name('homepage.update')->middleware('permission:manage homepage');
@@ -78,7 +85,8 @@ Route::middleware(['auth', 'verified'])
         Route::get('settings', [SettingsController::class, 'edit'])->name('settings.edit')->middleware('permission:manage settings');
         Route::put('settings', [SettingsController::class, 'update'])->name('settings.update')->middleware('permission:manage settings');
         Route::get('pages', [AdminPageController::class, 'index'])->name('pages.index')->middleware('permission:manage pages');
-        Route::get('media', [MediaController::class, 'index'])->name('media.index');
+        
+     Route::match(['get', 'post'], 'media', [MediaController::class, 'index'])->name('media.index');
         Route::get('pages/{key}/edit', [AdminPageController::class, 'edit'])->name('pages.edit')->middleware('permission:manage pages');
         Route::put('pages/{key}', [AdminPageController::class, 'update'])->name('pages.update')->middleware('permission:manage pages');
         Route::resource('departments', DepartmentController::class)->except(['show'])->middleware('permission:manage staff');

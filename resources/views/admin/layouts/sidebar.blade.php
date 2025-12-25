@@ -39,6 +39,25 @@
                     'permission' => 'manage pages',
                     'patterns' => ['admin.pages.*'],
                 ],
+
+                // ✅ Home Slides
+                [
+                    'label' => 'Home Slides',
+                    'route' => 'admin.home-slides.index',
+                    'icon' => 'M4 6h16M4 18h16M6 8h12v8H6V8z',
+                    'permission' => 'manage settings',
+                    'patterns' => ['admin.home-slides.*'],
+                ],
+
+                // ✅ Higher Official Message (NEW)
+                [
+                    'label' => 'Higher Official Message',
+                    'route' => 'admin.official-message.edit',
+                    'icon' => 'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-7 9a7 7 0 01114 0H5z',
+                    'permission' => 'manage settings',
+                    'patterns' => ['admin.official-message.*'],
+                ],
+
                 [
                     'label' => 'Media Gallery',
                     'route' => 'admin.media.index',
@@ -86,6 +105,16 @@
                     'permission' => 'manage services',
                     'patterns' => ['admin.services.*'],
                 ],
+                
+                // Staff
+                [
+                    'label' => 'Staff',
+                    'route' => 'admin.staff.index',
+                    'icon' => 'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z',
+                    'permission' => 'manage staff',
+                    'patterns' => ['admin.staff.*'],
+                ],
+
                 [
                     'label' => 'Documents & Downloads',
                     'route' => 'admin.documents.index',
@@ -260,16 +289,16 @@
                             </svg>
                         </button>
 
-                            <div
-                                id="admin-panel-{{ $groupKey }}-panel-{{ $mobile ? 'mobile' : 'desktop' }}"
-                                data-acc-panel
-                                data-group-panel="{{ $groupKey }}"
-                                role="region"
-                                aria-labelledby="admin-panel-{{ $groupKey }}-trigger-{{ $mobile ? 'mobile' : 'desktop' }}"
-                                class="mt-3 space-y-1 overflow-hidden transition-all duration-300 ease-in-out {{ $activeGroup === $groupKey ? '' : 'hidden' }}"
-                            >
+                        <div
+                            id="admin-panel-{{ $groupKey }}-panel-{{ $mobile ? 'mobile' : 'desktop' }}"
+                            data-acc-panel
+                            data-group-panel="{{ $groupKey }}"
+                            role="region"
+                            aria-labelledby="admin-panel-{{ $groupKey }}-trigger-{{ $mobile ? 'mobile' : 'desktop' }}"
+                            class="mt-3 space-y-1 overflow-hidden transition-all duration-300 ease-in-out {{ $activeGroup === $groupKey ? '' : 'hidden' }}"
+                        >
                             @foreach ($group['items'] as $item)
-                                    @php($isActive = collect($item['patterns'])->contains(fn ($pattern) => request()->routeIs($pattern)))
+                                @php($isActive = collect($item['patterns'])->contains(fn ($pattern) => request()->routeIs($pattern)))
                                 <a
                                     href="{{ route($item['route']) }}"
                                     class="relative flex items-center gap-3 rounded-2xl border border-transparent pl-10 pr-3 py-2   transition focus-visible:outline focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-gold focus-visible:ring-offset-brand-sidebar {{ $isActive ? 'bg-[rgba(212,161,6,0.15)] text-brand-gold rounded-xl shadow-sm' : 'text-brand-nav hover:bg-white/5 hover:text-white' }}"
@@ -307,9 +336,9 @@
             <div class="  text-brand-ink">{{ $user->name }}</div>
             <p class=" text-brand-muted">{{ $user->email }}</p>
             @if($user->getRoleNames()->isNotEmpty())
-            <div class="mt-2 inline-flex items-center rounded-full border border-brand-blue/20 bg-brand-blue/10 px-3 py-1 text-[10px]  text-brand-blue">
-                {{ $user->getRoleNames()->first() }}
-            </div>
+                <div class="mt-2 inline-flex items-center rounded-full border border-brand-blue/20 bg-brand-blue/10 px-3 py-1 text-[10px]  text-brand-blue">
+                    {{ $user->getRoleNames()->first() }}
+                </div>
             @endif
             <form method="POST" action="{{ route('logout') }}" class="mt-4">
                 @csrf

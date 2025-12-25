@@ -22,7 +22,7 @@ Route::middleware('throttle:api')->group(function () {
     Route::post('/tickets', [TicketController::class, 'store'])->middleware('throttle:tickets');
     Route::get('/tickets/{reference_code}', [TicketController::class, 'show']);
 
-    Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
+    Route::middleware('auth:sanctum')->prefix('admin')->name('api.admin.')->group(function () {
         Route::middleware('api_permission:manage posts')->group(function () {
             Route::apiResource('posts', AdminPostController::class);
         });

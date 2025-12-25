@@ -43,6 +43,7 @@ return [
         'actions' => 'Actions',
         'apply' => 'Apply',
         'clear' => 'Clear',
+         'subscribe' => 'Subscribe',
     ],
     'status' => [
         'published' => 'Published',
@@ -266,4 +267,18 @@ return [
         'appointment_status_updated' => 'Appointment status updated.',
         'appointment_not_found' => 'We could not find an appointment with that reference code.',
     ],
+    'footer' => [
+    'follow_us' => 'Follow Us',
+    'emergency_available' => 'Emergency services available 24/7',
+    'newsletter' => 'Stay Updated',
+    'email_placeholder' => 'Enter your email',
+    'newsletter_note' => 'Subscribe to receive official announcements and updates',
+    'rights_reserved' => 'All rights reserved.',
+    'disclaimer' => 'Official government portal. All information is verified and up to date.',
+    'privacy_policy' => 'Privacy Policy',
+    'terms_service' => 'Terms of Service',
+    'accessibility' => 'Accessibility',
+    'sitemap' => 'Sitemap',
+   
+],
 ];

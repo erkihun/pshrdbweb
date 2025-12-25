@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use App\Http\Controllers\HomeController;
 class Post extends Model
 {
     use HasFactory;
@@ -58,5 +58,15 @@ class Post extends Model
         return app()->getLocale() === 'am'
             ? ($this->body_am ?: $this->body_en ?: $this->body)
             : ($this->body_en ?: $this->body_am ?: $this->body);
+    }
+    protected static function booted()
+    {
+        static::saved(function () {
+            HomeController::clearHomepageCache();
+        });
+
+        static::deleted(function () {
+            HomeController::clearHomepageCache();
+        });
     }
 }
