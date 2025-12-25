@@ -1,0 +1,31 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class StoreUserRequest extends FormRequest
+{
+    public function authorize(): bool
+    {
+        return $this->user()->can('manage users');
+    }
+
+    public function rules(): array
+    {
+        return [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255', 'unique:users,email'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'phone' => ['nullable', 'string', 'max:32'],
+            'national_id' => ['nullable', 'string', 'max:64'],
+            'gender' => ['nullable', 'string', 'in:male,female,other'],
+            'department_id' => ['nullable', 'exists:departments,id'],
+            'avatar' => ['nullable', 'image', 'max:2048'],
+            'roles' => ['nullable', 'array'],
+            'roles.*' => ['string', 'exists:roles,name'],
+        ];
+    }
+}

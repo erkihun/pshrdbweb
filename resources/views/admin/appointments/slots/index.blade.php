@@ -52,7 +52,9 @@
                 <tbody class="divide-y divide-slate-100">
                     @forelse ($slots as $slot)
                         <tr>
-                            <td class="px-6 py-4 font-medium text-slate-900">{{ $slot->service->display_name }}</td>
+                            <td class="px-6 py-4 font-medium text-slate-900">
+                                {{ $slot->service?->display_name ?? __('common.labels.appointment_service') }}
+                            </td>
                             <td class="px-6 py-4 text-slate-500">{{ $slot->starts_at->format('M d, Y') }}</td>
                             <td class="px-6 py-4 text-slate-500">{{ $slot->starts_at->format('g:i A') }} - {{ $slot->ends_at->format('g:i A') }}</td>
                             <td class="px-6 py-4 text-slate-500">{{ $slot->capacity }}</td>

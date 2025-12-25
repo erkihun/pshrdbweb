@@ -2,11 +2,26 @@
 
 @section('content')
     <div class="space-y-8 p-6">
-        <div class="flex items-center justify-between">
+        <div class="flex flex-wrap items-center justify-between gap-4">
             <div>
                 <h1 class="text-3xl font-bold tracking-tight text-slate-900">{{ __('common.labels.pages') }}</h1>
                 <p class="mt-2 text-sm text-slate-500">{{ __('common.nav.organization') }}</p>
             </div>
+            @if(!empty($missingKeys) && $missingKeys->isNotEmpty())
+                <a
+                    href="{{ route('admin.pages.create') }}"
+                    class="inline-flex items-center gap-2 rounded-full bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-500"
+                >
+                    {{ __('common.actions.create') }}
+                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    </svg>
+                </a>
+            @else
+                <span class="text-sm font-medium text-slate-500">
+                    {{ __('common.messages.pages_defined') }}
+                </span>
+            @endif
         </div>
 
         <div class="relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all hover:shadow-md">

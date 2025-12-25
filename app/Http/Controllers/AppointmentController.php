@@ -83,6 +83,28 @@ class AppointmentController extends Controller
         return view('appointments.track', compact('reference', 'appointment'));
     }
 
+    public function create(Request $request)
+    {
+        $services = AppointmentService::active()->orderBy('sort_order')->get();
+        $slug = $request->query('service');
+        $selectedService = $slug ? $services->firstWhere('slug', $slug) : $services->first();
+        $slots = collect();
+
+        if ($selectedService) {
+            $slots = $selectedService->slots()
+                ->active()
+                ->future()
+                ->orderBy('starts_at')
+                ->get();
+        }
+
+        return view('appointments.create', [
+            'services' => $services,
+            'selectedService' => $selectedService,
+            'slots' => $slots,
+        ]);
+    }
+
     public function trackSubmit(TrackAppointmentRequest $request)
     {
         $reference = $request->reference_code;

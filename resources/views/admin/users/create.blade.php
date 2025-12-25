@@ -1,45 +1,22 @@
-﻿@extends('admin.layouts.app')
+@extends('admin.layouts.app')
 
 @section('content')
-    @php
-        $selectedRoles = old('roles', $user->roles->pluck('name')->toArray());
-        $currentAvatar = $user->avatar_path ? asset('storage/' . $user->avatar_path) : null;
-    @endphp
-
     <div class="space-y-6">
         <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-            <div class="flex flex-col gap-2">
-                <p class="text-xs uppercase tracking-wide text-slate-400">Users</p>
-                <div class="flex flex-wrap items-center justify-between gap-3">
-                    <div>
-                        <h1 class="text-2xl font-semibold text-slate-900">Edit user</h1>
-                        <p class="text-sm text-slate-500">Update profile, department, and roles.</p>
-                    </div>
-                    <span class="text-xs font-semibold uppercase tracking-wide text-slate-400">User ID: {{ $user->id }}</span>
-                </div>
-                <div class="mt-4 flex items-center gap-3 text-sm text-slate-500">
-                    <div class="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-600">
-                        {{ strtoupper(substr($user->name, 0, 2)) }}
-                    </div>
-                    <div>
-                        <p class="font-medium text-slate-900">{{ $user->name }}</p>
-                        <p>{{ $user->email }}</p>
-                    </div>
-                    @if($currentAvatar)
-                        <img src="{{ $currentAvatar }}" alt="avatar" class="h-10 w-10 rounded-full object-cover" />
-                    @endif
-                </div>
+            <div class="flex flex-col gap-1">
+                <p class="text-xs uppercase tracking-wide text-brand-muted">Users</p>
+                <h1 class="text-2xl font-semibold text-brand-ink">Create new user</h1>
+                <p class="text-sm text-slate-500">Provide the user's contact info and assign the appropriate department and role.</p>
             </div>
         </div>
 
         <form
             method="POST"
-            action="{{ route('admin.users.update', $user) }}"
+            action="{{ route('admin.users.store') }}"
             enctype="multipart/form-data"
             class="space-y-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
         >
             @csrf
-            @method('PUT')
 
             <div class="grid gap-4 lg:grid-cols-2">
                 <div>
@@ -48,7 +25,7 @@
                         id="name"
                         name="name"
                         type="text"
-                        value="{{ old('name', $user->name) }}"
+                        value="{{ old('name') }}"
                         class="mt-1 w-full rounded-2xl border border-slate-200 px-4 py-2 text-sm text-slate-800 focus:border-brand-blue focus:outline-none"
                         required
                     >
@@ -62,7 +39,7 @@
                         id="email"
                         name="email"
                         type="email"
-                        value="{{ old('email', $user->email) }}"
+                        value="{{ old('email') }}"
                         class="mt-1 w-full rounded-2xl border border-slate-200 px-4 py-2 text-sm text-slate-800 focus:border-brand-blue focus:outline-none"
                         required
                     >
@@ -79,7 +56,7 @@
                         id="phone"
                         name="phone"
                         type="text"
-                        value="{{ old('phone', $user->phone) }}"
+                        value="{{ old('phone') }}"
                         class="mt-1 w-full rounded-2xl border border-slate-200 px-4 py-2 text-sm text-slate-800 focus:border-brand-blue focus:outline-none"
                     >
                     @error('phone')
@@ -92,7 +69,7 @@
                         id="national_id"
                         name="national_id"
                         type="text"
-                        value="{{ old('national_id', $user->national_id) }}"
+                        value="{{ old('national_id') }}"
                         class="mt-1 w-full rounded-2xl border border-slate-200 px-4 py-2 text-sm text-slate-800 focus:border-brand-blue focus:outline-none"
                     >
                     @error('national_id')
@@ -110,9 +87,9 @@
                         class="mt-1 w-full rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-800 focus:border-brand-blue focus:outline-none"
                     >
                         <option value="">Select gender</option>
-                        <option value="male" {{ old('gender', $user->gender) === 'male' ? 'selected' : '' }}>Male</option>
-                        <option value="female" {{ old('gender', $user->gender) === 'female' ? 'selected' : '' }}>Female</option>
-                        <option value="other" {{ old('gender', $user->gender) === 'other' ? 'selected' : '' }}>Other</option>
+                        <option value="male" {{ old('gender') === 'male' ? 'selected' : '' }}>Male</option>
+                        <option value="female" {{ old('gender') === 'female' ? 'selected' : '' }}>Female</option>
+                        <option value="other" {{ old('gender') === 'other' ? 'selected' : '' }}>Other</option>
                     </select>
                     @error('gender')
                         <p class="mt-1 text-xs text-rose-600">{{ $message }}</p>
@@ -127,7 +104,7 @@
                     >
                         <option value="">Select department</option>
                         @foreach($departments as $department)
-                            <option value="{{ $department->id }}" {{ old('department_id', $user->department_id) == $department->id ? 'selected' : '' }}>
+                            <option value="{{ $department->id }}" {{ old('department_id') == $department->id ? 'selected' : '' }}>
                                 {{ $department->name_en }}
                             </option>
                         @endforeach
@@ -147,9 +124,6 @@
                     @error('avatar')
                         <p class="mt-1 text-xs text-rose-600">{{ $message }}</p>
                     @enderror
-                    @if($currentAvatar)
-                        <p class="mt-2 text-xs text-slate-500">Current avatar is shown above.</p>
-                    @endif
                 </div>
             </div>
 
@@ -161,7 +135,7 @@
                         name="password"
                         type="password"
                         class="mt-1 w-full rounded-2xl border border-slate-200 px-4 py-2 text-sm text-slate-800 focus:border-brand-blue focus:outline-none"
-                        placeholder="Leave blank to keep current password"
+                        required
                     >
                     @error('password')
                         <p class="mt-1 text-xs text-rose-600">{{ $message }}</p>
@@ -174,7 +148,7 @@
                         name="password_confirmation"
                         type="password"
                         class="mt-1 w-full rounded-2xl border border-slate-200 px-4 py-2 text-sm text-slate-800 focus:border-brand-blue focus:outline-none"
-                        placeholder="Repeat new password"
+                        required
                     >
                 </div>
             </div>
@@ -190,7 +164,7 @@
                                 name="roles[]"
                                 value="{{ $role->name }}"
                                 class="h-4 w-4 rounded border-slate-300 text-brand-blue focus:ring-brand-blue"
-                                {{ in_array($role->name, $selectedRoles) ? 'checked' : '' }}
+                                {{ in_array($role->name, old('roles', [])) ? 'checked' : '' }}
                             >
                             <span>{{ $role->name }}</span>
                         </label>

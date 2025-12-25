@@ -3,10 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
+use App\Models\Department;
 use App\Models\User;
 use App\Services\AuditLogService;
-use Illuminate\Http\Request;
-use Spatie\Permission\Models\Permission;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\View\View;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
@@ -18,34 +22,86 @@ class UserController extends Controller
         return view('admin.users.index', compact('users'));
     }
 
-    public function edit(User $user)
+    public function create(): View
     {
         $roles = Role::orderBy('name')->get();
-        $permissions = Permission::orderBy('name')->get();
+        $departments = Department::orderBy('name_en')->get();
 
-        return view('admin.users.edit', compact('user', 'roles', 'permissions'));
+        return view('admin.users.create', compact('roles', 'departments'));
     }
 
-    public function update(Request $request, User $user)
+    public function store(StoreUserRequest $request): RedirectResponse
     {
-        $data = $request->validate([
-            'roles' => ['array'],
-            'roles.*' => ['string', 'exists:roles,name'],
-            'permissions' => ['array'],
-            'permissions.*' => ['string', 'exists:permissions,name'],
-        ]);
+        $data = $request->validated();
 
-        $user->syncRoles($data['roles'] ?? []);
-        $user->syncPermissions($data['permissions'] ?? []);
+        $attributes = [
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+            'phone' => $data['phone'] ?? null,
+            'national_id' => $data['national_id'] ?? null,
+            'gender' => $data['gender'] ?? null,
+            'department_id' => $data['department_id'] ?? null,
+        ];
 
-        AuditLogService::log('users.permissions_updated', 'user', (string) $user->id, [
+        if ($request->hasFile('avatar')) {
+            $attributes['avatar_path'] = $request->file('avatar')->store('users/avatars', 'public');
+        }
+
+        $user = User::create($attributes);
+
+        if (!empty($data['roles'])) {
+            $user->syncRoles($data['roles']);
+        }
+
+        AuditLogService::log('users.created', 'user', (string) $user->id, [
             'user_email' => $user->email,
             'roles' => $user->roles->pluck('name')->all(),
-            'permissions' => $user->permissions->pluck('name')->all(),
         ]);
 
         return redirect()
             ->route('admin.users.index')
-            ->with('success', 'User permissions updated.');
+            ->with('success', 'User created.');
+    }
+
+    public function edit(User $user)
+    {
+        $roles = Role::orderBy('name')->get();
+        $departments = Department::orderBy('name_en')->get();
+
+        return view('admin.users.edit', compact('user', 'roles', 'departments'));
+    }
+
+    public function update(UpdateUserRequest $request, User $user)
+    {
+        $data = $request->validated();
+        $attributes = [
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'phone' => $data['phone'] ?? null,
+            'national_id' => $data['national_id'] ?? null,
+            'gender' => $data['gender'] ?? null,
+            'department_id' => $data['department_id'] ?? null,
+        ];
+
+        if (! empty($data['password'])) {
+            $attributes['password'] = Hash::make($data['password']);
+        }
+
+        if ($request->hasFile('avatar')) {
+            $attributes['avatar_path'] = $request->file('avatar')->store('users/avatars', 'public');
+        }
+
+        $user->update($attributes);
+        $user->syncRoles($data['roles'] ?? []);
+
+        AuditLogService::log('users.updated', 'user', (string) $user->id, [
+            'user_email' => $user->email,
+            'roles' => $user->roles->pluck('name')->all(),
+        ]);
+
+        return redirect()
+            ->route('admin.users.index')
+            ->with('success', 'User updated.');
     }
 }

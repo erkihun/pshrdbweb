@@ -15,7 +15,7 @@
                 [
                     'label' => __('ui.dashboard'),
                     'route' => 'admin.dashboard',
-                    'icon' => 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m0 0v9a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 00-1-1H9a1 1 0 00-1 1v4a1 1 0 001 1h3',
+                    'icon' => 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v9a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 00-1-1H9a1 1 0 00-1 1v4a1 1 0 001 1h3',
                     'permission' => 'view dashboard',
                     'patterns' => ['admin.dashboard'],
                 ],
@@ -28,40 +28,35 @@
                 [
                     'label' => 'News & Announcements',
                     'route' => 'admin.posts.index',
-                    'icon' => 'M4 6h16M4 10h16M4 14h16M4 18h16',
+                    'icon' => 'M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z',
                     'permission' => 'manage posts',
                     'patterns' => ['admin.posts.*'],
                 ],
                 [
                     'label' => 'Pages',
                     'route' => 'admin.pages.index',
-                    'icon' => 'M12 20c-2.21 0-4-1.79-4-4V6c0-2.21 1.79-4 4-4s4 1.79 4 4v10c0 2.21-1.79 4-4 4zm-2-4h4v2H10v-2z',
+                    'icon' => 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z',
                     'permission' => 'manage pages',
                     'patterns' => ['admin.pages.*'],
                 ],
-
-                // ✅ Home Slides
                 [
                     'label' => 'Home Slides',
                     'route' => 'admin.home-slides.index',
-                    'icon' => 'M4 6h16M4 18h16M6 8h12v8H6V8z',
+                    'icon' => 'M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z',
                     'permission' => 'manage settings',
                     'patterns' => ['admin.home-slides.*'],
                 ],
-
-                // ✅ Higher Official Message (NEW)
                 [
                     'label' => 'Higher Official Message',
                     'route' => 'admin.official-message.edit',
-                    'icon' => 'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-7 9a7 7 0 01114 0H5z',
+                    'icon' => 'M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z',
                     'permission' => 'manage settings',
                     'patterns' => ['admin.official-message.*'],
                 ],
-
                 [
                     'label' => 'Media Gallery',
                     'route' => 'admin.media.index',
-                    'icon' => 'M4 4h16v6H4V4zm0 8h8v6H4v-6zm10 0h6v6h-6v-6z',
+                    'icon' => 'M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z',
                     'permission' => 'manage media',
                     'patterns' => ['admin.media.*'],
                 ],
@@ -74,23 +69,58 @@
                 [
                     'label' => 'Tickets & Complaints',
                     'route' => 'admin.tickets.index',
-                    'icon' => 'M5 3h14a1 1 0 011 1v16l-5-5H5a1 1 0 01-1-1V4a1 1 0 011-1z',
+                    'icon' => 'M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',
                     'permission' => 'manage tickets',
                     'patterns' => ['admin.tickets.*'],
                 ],
                 [
+                    'label' => 'Live Chat',
+                    'route' => 'admin.chats.index',
+                    'icon' => 'M17 8h2a2 2 0 012 2v5a2 2 0 01-2 2h-3l-4 4v-4H7a2 2 0 01-2-2v-1a2 2 0 012-2h5.586L15 3.586A2 2 0 0117 5.414V8z',
+                    'permission' => 'manage chat',
+                    'patterns' => ['admin.chats.*'],
+                ],
+                [
                     'label' => 'Service Requests',
                     'route' => 'admin.service-requests.index',
-                    'icon' => 'M12 2a5 5 0 00-5 5v1H5a2 2 0 00-2 2v3h14v-3a2 2 0 00-2-2h-2V7a5 5 0 00-5-5zm-3 10v3a1 1 0 001 1h6a1 1 0 001-1v-3h-8z',
+                    'icon' => 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10',
                     'permission' => 'manage service requests',
                     'patterns' => ['admin.service-requests.*'],
                 ],
                 [
+                    'label' => 'Document Requests',
+                    'route' => 'admin.document-requests.index',
+                    'icon' => 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h4l4 4v10a2 2 0 01-2 2z',
+                    'permission' => 'manage document requests',
+                    'patterns' => ['admin.document-requests.*'],
+                ],
+                [
+                    'label' => 'Document Request Types',
+                    'route' => 'admin.document-request-types.index',
+                    'icon' => 'M7 7h10v2H7zm0 4h6v2H7zm0 4h10v2H7z',
+                    'permission' => 'manage document requests',
+                    'patterns' => ['admin.document-request-types.*'],
+                ],
+                [
                     'label' => 'Appointments',
                     'route' => 'admin.appointments.index',
-                    'icon' => 'M7 8h10M7 12h10M7 16h4',
+                    'icon' => 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z',
                     'permission' => 'manage appointments',
                     'patterns' => ['admin.appointments.*'],
+                ],
+                [
+                    'label' => __('common.labels.appointment_slots'),
+                    'route' => 'admin.appointment-slots.index',
+                    'icon' => 'M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2zm2 4h10v2H7zm0 4h6v2H7z',
+                    'permission' => 'manage appointments',
+                    'patterns' => ['admin.appointment-slots.*'],
+                ],
+                [
+                    'label' => __('common.labels.appointment_service'),
+                    'route' => 'admin.appointment-services.index',
+                    'icon' => 'M4 4h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zm2 5h12V9H6zm0 4h7v2H6z',
+                    'permission' => 'manage appointments',
+                    'patterns' => ['admin.appointment-services.*'],
                 ],
             ],
         ],
@@ -101,31 +131,42 @@
                 [
                     'label' => 'Services',
                     'route' => 'admin.services.index',
-                    'icon' => 'M6 3h12a2 2 0 012 2v6H4V5a2 2 0 012-2zm0 8h12v6H6v-6z',
+                    'icon' => 'M13 10V3L4 14h7v7l9-11h-7z',
                     'permission' => 'manage services',
                     'patterns' => ['admin.services.*'],
                 ],
-                
-                // Staff
+                [
+                    'label' => 'Document Categories',
+                    'route' => 'admin.document-categories.index',
+                    'icon' => 'M4 4h16v4H4V4zm0 8h16v4H4v-4z',
+                    'permission' => 'manage documents',
+                    'patterns' => ['admin.document-categories.*'],
+                ],
                 [
                     'label' => 'Staff',
                     'route' => 'admin.staff.index',
-                    'icon' => 'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z',
+                    'icon' => 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13 1.197h-3',
                     'permission' => 'manage staff',
                     'patterns' => ['admin.staff.*'],
                 ],
-
+                [
+                    'label' => 'Departments',
+                    'route' => 'admin.departments.index',
+                    'icon' => 'M13 10V3L4 14h7v7l9-11h-7z',
+                    'permission' => 'manage staff',
+                    'patterns' => ['admin.departments.*'],
+                ],
                 [
                     'label' => 'Documents & Downloads',
                     'route' => 'admin.documents.index',
-                    'icon' => 'M9 2h6l5 5v13a1 1 0 01-1 1H5a1 1 0 01-1-1V3a1 1 0 011-1h4z',
+                    'icon' => 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z',
                     'permission' => 'manage documents',
                     'patterns' => ['admin.documents.*'],
                 ],
                 [
                     'label' => 'Tenders / Procurement',
                     'route' => 'admin.tenders.index',
-                    'icon' => 'M5 4h14v3H5V4zm0 5h14v3H5V9zm0 5h14v3H5v-3z',
+                    'icon' => 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2',
                     'permission' => 'manage tenders',
                     'patterns' => ['admin.tenders.*'],
                 ],
@@ -138,28 +179,35 @@
                 [
                     'label' => 'Users',
                     'route' => 'admin.users.index',
-                    'icon' => 'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z',
+                    'icon' => 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13 1.197h-3',
                     'permission' => 'manage users',
                     'patterns' => ['admin.users.*'],
                 ],
                 [
                     'label' => 'Roles & Permissions',
                     'route' => 'admin.roles.index',
-                    'icon' => 'M9 4h6a1 1 0 011 1v2H8V5a1 1 0 011-1zm-1 5h8v2H8V9zm0 4h5v2H8v-2z',
+                    'icon' => 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z',
                     'permission' => 'manage roles',
                     'patterns' => ['admin.roles.*'],
                 ],
                 [
+                    'label' => 'SMS Settings',
+                    'route' => 'admin.sms-settings.edit',
+                    'icon' => 'M5 8h14M7 12h10M7 16h6',
+                    'permission' => 'manage sms',
+                    'patterns' => ['admin.sms-settings.*'],
+                ],
+                [
                     'label' => 'Audit Logs',
                     'route' => 'admin.audit-logs.index',
-                    'icon' => 'M8 7V5a4 4 0 018 0v2m1 4h-8m-4 3h6m-6-3v4h14v-4',
+                    'icon' => 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z',
                     'permission' => 'view audit logs',
                     'patterns' => ['admin.audit-logs.*'],
                 ],
                 [
                     'label' => 'System Settings',
                     'route' => 'admin.settings.edit',
-                    'icon' => 'M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4m0-8v8m0-8L9 4m3 4l3-4',
+                    'icon' => 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z',
                     'permission' => 'manage settings',
                     'patterns' => ['admin.settings.*', 'admin.homepage.*', 'admin.sms-settings.*'],
                 ],
@@ -172,28 +220,28 @@
                 [
                     'label' => 'Reports & Exports',
                     'route' => 'admin.exports.index',
-                    'icon' => 'M5 4h14v2H5V4zm0 5h14v2H5V9zm0 5h14v2H5v-2z',
+                    'icon' => 'M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z',
                     'permission' => 'manage exports',
                     'patterns' => ['admin.exports.*'],
                 ],
                 [
                     'label' => 'Notifications / Alerts',
                     'route' => 'admin.alerts.index',
-                    'icon' => 'M15 17H9l-1-2V9a4 4 0 118 0v6l-1 2zm-3 5a2 2 0 002-2H10a2 2 0 002 2z',
+                    'icon' => 'M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9',
                     'permission' => 'manage alerts',
                     'patterns' => ['admin.alerts.*'],
                 ],
                 [
                     'label' => 'Subscriptions',
                     'route' => 'admin.subscribers.index',
-                    'icon' => 'M6 11h12v2H6z',
+                    'icon' => 'M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',
                     'permission' => 'manage subscribers',
                     'patterns' => ['admin.subscribers.*'],
                 ],
                 [
                     'label' => 'Analytics',
                     'route' => 'admin.analytics.index',
-                    'icon' => 'M3 13h3v6H3zm7-6h3v12h-3zm7-4h3v16h-3z',
+                    'icon' => 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
                     'permission' => 'view analytics',
                     'patterns' => ['admin.analytics.*'],
                 ],
@@ -236,114 +284,208 @@
 
     $activeGroup ??= array_key_first($visibleGroups);
     $containerClass = $mobile
-        ? 'fixed inset-y-0 left-0 z-40 w-72 border border-brand-nav/20 bg-brand-sidebar text-brand-nav shadow-2xl'
-        : 'relative flex h-full w-72 flex-shrink-0 border border-brand-nav/20 bg-brand-sidebar text-brand-nav shadow-sm';
+        ? 'fixed inset-y-0 left-0 z-40 w-72 bg-gradient-to-b from-gray-900 to-gray-800 text-white shadow-2xl'
+        : 'fixed left-0 top-0 h-screen w-72 flex-shrink-0 bg-gradient-to-b from-gray-900 to-gray-800 text-white shadow-lg';
 @endphp
 
 <aside class="{{ $containerClass }}" aria-label="Admin navigation" @if($mobile) x-cloak @endif>
-    <div class="flex h-full flex-col overflow-y-auto px-6 py-6">
-        <div class="flex items-center justify-between">
-            <div>
-                <p class="text-[12px]  text-white/70">{{ __('ui.language') }}</p>
-                <p class=" text-white">{{ config('app.name', 'Laravel') }}</p>
+    <div class="flex h-full flex-col">
+        <!-- Fixed Header -->
+        <div class="flex-shrink-0 px-6 py-4 border-b border-gray-700 bg-gray-900/50 backdrop-blur-sm">
+            <div class="flex items-center justify-between">
+                <div>
+                    <div class="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">{{ __('ui.language') }}</div>
+                    <div class="text-xl font-bold text-white">{{ config('app.name', 'Laravel') }}</div>
+                </div>
+                @if($mobile)
+                    <button
+                        type="button"
+                        class="text-gray-400 hover:text-white transition-colors p-1 rounded-lg hover:bg-gray-700"
+                        @click="sidebarOpen = false"
+                        aria-label="Close sidebar"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                @endif
             </div>
-            @if($mobile)
-                <button
-                    type="button"
-                    class="text-brand-muted hover:text-brand-blue"
-                    @click="sidebarOpen = false"
-                    aria-label="Close sidebar"
-                >
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
-                    </svg>
-                </button>
-            @endif
         </div>
 
-        <div class="mt-6 flex flex-1 flex-col gap-4">
-            @foreach ($visibleGroups as $groupKey => $group)
-                @if($group['collapsible'])
-                    <div class="space-y-2">
-                        <button
-                            id="admin-panel-{{ $groupKey }}-trigger-{{ $mobile ? 'mobile' : 'desktop' }}"
-                            type="button"
-                            class="group relative flex w-full items-center justify-between  border border-transparent bg-transparent px-3 py-2   text-white/70 transition hover:bg-white/5 hover:text-white focus-visible:outline focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-gold focus-visible:ring-offset-brand-sidebar {{ $activeGroup === $groupKey ? 'text-white' : 'text-white/70' }}"
-                            data-acc-trigger
-                            data-group="{{ $groupKey }}"
-                            data-group-active="{{ $activeGroup === $groupKey ? 'true' : 'false' }}"
-                            aria-controls="admin-panel-{{ $groupKey }}-panel-{{ $mobile ? 'mobile' : 'desktop' }}"
-                            aria-expanded="{{ $activeGroup === $groupKey ? 'true' : 'false' }}"
-                            data-is-active="{{ $activeGroup === $groupKey ? 'true' : 'false' }}"
-                        >
-                            <span class=" text-white/70">{{ $group['label'] }}</span>
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="h-4 w-4 transition duration-300 text-current"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                data-acc-chevron
+        <!-- Scrollable Navigation Content -->
+        <div class="flex-1 overflow-y-auto px-6 py-4">
+            <div class="flex flex-col gap-3">
+                @foreach ($visibleGroups as $groupKey => $group)
+                    @if($group['collapsible'])
+                        <div class="space-y-1">
+                            <button
+                                id="admin-panel-{{ $groupKey }}-trigger-{{ $mobile ? 'mobile' : 'desktop' }}"
+                                type="button"
+                                class="group relative flex w-full items-center justify-between rounded-xl border border-gray-700 bg-gray-800/50 px-4 py-3 text-sm font-medium transition-all duration-200 hover:bg-gray-700 hover:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 {{ $activeGroup === $groupKey ? 'bg-gray-700 border-gray-600' : '' }}"
+                                data-acc-trigger
+                                data-group="{{ $groupKey }}"
+                                data-group-active="{{ $activeGroup === $groupKey ? 'true' : 'false' }}"
+                                aria-controls="admin-panel-{{ $groupKey }}-panel-{{ $mobile ? 'mobile' : 'desktop' }}"
+                                aria-expanded="{{ $activeGroup === $groupKey ? 'true' : 'false' }}"
+                                data-is-active="{{ $activeGroup === $groupKey ? 'true' : 'false' }}"
                             >
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </button>
+                                <span class="text-gray-300">{{ $group['label'] }}</span>
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="h-4 w-4 transition-transform duration-300 text-gray-400 {{ $activeGroup === $groupKey ? 'rotate-180' : '' }}"
+                                    viewBox="0 0 20 20"
+                                    fill="currentColor"
+                                    data-acc-chevron
+                                >
+                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                </svg>
+                            </button>
 
-                        <div
-                            id="admin-panel-{{ $groupKey }}-panel-{{ $mobile ? 'mobile' : 'desktop' }}"
-                            data-acc-panel
-                            data-group-panel="{{ $groupKey }}"
-                            role="region"
-                            aria-labelledby="admin-panel-{{ $groupKey }}-trigger-{{ $mobile ? 'mobile' : 'desktop' }}"
-                            class="mt-3 space-y-1 overflow-hidden transition-all duration-300 ease-in-out {{ $activeGroup === $groupKey ? '' : 'hidden' }}"
-                        >
+                            <div
+                                id="admin-panel-{{ $groupKey }}-panel-{{ $mobile ? 'mobile' : 'desktop' }}"
+                                data-acc-panel
+                                data-group-panel="{{ $groupKey }}"
+                                role="region"
+                                aria-labelledby="admin-panel-{{ $groupKey }}-trigger-{{ $mobile ? 'mobile' : 'desktop' }}"
+                                class="ml-2 space-y-1 overflow-hidden pl-2 border-l border-gray-700 {{ $activeGroup === $groupKey ? 'mt-3' : 'hidden' }}"
+                                style="transition: all 0.3s ease-in-out;"
+                            >
+                                @foreach ($group['items'] as $item)
+                                    @php($isActive = collect($item['patterns'])->contains(fn ($pattern) => request()->routeIs($pattern)))
+                                    <a
+                                        href="{{ route($item['route']) }}"
+                                        class="group relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 {{ $isActive ? 'bg-blue-600 text-white shadow-md' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }}"
+                                        aria-current="{{ $isActive ? 'page' : 'false' }}"
+                                    >
+                                        <div class="flex items-center justify-center w-5 h-5">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 {{ $isActive ? 'text-white' : 'text-gray-400 group-hover:text-white' }}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="{{ $item['icon'] }}" />
+                                            </svg>
+                                        </div>
+                                        <span class="flex-1">{{ $item['label'] }}</span>
+                                        @if($isActive)
+                                            <div class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></div>
+                                        @endif
+                                    </a>
+                                @endforeach
+                            </div>
+                        </div>
+                    @else
+                        <nav class="space-y-1">
                             @foreach ($group['items'] as $item)
                                 @php($isActive = collect($item['patterns'])->contains(fn ($pattern) => request()->routeIs($pattern)))
                                 <a
                                     href="{{ route($item['route']) }}"
-                                    class="relative flex items-center gap-3 rounded-2xl border border-transparent pl-10 pr-3 py-2   transition focus-visible:outline focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-gold focus-visible:ring-offset-brand-sidebar {{ $isActive ? 'bg-[rgba(212,161,6,0.15)] text-brand-gold rounded-xl shadow-sm' : 'text-brand-nav hover:bg-white/5 hover:text-white' }}"
+                                    class="group relative flex items-center gap-3 rounded-xl px-4 py-3.5 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 {{ $isActive ? 'bg-blue-600 text-white shadow-lg' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }}"
                                     aria-current="{{ $isActive ? 'page' : 'false' }}"
                                 >
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 flex-shrink-0 text-current transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $item['icon'] }}" />
-                                    </svg>
-                                    {{ $item['label'] }}
+                                    <div class="flex items-center justify-center w-5 h-5">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 {{ $isActive ? 'text-white' : 'text-gray-400 group-hover:text-white' }}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="{{ $item['icon'] }}" />
+                                        </svg>
+                                    </div>
+                                    <span class="flex-1">{{ $item['label'] }}</span>
+                                    @if($isActive)
+                                        <div class="w-2 h-2 rounded-full bg-white animate-pulse"></div>
+                                    @endif
                                 </a>
                             @endforeach
-                        </div>
-                    </div>
-                @else
-                    <nav class="space-y-1">
-                        @foreach ($group['items'] as $item)
-                            @php($isActive = collect($item['patterns'])->contains(fn ($pattern) => request()->routeIs($pattern)))
-                            <a
-                                href="{{ route($item['route']) }}"
-                                class="relative flex items-center gap-3 rounded-2xl border border-transparent pl-10 pr-3 py-2   transition focus-visible:outline focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-gold focus-visible:ring-offset-brand-sidebar {{ $isActive ? 'bg-[rgba(212,161,6,0.15)] text-brand-gold rounded-xl shadow-sm' : 'text-brand-nav hover:bg-white/5 hover:text-white' }}"
-                                aria-current="{{ $isActive ? 'page' : 'false' }}"
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 flex-shrink-0 text-current transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $item['icon'] }}" />
-                                </svg>
-                                {{ $item['label'] }}
-                            </a>
-                        @endforeach
-                    </nav>
-                @endif
-            @endforeach
+                        </nav>
+                    @endif
+                @endforeach
+            </div>
         </div>
 
-        <div class="mt-8 border-t border-brand-border pt-5">
-            <div class="  text-brand-ink">{{ $user->name }}</div>
-            <p class=" text-brand-muted">{{ $user->email }}</p>
+        <!-- Fixed Footer -->
+        <div class="flex-shrink-0 border-t border-gray-700 bg-gray-900/50 backdrop-blur-sm px-6 py-4">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold shadow-lg">
+                    {{ strtoupper(substr($user->name, 0, 1)) }}
+                </div>
+                <div class="flex-1">
+                    <div class="font-medium text-white truncate">{{ $user->name }}</div>
+                    <div class="text-xs text-gray-400 truncate">{{ $user->email }}</div>
+                </div>
+            </div>
+            
             @if($user->getRoleNames()->isNotEmpty())
-                <div class="mt-2 inline-flex items-center rounded-full border border-brand-blue/20 bg-brand-blue/10 px-3 py-1 text-[10px]  text-brand-blue">
+                <div class="mb-3 inline-flex items-center rounded-full bg-gradient-to-r from-blue-900/30 to-purple-900/30 border border-blue-500/30 px-3 py-1.5 text-xs font-medium text-blue-200">
+                    <div class="w-1.5 h-1.5 rounded-full bg-blue-400 mr-2 animate-pulse"></div>
                     {{ $user->getRoleNames()->first() }}
                 </div>
             @endif
-            <form method="POST" action="{{ route('logout') }}" class="mt-4">
+            
+            <form method="POST" action="{{ route('logout') }}">
                 @csrf
-                <button type="submit" class="w-full rounded-2xl border border-brand-border bg-brand-bg px-4 py-2   text-brand-muted transition hover:bg-white">{{ __('ui.logout') }}</button>
+                <button 
+                    type="submit" 
+                    class="w-full rounded-xl border border-gray-600 bg-gray-800 px-4 py-3 text-sm font-medium text-gray-300 transition-all duration-200 hover:bg-gray-700 hover:text-white hover:border-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-gray-800"
+                >
+                    <div class="flex items-center justify-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                        </svg>
+                        {{ __('ui.logout') }}
+                    </div>
+                </button>
             </form>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute right-0 top-0 h-full w-1">
+            <div class="absolute right-0 top-0 w-full h-16 bg-gradient-to-b from-blue-500/20 to-transparent pointer-events-none"></div>
+            <div class="absolute right-0 bottom-0 w-full h-16 bg-gradient-to-t from-blue-500/20 to-transparent pointer-events-none"></div>
         </div>
     </div>
 </aside>
+
+@push('styles')
+<style>
+    /* Custom scrollbar for sidebar */
+    aside > div > div.overflow-y-auto {
+        scrollbar-width: thin;
+        scrollbar-color: rgba(156, 163, 175, 0.3) transparent;
+    }
+
+    aside > div > div.overflow-y-auto::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    aside > div > div.overflow-y-auto::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    aside > div > div.overflow-y-auto::-webkit-scrollbar-thumb {
+        background-color: rgba(156, 163, 175, 0.3);
+        border-radius: 2px;
+    }
+
+    aside > div > div.overflow-y-auto::-webkit-scrollbar-thumb:hover {
+        background-color: rgba(156, 163, 175, 0.5);
+    }
+
+    /* Smooth scrolling */
+    aside > div > div.overflow-y-auto {
+        scroll-behavior: smooth;
+    }
+
+    /* Hide scrollbar when not hovering */
+    aside > div > div.overflow-y-auto {
+        overflow-y: scroll;
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE and Edge */
+    }
+
+    aside > div > div.overflow-y-auto::-webkit-scrollbar {
+        display: none; /* Chrome, Safari and Opera */
+    }
+
+    aside > div > div.overflow-y-auto:hover {
+        scrollbar-width: thin; /* Firefox */
+    }
+
+    aside > div > div.overflow-y-auto:hover::-webkit-scrollbar {
+        display: block; /* Chrome, Safari and Opera */
+    }
+</style>
+@endpush

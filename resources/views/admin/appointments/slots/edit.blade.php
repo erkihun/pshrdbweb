@@ -4,7 +4,9 @@
     <div class="space-y-6">
         <div>
             <h1 class="text-2xl font-semibold text-slate-900">{{ __('common.actions.edit') }} {{ __('common.labels.appointment_slot') }}</h1>
-            <p class="text-sm text-slate-500">{{ $appointmentSlot->service->display_name }}</p>
+            <p class="text-sm text-slate-500">
+                {{ $appointmentSlot->service?->display_name ?? __('common.labels.appointment_service') }}
+            </p>
         </div>
 
         <div class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">

@@ -55,8 +55,8 @@ final class SettingsController extends Controller
         $branding = [
             'site_name_am' => $validated['site_name_am'] ?? null,
             'site_name_en' => $validated['site_name_en'] ?? null,
-            'logo_path' => $newLogoPath ?: null,
-            'favicon_path' => $newFaviconPath ?: null,
+            'logo_path' => $newLogoPath ?? $currentLogoPath,
+            'favicon_path' => $newFaviconPath ?? $currentFaviconPath,
         ];
 
         $contact = [

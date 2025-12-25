@@ -3,7 +3,9 @@
 return [
     'app_name' => 'Laravel',
     'nav' => [
+        'home' => 'Home',
         'dashboard' => 'Dashboard',
+        'pages' => 'Pages',
         'services' => 'Services',
         'appointments' => 'Appointments',
         'exports' => 'Exports',
@@ -20,6 +22,10 @@ return [
         'login' => 'Log in',
         'register' => 'Register',
         'logout' => 'Log Out',
+        'request_service' => 'Request Service',
+        'staff' => 'Staff',
+        'appointments' => 'Appointments',
+
     ],
     'actions' => [
         'create' => 'Create',
@@ -121,6 +127,11 @@ return [
         'replied_by' => 'Replied By',
         'details' => 'Details',
         'last_updated' => 'Last updated',
+        'metadata' => 'Metadata',
+        'slug' => 'Slug',
+        'created_by' => 'Created by',
+        'anonymous' => 'Anonymous',
+        'section' => 'Section',
         'service_request' => 'Service Request',
         'service_requests' => 'Service Requests',
         'track_request' => 'Track Request',
@@ -266,6 +277,15 @@ return [
         'appointment_cancelled' => 'Appointment cancelled. We will notify you when there is an update.',
         'appointment_status_updated' => 'Appointment status updated.',
         'appointment_not_found' => 'We could not find an appointment with that reference code.',
+        'pages_defined' => 'All predefined pages are configured.',
+    ],
+    'appointments' => [
+        'hero_description' => 'Book official appointments with our public service departments, track your reference code, and stay in the loop with live office hours – all from one official gateway.',
+        'service_heading' => 'Choose a service and reserve your slot',
+        'service_subtitle' => 'Select from official public service offices and book directly in a few clicks.',
+        'status_open' => 'Open',
+        'status_full' => 'Full',
+        'track_button' => 'Track',
     ],
     'footer' => [
     'follow_us' => 'Follow Us',

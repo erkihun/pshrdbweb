@@ -22,7 +22,11 @@ class PageController extends Controller
             ];
         });
 
-        return view('admin.pages.index', compact('items'));
+        $missingKeys = collect($this->keys())
+            ->reject(fn ($key) => $pages->has($key))
+            ->values();
+
+        return view('admin.pages.index', compact('items', 'missingKeys'));
     }
 
     public function edit(string $key)
@@ -34,6 +38,51 @@ class PageController extends Controller
         $page = Page::firstWhere('key', $key);
 
         return view('admin.pages.edit', compact('page', 'key'));
+    }
+
+    public function create()
+    {
+        $pages = Page::whereIn('key', $this->keys())
+            ->get()
+            ->keyBy('key');
+
+        $availableKeys = collect($this->keys())
+            ->reject(fn ($key) => $pages->has($key))
+            ->values();
+
+        if ($availableKeys->isEmpty()) {
+            return redirect()
+                ->route('admin.pages.index')
+                ->with('error', 'All pages are already defined.');
+        }
+
+        return view('admin.pages.create', compact('availableKeys'));
+    }
+
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'key' => ['required', 'string', 'in:'.implode(',', $this->keys())],
+            'title_am' => ['required', 'string', 'max:255'],
+            'title_en' => ['required', 'string', 'max:255'],
+            'body_am' => ['required', 'string'],
+            'body_en' => ['required', 'string'],
+            'cover_image' => ['nullable', 'image', 'max:4096'],
+            'is_published' => ['sometimes', 'boolean'],
+        ]);
+
+        $data['is_published'] = $request->boolean('is_published');
+        $data['updated_by'] = $request->user()->id;
+
+        if ($request->hasFile('cover_image')) {
+            $data['cover_image_path'] = $this->storeCover($request->file('cover_image'), null);
+        }
+
+        Page::updateOrCreate(['key' => $data['key']], $data);
+
+        return redirect()
+            ->route('admin.pages.index')
+            ->with('success', 'Page created successfully.');
     }
 
     public function update(Request $request, string $key)

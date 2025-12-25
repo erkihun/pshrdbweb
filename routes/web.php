@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\AnalyticsController;
 use App\Http\Controllers\Admin\AlertController;
 use App\Http\Controllers\Admin\ExportController;
 use App\Http\Controllers\Admin\MediaController;
+use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SubscriberController;
 use App\Http\Controllers\Admin\TenderController;
@@ -75,8 +76,21 @@ Route::middleware(['auth', 'verified'])
         Route::resource('document-categories', DocumentCategoryController::class)->middleware('permission:manage documents');
         Route::resource('documents', AdminDocumentController::class)->middleware('permission:manage documents');
         Route::get('tenders', [TenderController::class, 'index'])->name('tenders.index');
+        Route::get('users/create', [UserController::class, 'create'])->name('users.create');
+        Route::post('users', [UserController::class, 'store'])->name('users.store');
         Route::resource('users', UserController::class)->only(['index', 'edit', 'update'])->middleware('permission:manage users');
-       // Route::get('roles', [RoleController::class, 'index'])->name('roles.index');
+        Route::get('roles', [RoleController::class, 'index'])->name('roles.index');
+        Route::get('roles/create', [RoleController::class, 'create'])->name('roles.create');
+        Route::post('roles', [RoleController::class, 'store'])->name('roles.store');
+        Route::get('roles/{role}/edit', [RoleController::class, 'edit'])->name('roles.edit');
+        Route::put('roles/{role}', [RoleController::class, 'update'])->name('roles.update');
+        Route::delete('roles/{role}', [RoleController::class, 'destroy'])->name('roles.destroy');
+        Route::get('permissions', [PermissionController::class, 'index'])->name('permissions.index');
+        Route::get('permissions/create', [PermissionController::class, 'create'])->name('permissions.create');
+        Route::post('permissions', [PermissionController::class, 'store'])->name('permissions.store');
+        Route::get('permissions/{permission}/edit', [PermissionController::class, 'edit'])->name('permissions.edit');
+        Route::put('permissions/{permission}', [PermissionController::class, 'update'])->name('permissions.update');
+        Route::delete('permissions/{permission}', [PermissionController::class, 'destroy'])->name('permissions.destroy');
         Route::resource('audit-logs', AuditLogController::class)->only(['index', 'show'])->middleware('permission:view audit logs');
         Route::get('homepage', [AdminHomepageController::class, 'edit'])->name('homepage.edit')->middleware('permission:manage homepage');
         Route::put('homepage', [AdminHomepageController::class, 'update'])->name('homepage.update')->middleware('permission:manage homepage');
@@ -85,8 +99,9 @@ Route::middleware(['auth', 'verified'])
         Route::get('settings', [SettingsController::class, 'edit'])->name('settings.edit')->middleware('permission:manage settings');
         Route::put('settings', [SettingsController::class, 'update'])->name('settings.update')->middleware('permission:manage settings');
         Route::get('pages', [AdminPageController::class, 'index'])->name('pages.index')->middleware('permission:manage pages');
-        
-     Route::match(['get', 'post'], 'media', [MediaController::class, 'index'])->name('media.index');
+        Route::get('pages/create', [AdminPageController::class, 'create'])->name('pages.create')->middleware('permission:manage pages');
+        Route::post('pages', [AdminPageController::class, 'store'])->name('pages.store')->middleware('permission:manage pages');
+        Route::get('media', [MediaController::class, 'index'])->name('media.index');
         Route::get('pages/{key}/edit', [AdminPageController::class, 'edit'])->name('pages.edit')->middleware('permission:manage pages');
         Route::put('pages/{key}', [AdminPageController::class, 'update'])->name('pages.update')->middleware('permission:manage pages');
         Route::resource('departments', DepartmentController::class)->except(['show'])->middleware('permission:manage staff');
@@ -123,6 +138,7 @@ Route::post('/document-requests/track', [DocumentRequestController::class, 'trac
 Route::get('/appointments', [AppointmentController::class, 'index'])->name('appointments.index');
 Route::get('/appointments/track', [AppointmentController::class, 'trackForm'])->name('appointments.track.form');
 Route::post('/appointments/track', [AppointmentController::class, 'trackSubmit'])->name('appointments.track.submit')->middleware('throttle:appointment_track');
+Route::get('/appointments/create', [AppointmentController::class, 'create'])->name('appointments.create');
 Route::get('/news', [PublicPostController::class, 'newsIndex'])->name('news.index');
 Route::get('/news/{slug}', [PublicPostController::class, 'newsShow'])->name('news.show');
 Route::get('/announcements', [PublicPostController::class, 'announcementsIndex'])->name('announcements.index');
@@ -132,6 +148,7 @@ Route::get('/organization/mission-vision-values', [PageController::class, 'show'
 Route::get('/organization/leadership', [PageController::class, 'show'])->defaults('key', 'leadership')->name('pages.leadership');
 Route::get('/organization/structure', [PageController::class, 'show'])->defaults('key', 'structure')->name('pages.structure');
 Route::get('/organization/history', [PageController::class, 'show'])->defaults('key', 'history')->name('pages.history');
+Route::get('/pages/{key}', [PageController::class, 'show'])->name('pages.show');
 Route::get('/leadership', [\App\Http\Controllers\StaffController::class, 'leadership'])->name('staff.leadership');
 Route::get('/staff', [\App\Http\Controllers\StaffController::class, 'index'])->name('staff.index');
 Route::get('/staff/{staff}', [\App\Http\Controllers\StaffController::class, 'show'])->name('staff.show');

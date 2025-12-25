@@ -3,6 +3,7 @@
 return [
     'app_name' => 'Laravel',
     'nav' => [
+        'home' => 'መነሻ ገጽ',
         'dashboard' => 'ዳሽቦርድ',
         'services' => 'አገልግሎቶች',
         'downloads' => 'ማውረዶች',
@@ -18,6 +19,10 @@ return [
         'login' => 'ግባ',
         'register' => 'ይመዝገቡ',
         'logout' => 'ውጣ',
+        'request_service' => 'የአገልግሎት ጥያቄ',
+        'staff' => 'ሰራተኞች',
+        'appointments' => 'ቀጠሮ ለመያዝ',
+
     ],
     'actions' => [
         'apply' => 'ያመልክቱ', // Translated
@@ -106,6 +111,11 @@ return [
         'replied_by' => 'ምላሽ የሰጠው',
         'details' => 'ዝርዝር',
         'last_updated' => 'መጨረሻ የተዘመነ',
+        'metadata' => 'የመረጃ መረጃ',
+        'slug' => 'slug',
+        'created_by' => 'የፈጠረው',
+        'anonymous' => 'ያልታወቀ',
+        'section' => 'ክፍል',
         'service_request' => 'የአገልግሎት ጥያቄ',
         'service_requests' => 'የአገልግሎት ጥያቄዎች',
         'track_request' => 'ጥያቄ መከታተያ',
@@ -138,6 +148,8 @@ return [
         'locale' => 'ቋንቋ',
         'service_feedback' => 'የአገልግሎት ግምገማ',
         'approved' => 'ጸድቋል',
+        'learn_more'=>'ተጨማሪ ለማወቅ',
+
     ],
     'settings' => [
         'branding' => 'ብራንዲንግ', // Fixed
@@ -171,7 +183,16 @@ return [
         'am' => 'አማርኛ',
         'en' => 'English',
     ],
+    'appointments' => [
+        'hero_description' => 'የኢንስፔክተሩን እንዲያደርጉ የሚገባውን ሁሉንም ጊዜ እንዲቀበሉ በኢንተርኔት ላይ ከተቀበሉ ወደ ትክክለኛው ቦታ ያስቀምጥ።',
+        'service_heading' => 'አገልግሎት ይምረጡ እና ቦታዎትን ያስይዙ',
+        'service_subtitle' => 'የህዝብ አገልግሎት ቢሮዎችን ይምረጡ እና በቀላሉ ይቀበሉ።',
+        'status_open' => 'ክፈት',
+        'status_full' => 'ሞላ',
+        'track_button' => 'እየተከታተለ',
+    ],
     'messages' => [
+        'pages_defined' => 'የቀደሙት የገጾች ሁሉም ተቀናጅተዋል።',
         'no_documents' => 'ሰነዶች አልተገኙም።',
         'no_services' => 'አሁን ምንም አገልግሎት የለም።',
         'no_posts' => 'አሁን ምንም ዜና ወይም ማስታወቂያ የለም።',

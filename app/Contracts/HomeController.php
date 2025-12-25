@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Contracts;
 
+use App\Http\Controllers\Controller;
 use App\Models\HomeSlide;
 use App\Models\Post;
 use App\Models\OfficialMessage;

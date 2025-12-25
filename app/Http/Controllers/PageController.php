@@ -12,6 +12,11 @@ class PageController extends Controller
             ->where('is_published', true)
             ->firstOrFail();
 
-        return view('pages.show', compact('page'));
+        $localeTitle = app()->getLocale() === 'am' ? 'title_am' : 'title_en';
+        $pages = Page::where('is_published', true)
+            ->orderBy($localeTitle)
+            ->get();
+
+        return view('pages.show', compact('page', 'pages'));
     }
 }
