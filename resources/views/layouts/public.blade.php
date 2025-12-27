@@ -5,6 +5,15 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>{{ $site_settings['site.branding']['site_name_' . app()->getLocale()] ?? config('app.name', 'Laravel') }}</title>
+        @php
+            $branding = $site_settings['site.branding'] ?? [];
+            $faviconPath = $branding['favicon_path'] ?? null;
+            $faviconUrl = $faviconPath
+                ? asset('storage/' . ltrim($faviconPath, '/'))
+                : asset('favicon.ico');
+        @endphp
+        <link rel="icon" href="{{ $faviconUrl }}" type="image/x-icon">
+        <link rel="shortcut icon" href="{{ $faviconUrl }}" type="image/x-icon">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link
