@@ -34,6 +34,8 @@ Set these in `.env` on the server:
 
 1. Point the domain document root to `/public`.
 2. Upload the project (or pull from Git).
+
+Plesk's Git deployment tasks run from the document root (usually `/public`), so `php artisan` commands need an entry in that directory. This repo includes a small stub at `public/artisan` that simply requires the real root `artisan` file, and the `public/.htaccess` rules block HTTP access to the stub.
 3. Run Composer:
 
 ```bash
