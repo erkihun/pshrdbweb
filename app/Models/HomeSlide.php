@@ -46,11 +46,15 @@ final class HomeSlide extends Model
         protected static function booted()
     {
         static::saved(function () {
-            HomeController::clearHomepageCache();
+            if (class_exists(HomeController::class)) {
+                HomeController::clearHomepageCache();
+            }
         });
 
         static::deleted(function () {
-            HomeController::clearHomepageCache();
+            if (class_exists(HomeController::class)) {
+                HomeController::clearHomepageCache();
+            }
         });
     }
 }
