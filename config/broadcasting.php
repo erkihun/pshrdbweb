@@ -14,8 +14,8 @@ return [
 
         'reverb' => [
             'driver' => 'reverb',
-            'key' => env('REVERB_KEY'),
-            'secret' => env('REVERB_SECRET'),
+            'key' => env('REVERB_APP_KEY'),
+            'secret' => env('REVERB_APP_SECRET'),
             'app_id' => env('REVERB_APP_ID'),
             'options' => [
                 'scheme' => env('REVERB_SCHEME', 'https'),
