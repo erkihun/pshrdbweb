@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
+        if (!Schema::hasTable('media')) {
+            return;
+        }
+
         Schema::table('media', function (Blueprint $table) {
             $table->string('title')->nullable()->after('id');
         });
@@ -16,6 +20,10 @@ return new class extends Migration {
 
     public function down(): void
     {
+        if (!Schema::hasTable('media')) {
+            return;
+        }
+
         Schema::table('media', function (Blueprint $table) {
             $table->dropColumn('title');
         });

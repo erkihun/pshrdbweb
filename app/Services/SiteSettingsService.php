@@ -42,6 +42,10 @@ class SiteSettingsService
 
     public function all(): array
     {
+        if (!Schema::hasTable('settings')) {
+            return $this->defaults;
+        }
+
         if (!Schema::hasTable('cache')) {
             return $this->load();
         }

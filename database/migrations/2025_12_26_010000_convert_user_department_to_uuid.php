@@ -21,7 +21,9 @@ return new class extends Migration
             // If the foreign key doesn't exist already, ignore the error.
         }
 
-        DB::statement('ALTER TABLE users MODIFY department_id CHAR(36) NULL');
+        if (Schema::getConnection()->getDriverName() !== 'sqlite') {
+            DB::statement('ALTER TABLE users MODIFY department_id CHAR(36) NULL');
+        }
 
         Schema::table('users', function (Blueprint $table) {
             $table->foreign('department_id')->references('id')->on('departments')->nullOnDelete();
@@ -42,7 +44,9 @@ return new class extends Migration
             // ignore
         }
 
-        DB::statement('ALTER TABLE users MODIFY department_id BIGINT UNSIGNED NULL');
+        if (Schema::getConnection()->getDriverName() !== 'sqlite') {
+            DB::statement('ALTER TABLE users MODIFY department_id BIGINT UNSIGNED NULL');
+        }
 
         Schema::table('users', function (Blueprint $table) {
             $table->foreign('department_id')->references('id')->on('departments')->nullOnDelete();
