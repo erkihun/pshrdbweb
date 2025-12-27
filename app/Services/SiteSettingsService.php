@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Setting;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Schema;
 
 class SiteSettingsService
@@ -42,7 +43,7 @@ class SiteSettingsService
 
     public function all(): array
     {
-        if (!Schema::hasTable('settings')) {
+        if (!$this->hasSettingsTable()) {
             return $this->defaults;
         }
 
@@ -80,5 +81,24 @@ class SiteSettingsService
         }
 
         return $result;
+    }
+
+    private function hasSettingsTable(): bool
+    {
+        try {
+            return Schema::hasTable('settings');
+        } catch (QueryException $e) {
+            $connection = Schema::getConnection();
+
+            if ($connection->getDriverName() === 'sqlite') {
+                $path = $connection->getConfig('database');
+
+                if ($path && !file_exists($path)) {
+                    return false;
+                }
+            }
+
+            throw $e;
+        }
     }
 }
