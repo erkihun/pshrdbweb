@@ -24,6 +24,7 @@ export function configureEcho(config = {}) {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') ?? '',
             },
         },
+        cluster: import.meta.env.VITE_REVERB_APP_CLUSTER ?? import.meta.env.VITE_PUSHER_APP_CLUSTER ?? 'mt1',
         ...config,
     };
 

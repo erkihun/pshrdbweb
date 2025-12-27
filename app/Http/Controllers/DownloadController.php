@@ -72,7 +72,17 @@ class DownloadController extends Controller
             ->where('slug', $slug)
             ->firstOrFail();
 
-        return view('downloads.show', compact('document'));
+        $otherDocuments = Document::with('category')
+            ->where('is_published', true)
+            ->where(function ($query) {
+                $query->whereNull('published_at')
+                    ->orWhere('published_at', '<=', now());
+            })
+            ->where('id', '!=', $document->id)
+            ->orderBy('published_at', 'desc')
+            ->get();
+
+        return view('downloads.show', compact('document', 'otherDocuments'));
     }
 
     public function file(string $slug)

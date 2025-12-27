@@ -89,11 +89,11 @@
                         </div>
                         <div>
                             <dt class="text-xs uppercase tracking-wide text-slate-400">{{ __('common.labels.created_at') }}</dt>
-                            <dd class="mt-1">{{ $serviceRequest->submitted_at?->format('M d, Y H:i') }}</dd>
+                            <dd class="mt-1">{{ $serviceRequest->submitted_at ? ethiopian_date($serviceRequest->submitted_at, 'dd MMMM yyyy h:mm a', 'Africa/Addis_Ababa', null, 'M d, Y H:i', true) : '' }}</dd>
                         </div>
                         <div>
                             <dt class="text-xs uppercase tracking-wide text-slate-400">{{ __('common.labels.last_updated') }}</dt>
-                            <dd class="mt-1">{{ $serviceRequest->updated_at?->format('M d, Y H:i') }}</dd>
+                            <dd class="mt-1">{{ $serviceRequest->updated_at ? ethiopian_date($serviceRequest->updated_at, 'dd MMMM yyyy h:mm a', 'Africa/Addis_Ababa', null, 'M d, Y H:i', true) : '' }}</dd>
                         </div>
                     </dl>
                 </div>

@@ -92,10 +92,10 @@
                                             >
                                             <div class="flex-1 space-y-1">
                                                 <p class="text-sm font-semibold text-slate-900">
-                                                    {{ $slot->starts_at->format('M d, Y') }}
+                                                    {{ ethiopian_date($slot->starts_at, 'dd MMMM yyyy') }}
                                                 </p>
                                                 <p class="text-sm text-slate-500">
-                                                    {{ $slot->starts_at->format('g:i A') }} - {{ $slot->ends_at->format('g:i A') }}
+                                                    {{ ethiopian_date($slot->starts_at, 'h:mm a') }} - {{ ethiopian_date($slot->ends_at, 'h:mm a') }}
                                                 </p>
                                                 <p class="text-xs text-slate-500">
                                                     {{ $slot->availableSeats }} seats remaining · {{ $slot->capacity }} total

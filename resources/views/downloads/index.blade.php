@@ -47,12 +47,30 @@
 
                 <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                     @forelse ($documents as $document)
+                        @php
+                            $fileType = strtolower($document->file_type ?? '');
+                        @endphp
                         <a
                             href="{{ route('downloads.show', $document->slug) }}"
                             class="flex h-full flex-col rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-gray-300"
                         >
-                            <div class="text-xs font-semibold uppercase tracking-wide text-gray-400">
-                                {{ $document->category?->name ?? __('common.labels.category') }}
+                            <div class="flex items-center gap-3 text-xs font-semibold uppercase tracking-wide text-blue-600">
+                                <span class="flex h-8 w-8 items-center justify-center rounded-full border border-blue-200 bg-blue-50 text-blue-600">
+                                    @if ($fileType === 'pdf')
+                                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M3 2a2 2 0 00-2 2v12a2 2 0 002 2h14a2 2 0 002-2V7l-5-5H3zm10 0l5 5h-5V2z" />
+                                            <path fill="#fff" d="M9 8h3v6H9z" opacity="0.6"/>
+                                        </svg>
+                                    @else
+                                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 7h5l3 3v9H7z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 3h6l4 4v3" />
+                                        </svg>
+                                    @endif
+                                </span>
+                                <span>
+                                    {{ $document->category?->name ?? __('common.labels.category') }}
+                                </span>
                             </div>
                             <h3 class="mt-3 text-lg font-semibold text-gray-900">{{ $document->display_title }}</h3>
                             @if ($document->display_description)

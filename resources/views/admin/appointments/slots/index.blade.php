@@ -55,8 +55,8 @@
                             <td class="px-6 py-4 font-medium text-slate-900">
                                 {{ $slot->service?->display_name ?? __('common.labels.appointment_service') }}
                             </td>
-                            <td class="px-6 py-4 text-slate-500">{{ $slot->starts_at->format('M d, Y') }}</td>
-                            <td class="px-6 py-4 text-slate-500">{{ $slot->starts_at->format('g:i A') }} - {{ $slot->ends_at->format('g:i A') }}</td>
+                            <td class="px-6 py-4 text-slate-500">{{ ethiopian_date($slot->starts_at, 'dd MMMM yyyy', 'Africa/Addis_Ababa', null, 'M d, Y', true) }}</td>
+                            <td class="px-6 py-4 text-slate-500">{{ ethiopian_date($slot->starts_at, 'h:mm a', 'Africa/Addis_Ababa', null, 'g:i A', true) }} - {{ ethiopian_date($slot->ends_at, 'h:mm a', 'Africa/Addis_Ababa', null, 'g:i A', true) }}</td>
                             <td class="px-6 py-4 text-slate-500">{{ $slot->capacity }}</td>
                             <td class="px-6 py-4">
                                 <span class="{{ $slot->is_active ? 'text-emerald-600' : 'text-slate-500' }}">

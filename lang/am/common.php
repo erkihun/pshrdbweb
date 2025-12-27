@@ -5,8 +5,9 @@ return [
     'nav' => [
         'home' => 'መነሻ ገጽ',
         'dashboard' => 'ዳሽቦርድ',
-        'services' => 'አገልግሎቶች',
-        'downloads' => 'ማውረዶች',
+        'public_servant_dashboard' => 'የመንግስት ሰራተኞች',
+        'services' => 'አገልግሎት',
+        'downloads' => 'ሰነዶች',
         'document_requests' => 'የሰነድ ጥያቄዎች', // Fixed typo
         'news' => 'ዜና',
         'announcements' => 'ማስታወቂያዎች',
@@ -22,6 +23,10 @@ return [
         'request_service' => 'የአገልግሎት ጥያቄ',
         'staff' => 'ሰራተኞች',
         'appointments' => 'ቀጠሮ ለመያዝ',
+    'pages' => 'ገጾች',
+
+        'exports' => 'ወደ ውጭ የተላኩ መረጃዎች',
+
 
     ],
     'actions' => [
@@ -41,6 +46,19 @@ return [
         'submit' => 'አስገባ',
         'actions' => 'ተግባራት', // Translated
         'subscribe' => 'ሰብስክራይብ', // Fixed typo
+      'book' => 'ያዝ',
+
+        'open' => 'ክፈት',
+
+        'start' => 'ጀምር',
+
+        'saving' => 'በማስቀመጥ ላይ...',
+
+        'send' => 'ላክ',
+
+        'clear' => 'አጽዳ',
+
+
     ],
     'status' => [
         'published' => 'ታትሟል',
@@ -58,6 +76,21 @@ return [
         'completed' => 'ተጠናቋል',
         'ready' => 'ዝግጁ', // Fixed broken characters
         'delivered' => 'ደረሰ', // Fixed broken characters
+      'queued' => 'በተራ ላይ ያለ',
+
+        'processing' => 'በሂደት ላይ',
+
+        'booked' => 'የተያዘ',
+
+        'confirmed' => 'የጸደቀ',
+
+        'cancelled' => 'የተሰረዘ',
+
+        'no_show' => 'ያልተገኘ',
+
+        'failed' => 'ያልተሳካ',
+
+
     ],
     'labels' => [
         'all' => 'ሁሉም',
@@ -99,6 +132,7 @@ return [
         'search_placeholder' => 'ፈልግ...',
         'search_results' => 'የፍለጋ ውጤቶች',
         'news_announcements' => 'ዜናና ማስታወቂያዎች',
+        'new' => 'አዲስ',
         'tickets' => 'ቲኬቶች',
         'reference_code' => 'የማመልከቻ ኮድ',
         'subject' => 'ርዕስ',
@@ -149,22 +183,62 @@ return [
         'service_feedback' => 'የአገልግሎት ግምገማ',
         'approved' => 'ጸድቋል',
         'learn_more'=>'ተጨማሪ ለማወቅ',
+       'showing' => 'እያሳየ ነው',
 
+        'of' => 'ከ',
+
+        'page' => 'ገጽ',
+
+        'preview' => 'ቅድመ-እይታ',
+
+        'size' => 'መጠን',
+
+        'appointments' => 'ቀጠሮዎች',
+
+        'appointment' => 'ቀጠሮ',
+
+        'appointment_service' => 'የቀጠሮ አገልግሎት',
+
+        'appointment_slot' => 'የቀጠሮ ሰዓት',
+
+        'appointment_slots' => 'የቀጠሮ ሰዓቶች',
+
+        'appointment_service_duration' => 'የቆይታ ጊዜ (በደቂቃ)',
+
+        'appointment_date' => 'የቀጠሮ ቀን',
+
+        'appointment_time' => 'የቀጠሮ ሰዓት',
+
+        'appointment_details' => 'የቀጠሮ ዝርዝሮች',
+
+        'cancellation_reason' => 'የመሰረዣ ምክንያት',
+
+        'format' => 'ቅርጸት',
+
+        'requested_at' => 'የተጠየቀበት ጊዜ',
+
+        'exports' => 'ወደ ውጭ የተላኩ መረጃዎች',
+
+        'export' => 'ወደ ውጭ ላክ (Export)',
+
+        'queued' => 'በተራ ላይ ያለ',
+        'other_documents' => 'ሌሎች ሰነዶች',
     ],
+
     'settings' => [
-        'branding' => 'ብራንዲንግ', // Fixed
+        'branding' => 'ብራንዲንግ',
         'branding_hint' => 'የጣቢያውን ብራንዲንግ ዝርዝሮች ያዘምኑ።',
         'current_logo' => 'የአሁኑ ሎጎ',
         'current_favicon' => 'የአሁኑ ፋቪኮን',
         'contact' => 'የእውቂያ ዝርዝሮች',
         'notifications' => 'ማሳወቂያዎች',
-        'enable_email' => 'የኢሜል ማሳወቂያዎችን ላክ',
-        'enable_sms' => 'የኤስኤምኤስ ማሳወቂያዎችን ላክ',
+        'enable_email' => 'የኢሜል ማሳወቂያዎችን ፍቀድ',
+        'enable_sms' => 'የኤስኤምኤስ ማሳወቂያዎችን ፍቀድ',
         'analytics' => 'አናሊቲክስ',
-        'enable_analytics' => 'አናሊቲክስ መዝገብን ፍቀድ',
+        'enable_analytics' => 'የአናሊቲክስ መዝገብን ፍቀድ',
         'footer_quick_links' => 'የግርጌ ፈጣን አገናኞች',
-        'footer_hint' => 'እነዚህ አገናኞች በግርጌው ላይ ይታያሉ።',
-        'social_links' => 'ማህበራዊ ትስስር ገጾች',
+        'footer_hint' => 'እነዚህ አገናኞች በገጹ ግርጌ ላይ ይታያሉ።',
+        'social_links' => 'የማህበራዊ ትስስር ገጾች',
     ],
     'gov' => [
         'office_name' => 'የፐብሊክ ሰርቪስና የሰው ሀብት ልማት ቢሮ',
@@ -183,6 +257,9 @@ return [
         'am' => 'አማርኛ',
         'en' => 'English',
     ],
+    'hero' => [
+        'signature' => 'መለኪያ ገጽ',
+    ],
     'appointments' => [
         'hero_description' => 'የኢንስፔክተሩን እንዲያደርጉ የሚገባውን ሁሉንም ጊዜ እንዲቀበሉ በኢንተርኔት ላይ ከተቀበሉ ወደ ትክክለኛው ቦታ ያስቀምጥ።',
         'service_heading' => 'አገልግሎት ይምረጡ እና ቦታዎትን ያስይዙ',
@@ -190,6 +267,8 @@ return [
         'status_open' => 'ክፈት',
         'status_full' => 'ሞላ',
         'track_button' => 'እየተከታተለ',
+        'pagination_range' => 'እየተያዙ :from - :to ከ :total',
+        'pagination_page' => 'ገጽ :current / :last',
     ],
     'messages' => [
         'pages_defined' => 'የቀደሙት የገጾች ሁሉም ተቀናጅተዋል።',
@@ -240,8 +319,215 @@ return [
         'feedback_updated' => 'ግምገማ ታድሷል።',
         'feedback_deleted' => 'ግምገማ ተሰርዟል።',
         'no_feedback' => 'ምንም ግምገማ አልተገኘም።',
-        'too_many_feedback' => 'ለዚህ አገልግሎት ቀድሞ ግምገማ ቀርቧል።',
+        'too_many_feedback' => 'ለዚህ አገልግሎት ቀድሞ ግምገማ ቀርቧል።',       
+  'no_appointments' => 'ምንም ቀጠሮዎች አልተገኙም።',
+
+        'no_preview' => 'ለዚህ ፋይል ቅድመ-እይታ የለም።',
+
+        'other_documents' => 'ሌሎች ሰነዶች',
+
+        'export_hint' => 'ለሪፖርት የሚሆኑ መረጃዎችን ወደ ውጭ ላክ (Export)።',
+
+        'export_create_hint' => 'የመረጃ አይነቱን፣ የጊዜ ገደቡን እና የፋይል ቅርጸቱን ይምረጡ።',
+
+        'export_queued' => 'መረጃውን የማውጣት ሂደት ተጀምሯል። የማውረጃ ሊንኩ በቅርቡ ይደርስዎታል።',
+
+        'export_not_ready' => 'መረጃው ገና አልተዘጋጀም። እባክዎ ከጥቂት ቆይታ በኋላ እንደገና ይሞክሩ።',
+
+        'appointment_service_saved' => 'የቀጠሮ አገልግሎቱ ተቀምጧል።',
+
+        'appointment_service_deleted' => 'የቀጠሮ አገልግሎቱ ተሰርዟል።',
+
+        'appointment_slot_saved' => 'የቀጠሮ ሰዓቱ ተቀምጧል።',
+
+        'appointment_slot_deleted' => 'የቀጠሮ ሰዓቱ ተሰርዟል።',
+
+        'appointment_booked' => 'ቀጠሮዎ ተይዟል። ለመከታተያነት የማመሳከሪያ ኮዱን ይያዙ።',
+
+        'appointment_slot_full' => 'የመረጡት የቀጠሮ ሰዓት ሙሉ በሙሉ ተይዟል።',
+
+        'office_hours_required' => 'ቀጠሮ መያዝ የሚቻለው በስራ ሰዓት (:hours) ውስጥ ብቻ ነው።',
+
+        'appointment_cannot_cancel' => 'ይህንን ቀጠሮ መሰረዝ አይቻልም።',
+
+        'appointment_cancelled' => 'ቀጠሮው ተሰርዟል። አዲስ መረጃ ሲኖር እናሳውቅዎታለን።',
+
+        'appointment_status_updated' => 'የቀጠሮው ሁኔታ ተዘምኗል።',
+
+        'appointment_not_found' => 'በዚያ የማመሳከሪያ ኮድ የተመዘገበ ቀጠሮ ማግኘት አልቻልንም።',
+
+
     ],
+    'official_message_form' => [
+        'heading' => 'መልዕክቱን አስተካክል',
+        'description' => 'የከንቱ መረጃና መልዕክት ያዘምኑ',
+        'name' => 'ስም',
+        'title' => 'ርዕስ / ቦታ',
+        'message' => 'መልዕክት',
+        'amharic' => 'አማርኛ',
+        'english' => 'እንግሊዝኛ',
+        'required' => 'አስፈላጊ',
+        'photo' => 'ፎቶ',
+        'photo_note' => 'አንድ ፎቶ ብቻ',
+        'upload_instruction' => 'ለማስገባት ጠቅ ያድርጉ ወይም ወደ ፋይሉ ያስገቡ',
+        'file_types' => 'PNG, JPG, GIF (ከ2MB በላይ አይደለም)',
+        'current_photo' => 'ያሁን ፎቶ',
+        'status' => 'ሁኔታ',
+        'status_hint' => 'ይህን መልዕክት በድህረ ገጹ ያሳዩ',
+        'save_changes' => 'ለውጦችን አስቀምጥ',
+    ],
+    'home_slides' => [
+        'heading' => 'የመነሻ ገፅ ስላይድዎች',
+        'description' => 'በድህረ ገፅ ላይ የሚታዩ ምስሎችን ያስተዳድሩ',
+        'add_slide' => 'ስላይድ ጨምር',
+        'empty_title' => 'ምንም ስላይድ አልተፈጠረም',
+        'empty_description' => 'መጀመሪያውን ስላይድ በማፍጠር ጀምር',
+        'add_first' => 'መጀመሪያውን ስላይድ አክል',
+        'title' => 'ርዕስ',
+        'title_am' => 'ርዕስ (አማርኛ)',
+        'subtitle' => 'ንዑስ ርዕስ',
+        'subtitle_am' => 'ንዑስ ርዕስ (አማርኛ)',
+        'required' => 'አስፈላጊ',
+        'optional' => 'አማራጭ',
+        'image' => 'ምስል',
+        'image_optional' => 'አማራጭ ማዘመን',
+        'image_required' => 'በርካታ ያስፈልጋል',
+        'upload_action' => 'ለማስገባት ጠቅ ያድርጉ',
+        'upload_or' => 'ወይም ወደ ፋይሉ ያስገቡ',
+        'file_types' => 'PNG, JPG, GIF እስከ 5MB',
+        'current_image' => 'ያሁን ምስል',
+        'new_image_preview' => 'አዲስ ምስል ንዑስ እይታ',
+        'sort_order' => 'የቅደም ተከተል',
+        'sort_order_hint' => '0 የሚጀምር እና ከፍ የሆነ ቁጥር በኋላ ይታያል',
+        'active_status' => 'የተግባር ሁኔታ',
+        'active_hint' => 'ተግባራዊ ሲሆን ስላይድው በመነሻ ገፅ ይታያል። ለጊዜያዊ ቅጣት አስወግዱ።',
+        'visible' => 'እዩ',
+        'hidden' => 'ተደብቆ',
+        'status_active' => 'ተግባራዊ',
+        'status_inactive' => 'ያልተግባራዊ',
+        'table' => [
+            'image' => 'ምስል',
+            'title' => 'ርዕስ',
+            'order' => 'ቅደም ተከተል',
+            'status' => 'ሁኔታ',
+            'actions' => 'እርምጃዎች',
+        ],
+    ],
+
+
+    'admin_organizations' => [
+        'actions' => [
+            'create' => 'ድርጅት ፍጠር',
+            'edit' => 'አስተካክል',
+            'edit_title' => ':name አስተካክል',
+            'view' => 'እይ',
+            'delete' => 'ሰርዝ',
+            'back' => 'ወደ ድርጅቶች ተመለስ',
+            'charts' => 'ሰንደቅ አሳይ',
+        ],
+        'confirm' => [
+            'delete' => 'ይህን ድርጅት ማስወገድ ይፈልጋሉ? እሱ እንደገና አይሰራም።',
+            'delete_segment' => 'ይህን ሴግመንት ማጥፋት ይፈልጋሉ? መረጃዎች ይጠፋሉ።',
+        ],
+        'list' => [
+            'description' => 'ድርጅቶችን እና የእነሱን መረጃ ያስተዳድሩ።',
+            'create' => 'ድርጅት ፍጠር',
+            'create_description' => 'የእትም መዝግብ ለመጀመር አዲስ ድርጅት ያክሉ።',
+            'edit_description' => 'ዝርዝሮቹን እና ማዕከላዊ ሁኔታ ያስተካክሉ።',
+            'search_placeholder' => 'ድርጅቶችን ፈልግ...',
+            'empty' => 'ምንም ድርጅት አልተገኘም።',
+            'count' => 'እየታየ :count ድርጅቶች',
+        ],
+        'info' => [
+            'stats_recorded' => ':count ስታቲስቲክስ ተመዝግበዋል',
+        ],
+        'table' => [
+            'name' => 'ድርጅት',
+            'code' => 'ኮድ',
+            'stats' => 'ስታቲስቲክስ',
+            'status' => 'ሁኔታ',
+            'created' => 'ተፈጠረ',
+            'actions' => 'ተግባራት',
+        ],
+        'status' => [
+            'active' => 'ንቁ',
+            'inactive' => 'ያልንቁ',
+        ],
+        'cards' => [
+            'stats_recorded' => 'ስናፕሾቶች ተመዝግበዋል',
+            'segments_total' => 'የታቀደ ሴግመንቶች',
+            'active_filters' => 'በሂደት ላይ ያሉ ማስፈንጠሪያዎች',
+            'all_time' => 'ሁሉንም ጊዜ',
+            'total_servants' => 'ጠቅላላ ሠራተኞች',
+            'gender_summary' => 'ወንዶች :male | ሴቶች :female | ሌሎች :other',
+        ],
+        'filters' => [
+            'heading' => 'ስታቲስቲክስ ይፈልጉ',
+            'year' => 'አመት',
+            'month' => 'ወር',
+            'apply' => 'ማስፈንጠሪያዎችን ማስተዋወቅ',
+            'reset' => 'ፍለጋውን እንደገና አስጀምር',
+            'year_label' => 'አመት :year',
+            'month_label' => ':month',
+            'year_all' => 'ሁሉም አመታት',
+        ],
+        'registered' => [
+            'with_code' => 'ኮድ :code',
+            'at' => 'ተመዝግቧል :time',
+        ],
+        'tabs' => [
+            'overview' => 'አጠቃላይ እይታ',
+            'stats' => 'ስታቲስቲክስ',
+        ],
+        'show' => [
+            'code' => 'ኮድ',
+            'created' => 'ተፈጠረ',
+            'updated' => 'ዘላቂ',
+        ],
+        'metrics' => [
+            'male' => 'ወንድ',
+            'female' => 'ሴት',
+            'other' => 'ሌላ',
+            'total' => 'ጠቅላላ',
+        ],
+        'segments' => [
+            'totals_label' => 'ሴግመንቶች ጠቅላላ',
+            'no_stats' => 'እስካሁን ሴግመንቶች አልተመዝገቡም።',
+            'add_new' => 'አዲስ ሴግመንት አክል',
+            'field' => [
+                'dimension' => 'ስፋት',
+                'segment' => 'ሴግመንት',
+                'year' => 'አመት',
+                'month' => 'ወር',
+            ],
+            'submit' => 'ሴግመንቱን አድርግ',
+        ],
+        'snapshots' => [
+            'heading' => 'ስናፕሾቶች',
+            'latest' => 'የቅርብ ጊዜ :count ስናፕሾቶች',
+            'download' => 'JSON አውርድ',
+            'empty' => 'እስካሁን ስናፕሾቶች የሉም።',
+            'submit' => 'ስናፕሾት ያቅርቡ',
+            'field' => [
+                'period_type' => 'የጊዜ ዓይነት',
+                'year' => 'አመት',
+                'month' => 'ወር',
+                'quarter' => 'ሩብ',
+            ],
+            'period_type' => [
+                'monthly' => 'ወርሃዊ',
+                'quarterly' => 'ሩብሃዊ',
+                'yearly' => 'ዓመታዊ',
+            ],
+        ],
+        'form' => [
+            'name' => 'የድርጅቱ ስም',
+            'code' => 'ኮድ (አማካይ)',
+            'active' => 'ንቁ',
+            'note' => 'ብቻ ንቁ ድርጅቶች ስታቲስቲክሳቸውን ያሳያሉ።',
+        ],
+    ],
+
     'footer' => [
         'follow_us' => 'ይከተሉን',
         'emergency_available' => 'ለአስቸኳይ ሁኔታዎች 24/7 አገልግሎት',
@@ -253,6 +539,9 @@ return [
         'privacy_policy' => 'የግል መረጃ ጥበቃ ፖሊሲ',
         'terms_service' => 'የአገልግሎት ውሎች',
         'accessibility' => 'ተደራሽነት',
-        'sitemap' => 'የጣቢያ ካርታ',
+        'sitemap' => 'የጣቢያ ካርታ',      
+          'visitor_count' => 'Visitors: :count',
+
+
     ],
 ];

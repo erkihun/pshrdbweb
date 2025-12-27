@@ -107,7 +107,7 @@
                 <tbody class="divide-y divide-slate-100">
                     @forelse ($auditLogs as $log)
                         <tr>
-                            <td class="px-6 py-4 text-slate-500">{{ $log->created_at->format('Y-m-d H:i') }}</td>
+                            <td class="px-6 py-4 text-slate-500">{{ ethiopian_date($log->created_at, 'dd MMMM yyyy h:mm a', 'Africa/Addis_Ababa', null, 'Y-m-d H:i', true) }}</td>
                             <td class="px-6 py-4 text-slate-500">{{ $log->user?->name ?? 'Guest' }}</td>
                             <td class="px-6 py-4 text-slate-500">{{ $log->action }}</td>
                             <td class="px-6 py-4 text-slate-500">{{ $log->entity_type }}</td>

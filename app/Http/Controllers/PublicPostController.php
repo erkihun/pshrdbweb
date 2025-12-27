@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Services\PublicCacheService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
 
 class PublicPostController extends Controller
 {
@@ -79,9 +80,41 @@ class PublicPostController extends Controller
             ->where('slug', $slug)
             ->firstOrFail();
 
+        $relatedPosts = Post::where('type', $type)
+            ->where('is_published', true)
+            ->where(function ($q) {
+                $q->whereNull('published_at')
+                    ->orWhere('published_at', '<=', now());
+            })
+            ->where('id', '<>', $post->id)
+            ->orderByDesc('published_at')
+            ->orderByDesc('created_at')
+            ->take(50)
+            ->get();
+
+        $weatherInfo = $this->resolveWeatherInfo();
+
         return view('public-posts.show', [
             'post' => $post,
             'type' => $type,
+            'relatedPosts' => $relatedPosts,
+            'weatherInfo' => $weatherInfo,
         ]);
+    }
+
+    private function resolveWeatherInfo(): string
+    {
+        return Cache::remember('weather.addis_ababa', 300, function () {
+            try {
+                $response = Http::timeout(5)->get('https://wttr.in/Addis%20Ababa?format=%l+%c+%t');
+                if ($response->ok()) {
+                    return trim($response->body());
+                }
+            } catch (\Exception $e) {
+                //
+            }
+
+            return 'Addis Ababa weather unavailable';
+        });
     }
 }

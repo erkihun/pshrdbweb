@@ -136,11 +136,19 @@
         <div class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg">
             <div class="overflow-x-auto">
                 <table class="w-full min-w-[800px] text-sm">
+                    <colgroup>
+                        <col style="width:10%;">
+                        <col style="width:30%;">
+                        <col style="width:15%;">
+                        <col style="width:15%;">
+                        <col style="width:15%;">
+                        <col style="width:15%;">
+                    </colgroup>
                     <thead class="bg-gradient-to-r from-slate-50 to-slate-100">
                         <tr>
+                            <th class="whitespace-nowrap px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-700">Picture</th>
                             <th class="whitespace-nowrap px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-700">{{ __('common.labels.title') }}</th>
                             <th class="whitespace-nowrap px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-700">{{ __('common.labels.type') }}</th>
-                            <th class="whitespace-nowrap px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-700">Slug</th>
                             <th class="whitespace-nowrap px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-700">{{ __('common.labels.publish_date') }}</th>
                             <th class="whitespace-nowrap px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-700">{{ __('common.labels.status') }}</th>
                             <th class="whitespace-nowrap px-6 py-4 text-right text-xs font-semibold uppercase tracking-wider text-slate-700">{{ __('common.actions.actions') }}</th>
@@ -150,22 +158,23 @@
                         @forelse ($posts as $post)
                             <tr class="group hover:bg-slate-50/50 transition-colors duration-200">
                                 <td class="px-6 py-4">
-                                    <div class="flex items-center gap-3">
-                                        <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100 group-hover:bg-slate-200">
-                                            <svg class="h-5 w-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                @if($post->type === 'news')
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
-                                                @else
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/>
-                                                @endif
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <div class="font-medium text-slate-900 group-hover:text-slate-800">{{ $post->display_title }}</div>
-                                            @if($post->excerpt)
-                                                <div class="mt-1 text-xs text-slate-500 line-clamp-1">{{ $post->excerpt }}</div>
-                                            @endif
-                                        </div>
+                                    <div class="relative h-12 w-12 overflow-hidden rounded-xl bg-slate-100">
+                                        @if($post->cover_image_path)
+                                            <img src="{{ asset('storage/' . $post->cover_image_path) }}" alt="" class="h-full w-full object-cover" loading="lazy">
+                                        @else
+                                            <span class="flex h-full w-full items-center justify-center text-xs font-semibold uppercase tracking-wider text-slate-500">
+                                                {{ __('common.labels.photo') }}
+                                            </span>
+                                        @endif
+                                        <div class="absolute inset-0 rounded-xl bg-gradient-to-t from-slate-900/60 to-transparent"></div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div>
+                                        <div class="font-medium text-slate-900 group-hover:text-slate-800">{{ $post->display_title }}</div>
+                                        @if($post->excerpt)
+                                            <div class="mt-1 text-xs text-slate-500 line-clamp-1">{{ $post->excerpt }}</div>
+                                        @endif
                                     </div>
                                 </td>
                                 <td class="px-6 py-4">
@@ -174,13 +183,8 @@
                                     </span>
                                 </td>
                                 <td class="px-6 py-4">
-                                    <div class="max-w-[200px]">
-                                        <div class="truncate font-mono text-xs text-slate-500">{{ $post->slug }}</div>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4">
                                     <div class="text-sm text-slate-700">
-                                        {{ $post->published_at ? $post->published_at->format('M d, Y H:i') : __('common.status.draft') }}
+                                        {{ $post->published_at ? ethiopian_date($post->published_at, 'dd MMMM yyyy h:mm a', 'Africa/Addis_Ababa', null, 'M d, Y H:i', true) : __('common.status.draft') }}
                                     </div>
                                     @if($post->published_at && $post->published_at->isFuture())
                                         <div class="mt-1 text-xs font-medium text-amber-600">Scheduled</div>
@@ -264,10 +268,26 @@
             </div>
         </div>
 
-        <!-- Pagination -->
         @if($posts->hasPages())
-            <div class="rounded-xl border border-slate-200 bg-white px-6 py-4 shadow-sm">
-                {{ $posts->links() }}
+            <div class="flex flex-col gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+                <div class="flex flex-wrap items-center justify-between gap-4 text-sm text-slate-500">
+                    <div>
+                        {{ __('common.appointments.pagination_range', [
+                            'from' => $posts->firstItem(),
+                            'to' => $posts->lastItem(),
+                            'total' => $posts->total(),
+                        ]) }}
+                    </div>
+                    <div>
+                        {{ __('common.appointments.pagination_page', [
+                            'current' => $posts->currentPage(),
+                            'last' => $posts->lastPage(),
+                        ]) }}
+                    </div>
+                </div>
+                <div>
+                    {{ $posts->appends(request()->except('page'))->links() }}
+                </div>
             </div>
         @endif
     </div>

@@ -40,7 +40,7 @@
                 <div>
                     <dt class="text-xs uppercase tracking-wide text-slate-400">{{ __('common.labels.publish_date') }}</dt>
                     <dd class="mt-1 font-medium text-slate-800">
-                        {{ $post->published_at ? $post->published_at->format('M d, Y H:i') : 'Not scheduled' }}
+                        {{ $post->published_at ? ethiopian_date($post->published_at, 'dd MMMM yyyy h:mm a', 'Africa/Addis_Ababa', null, 'M d, Y H:i', true) : 'Not scheduled' }}
                     </dd>
                 </div>
                 <div>

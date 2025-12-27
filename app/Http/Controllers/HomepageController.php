@@ -2,15 +2,42 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\OrgStats\SummarizeOrgStatsAction;
 use App\Enums\HomeSection;
+use App\Models\Organization;
 use App\Models\Setting;
 use Illuminate\Support\Facades\Cache;
 
 class HomepageController extends Controller
 {
-    public function __invoke()
+    public function __invoke(SummarizeOrgStatsAction $summaryAction)
     {
-        $sections = Cache::remember('home.settings', 600, function () {
+        $sections = $this->loadSections();
+
+        $organizations = Organization::with('orgStats')->orderBy('name')->get();
+        $organizationSummaries = $organizations->map(fn (Organization $organization) => [
+            'name' => $organization->name,
+            'code' => $organization->code,
+            'total' => $organization->orgStats->sum(fn ($stat) => $stat->male + $stat->female + $stat->other),
+            'male' => $organization->orgStats->sum('male'),
+            'female' => $organization->orgStats->sum('female'),
+            'other' => $organization->orgStats->sum('other'),
+            'summary' => $summaryAction->execute($organization->orgStats),
+        ]);
+
+        $citizenTotals = [
+            'male' => $organizationSummaries->sum('male'),
+            'female' => $organizationSummaries->sum('female'),
+            'other' => $organizationSummaries->sum('other'),
+        ];
+        $citizenTotals['total'] = $citizenTotals['male'] + $citizenTotals['female'] + $citizenTotals['other'];
+
+        return view('welcome', compact('sections', 'organizationSummaries', 'citizenTotals'));
+    }
+
+    private function loadSections(): array
+    {
+        return Cache::remember('home.settings', 600, function () {
             $defaults = $this->defaultSections();
             $stored = Setting::whereIn('key', HomeSection::keys())
                 ->get()
@@ -20,8 +47,6 @@ class HomepageController extends Controller
 
             return array_replace_recursive($defaults, $stored);
         });
-
-        return view('welcome', compact('sections'));
     }
 
     public function defaultSections(): array

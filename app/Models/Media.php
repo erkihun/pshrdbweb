@@ -20,6 +20,9 @@ final class Media extends Model
         'size',
     ];
 
+    public $incrementing = false;
+    protected $keyType = 'string';
+
     protected function casts(): array
     {
         return [

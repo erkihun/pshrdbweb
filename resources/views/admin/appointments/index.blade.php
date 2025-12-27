@@ -97,10 +97,10 @@
                             <td class="px-6 py-4 text-slate-900 font-medium">{{ $appointment->reference_code }}</td>
                             <td class="px-6 py-4 text-slate-500">{{ $appointment->service->display_name }}</td>
                             <td class="px-6 py-4 text-slate-500">
-                                {{ $appointment->slot->starts_at->format('M d, Y') }}
+                                {{ ethiopian_date($appointment->slot->starts_at, 'dd MMMM yyyy', 'Africa/Addis_Ababa', null, 'M d, Y', true) }}
                                 <br>
                                 <span class="text-xs text-slate-400">
-                                    {{ $appointment->slot->starts_at->format('g:i A') }} - {{ $appointment->slot->ends_at->format('g:i A') }}
+                                    {{ ethiopian_date($appointment->slot->starts_at, 'h:mm a', 'Africa/Addis_Ababa', null, 'g:i A', true) }} - {{ ethiopian_date($appointment->slot->ends_at, 'h:mm a', 'Africa/Addis_Ababa', null, 'g:i A', true) }}
                                 </span>
                             </td>
                             <td class="px-6 py-4">

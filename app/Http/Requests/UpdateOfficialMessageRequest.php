@@ -16,9 +16,12 @@ final class UpdateOfficialMessageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'title' => ['required', 'string', 'max:255'],
-            'message' => ['required', 'string'],
+            'name_am' => ['required', 'string', 'max:255'],
+            'name_en' => ['required', 'string', 'max:255'],
+            'title_am' => ['required', 'string', 'max:255'],
+            'title_en' => ['required', 'string', 'max:255'],
+            'message_am' => ['required', 'string'],
+            'message_en' => ['required', 'string'],
 
             'photo' => ['nullable', 'image', 'max:4096'],
             'is_active' => ['nullable', 'boolean'],

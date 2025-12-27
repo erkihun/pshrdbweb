@@ -4,6 +4,16 @@
 
 @section('content')
 @php
+    $heroSettings = $site_settings['site.branding'] ?? [];
+    $heroSignatureLogo = $heroSettings['logo_path']
+        ?? $heroSettings['logo_light']
+        ?? $heroSettings['logo']
+        ?? ($heroSettings['logo_' . app()->getLocale()] ?? null);
+    $heroSignatureName = $heroSettings['site_name_' . app()->getLocale()] ?? config('app.name');
+    $heroSignatureTag = __('common.hero.signature', ['site' => $heroSignatureName]);
+@endphp
+<div class="font-noto-ethiopic">
+@php
     use App\Models\HomeSlide;
     use App\Models\Post;
     use App\Models\Service;
@@ -18,8 +28,12 @@
         ->where('is_active', true)
         ->first();
 
-    $officialInitials = $officialMessage
-        ? collect(explode(' ', trim($officialMessage->name)))
+    $officialName = $officialMessage ? $officialMessage->localized('name') ?? '' : '';
+    $officialTitle = $officialMessage ? $officialMessage->localized('title') ?? '' : '';
+    $officialMessageText = $officialMessage ? $officialMessage->localized('message') ?? '' : '';
+
+    $officialInitials = $officialName
+        ? collect(explode(' ', trim($officialName)))
             ->filter()
             ->take(2)
             ->map(fn ($p) => mb_strtoupper(mb_substr($p, 0, 1)))
@@ -138,6 +152,17 @@
                 @endforeach
             </div>
         @endif
+
+        @if($heroSignatureLogo)
+            <div class="pointer-events-none absolute right-6 bottom-6 z-20">
+                <img
+                    src="{{ asset('storage/' . ltrim($heroSignatureLogo, '/')) }}"
+                    alt="{{ $heroSignatureName }} logo"
+                    class="h-10   object-cover shadow-2xl opacity-80 "
+                >
+            
+            </div>
+        @endif
     </div>
 </section>
 
@@ -155,7 +180,7 @@
                         @if($officialMessage->photo_path)
                             <img
                                 src="{{ asset('storage/' . $officialMessage->photo_path) }}"
-                                alt="{{ $officialMessage->name }}"
+                                alt="{{ $officialName ?: __('home.official_message.portrait_label') }}"
                                 class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
                                 loading="lazy"
                             >
@@ -193,7 +218,7 @@
                             style="display:-webkit-box;-webkit-line-clamp:7;-webkit-box-orient:vertical;"
                             data-expanded="false"
                         >
-                            {{ $officialMessage->message }}
+                            {{ $officialMessageText }}
                         </div>
 
                         <div id="messageFade" class="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-white to-transparent pointer-events-none transition-opacity duration-500"></div>
@@ -216,13 +241,79 @@
                     <div class="mt-10 pt-8 border-t border-gray-200/50">
                         <div class="flex items-center justify-between">
                             <div>
-                                <div class="font-bold text-gray-900 text-xl">{{ $officialMessage->name }}</div>
-                                <div class="text-gray-600 mt-1">{{ $officialMessage->title }}</div>
+                                <div class="font-bold text-gray-900 text-xl">{{ $officialName }}</div>
+                                <div class="text-gray-600 mt-1">{{ $officialTitle }}</div>
                             </div>
                             <div class="text-sm text-gray-500">
-                                {{ now()->format('F d, Y') }}
+                                {{ ethiopian_date(now(), 'dd MMMM yyyy') }}
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@endif
+
+@if($organizationSummaries->count())
+<section id="organization-stats" class="scroll-section bg-gradient-to-b from-white to-gray-50 py-12">
+    <div class="relative mx-auto max-w-full lg:max-w-screen-2xl w-full px-6 sm:px-8 lg:px-12">
+        <div class="mb-10 flex flex-wrap items-start justify-between gap-4 text-left max-w-5xl">
+            <div class="flex-1 min-w-0">
+                <p class="text-xs uppercase tracking-wide text-slate-400">{{ __('common.nav.public_servant_dashboard') }}</p>
+                <h3 class="text-3xl font-bold text-gray-900">{{ __('home.public_servant_dashboard.title') }}</h3>
+                <p class="text-sm text-slate-600">{{ __('home.public_servant_dashboard.description') }}</p>
+            </div>
+            <a href="{{ route('public-servants.dashboard') }}"
+               class="group inline-flex items-center gap-3 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-blue-200 hover:text-blue-600">
+                <span>{{ __('home.public_servant_dashboard.view_all') ?? 'View all' }}</span>
+                <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+            </a>
+        </div>
+
+        <div class="grid gap-4 sm:grid-cols-3">
+            <div class="relative overflow-hidden rounded-2xl border border-slate-200 bg-gradient-to-br from-blue-50 to-blue-100 p-6 shadow-sm">
+                <div class="absolute inset-y-0 right-5 w-16 opacity-20 blur-3xl bg-blue-400"></div>
+                <div class="flex items-center gap-3">
+                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-600 text-white shadow-lg">
+                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c2.76 0 5-1.79 5-4s-2.24-4-5-4-5 1.79-5 4 2.24 4 5 4zm0 2c-3.33 0-10 1.67-10 5v3h20v-3c0-3.33-6.67-5-10-5z"/>
+                        </svg>
+                    </div>
+                    <div class="text-left">
+                        <p class="text-xs uppercase tracking-wide text-blue-600">{{ __('home.public_servant_dashboard.total_label') }}</p>
+                        <p class="mt-1 text-3xl font-semibold text-blue-900">{{ number_format($citizenTotals['total']) }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="relative overflow-hidden rounded-2xl border border-slate-200 bg-gradient-to-br from-emerald-50 to-emerald-100 p-6 shadow-sm">
+                <div class="absolute inset-y-0 right-5 w-16 opacity-20 blur-3xl bg-emerald-400"></div>
+                <div class="flex items-center gap-3">
+                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-600 text-white shadow-lg">
+                        <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 4a4 4 0 100 8 4 4 0 000-8zm0-2c3.313 0 6 2.687 6 6s-2.687 6-6 6-6-2.687-6-6 2.687-6 6-6zm1 12H9a1 1 0 00-1 1v5h2v-4h2v4h2v-5a1 1 0 00-1-1z"/>
+                        </svg>
+                    </div>
+                    <div class="text-left">
+                        <p class="text-xs uppercase tracking-wide text-emerald-600">{{ __('home.public_servant_dashboard.male_label') }}</p>
+                        <p class="mt-1 text-3xl font-semibold text-emerald-900">{{ number_format($citizenTotals['male']) }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="relative overflow-hidden rounded-2xl border border-slate-200 bg-gradient-to-br from-rose-50 to-rose-100 p-6 shadow-sm">
+                <div class="absolute inset-y-0 right-5 w-16 opacity-20 blur-3xl bg-rose-400"></div>
+                <div class="flex items-center gap-3">
+                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-rose-600 text-white shadow-lg">
+                        <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2a6 6 0 11-6 6 6 6 0 016-6zm0 2a4 4 0 100 8 4 4 0 000-8zm-2 10a5 5 0 00-5 5h2a3 3 0 016 0h2a5 5 0 00-5-5z"/>
+                        </svg>
+                    </div>
+                    <div class="text-left">
+                        <p class="text-xs uppercase tracking-wide text-rose-600">{{ __('home.public_servant_dashboard.female_label') }}</p>
+                        <p class="mt-1 text-3xl font-semibold text-rose-900">{{ number_format($citizenTotals['female']) }}</p>
                     </div>
                 </div>
             </div>
@@ -293,7 +384,7 @@
                                     </svg>
                                 </div>
                                 <span class="text-sm font-semibold text-gray-500">
-                                    {{ $post->published_at ? $post->published_at->format('M d, Y') : __('common.labels.recently_updated') }}
+                                    {{ $post->published_at ? ethiopian_date($post->published_at, 'dd MMMM yyyy') : __('common.labels.recently_updated') }}
                                 </span>
                             </div>
                             <div class="text-blue-600 group-hover:translate-x-2 transition-transform duration-300">
@@ -552,15 +643,11 @@
     <div class="relative mx-auto max-w-4xl px-6 sm:px-8 lg:px-12 text-center">
         <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4xIj48Y2lyY2xlIGN4PSIzMCIgY3k9IjMwIiByPSIxLjUiLz48L2c+PC9zdmc+')] opacity-10"></div>
         <div class="relative space-y-6">
-            <div class="inline-flex items-center justify-center gap-2 rounded-full bg-white/20 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white/90">
-                {{ __('home.live_support.label') }}
-            </div>
+         
             <h2 class="text-3xl md:text-4xl font-bold">
                 {{ __('home.live_support.heading') }}
             </h2>
-            <p class="text-base md:text-lg text-white/90 max-w-3xl mx-auto">
-                {{ __('home.live_support.description') }}
-            </p>
+         
             <div class="flex flex-col sm:flex-row justify-center gap-4">
                 <form method="POST" action="{{ route('chat.start') }}">
                     @csrf
@@ -585,22 +672,7 @@
     </div>
 </section>
 
-{{-- floating live support badge --}}
-<div class="fixed bottom-6 right-6 z-50">
-    <form method="POST" action="{{ route('chat.start') }}">
-        @csrf
-        <button
-            type="submit"
-            class="flex items-center gap-3 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 px-5 py-3 shadow-xl text-white font-semibold transition-all duration-300 hover:translate-y-[-2px] hover:shadow-2xl"
-        >
-            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M8 9l4 4 4-4m0 0l-4 4-4-4m4 4V5"></path>
-            </svg>
-            {{ __('home.live_support.badge') }}
-        </button>
-    </form>
-</div>
+
 
 {{-- ================= SLIDER & SCROLL SCRIPT ================= --}}
 <script>
@@ -859,4 +931,5 @@
         overflow: hidden;
     }
 </style>
+</div>
 @endsection

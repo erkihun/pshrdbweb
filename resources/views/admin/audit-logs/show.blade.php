@@ -39,7 +39,7 @@
                 </div>
                 <div>
                     <dt class="text-xs uppercase tracking-wide text-slate-400">Created</dt>
-                    <dd class="mt-1 font-medium text-slate-800">{{ $auditLog->created_at->format('Y-m-d H:i:s') }}</dd>
+                    <dd class="mt-1 font-medium text-slate-800">{{ ethiopian_date($auditLog->created_at, 'dd MMMM yyyy h:mm:ss a', 'Africa/Addis_Ababa', null, 'Y-m-d H:i:s', true) }}</dd>
                 </div>
             </dl>
 

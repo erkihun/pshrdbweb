@@ -23,6 +23,7 @@ use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SubscriberController;
+use App\Http\Controllers\NewsletterSubscriptionController;
 use App\Http\Controllers\Admin\TenderController;
 use App\Http\Controllers\Admin\ChatController as AdminChatController;
 use App\Http\Controllers\Admin\UserController;
@@ -48,6 +49,11 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Admin\OfficialMessageController;
 use App\Http\Controllers\Admin\HomeSlideController;
+use App\Http\Controllers\Admin\OrganizationController;
+use App\Http\Controllers\Admin\OrgStatController;
+use App\Http\Controllers\Admin\OrgStatSnapshotController;
+use App\Http\Controllers\PublicServantsController;
+use App\Http\Controllers\PublicServantDashboardController;
 
 Route::get('/', HomepageController::class);
 Route::get('official-message', [OfficialMessageController::class, 'edit'])
@@ -101,7 +107,7 @@ Route::middleware(['auth', 'verified'])
         Route::get('pages', [AdminPageController::class, 'index'])->name('pages.index')->middleware('permission:manage pages');
         Route::get('pages/create', [AdminPageController::class, 'create'])->name('pages.create')->middleware('permission:manage pages');
         Route::post('pages', [AdminPageController::class, 'store'])->name('pages.store')->middleware('permission:manage pages');
-        Route::get('media', [MediaController::class, 'index'])->name('media.index');
+        Route::match(['get', 'post'], 'media', [MediaController::class, 'index'])->name('media.index');
         Route::get('pages/{key}/edit', [AdminPageController::class, 'edit'])->name('pages.edit')->middleware('permission:manage pages');
         Route::put('pages/{key}', [AdminPageController::class, 'update'])->name('pages.update')->middleware('permission:manage pages');
         Route::resource('departments', DepartmentController::class)->except(['show'])->middleware('permission:manage staff');
@@ -119,6 +125,16 @@ Route::middleware(['auth', 'verified'])
         Route::resource('appointments', AdminAppointmentController::class)->only(['index', 'show', 'update'])->middleware('permission:manage appointments');
         Route::get('exports', [ExportController::class, 'index'])->name('exports.index');
         Route::get('alerts', [AlertController::class, 'index'])->name('alerts.index');
+        Route::resource('tenders', TenderController::class)->except(['show'])->middleware('permission:manage tenders');
+        Route::resource('organizations', OrganizationController::class);
+        Route::get('organizations/{organization}/stats', [OrgStatController::class, 'index'])->name('organizations.stats.index');
+        Route::post('organizations/{organization}/stats', [OrgStatController::class, 'store'])->name('organizations.stats.store');
+        Route::get('organizations/{organization}/stats/{stat}/edit', [OrgStatController::class, 'edit'])->name('organizations.stats.edit');
+        Route::put('organizations/{organization}/stats/{stat}', [OrgStatController::class, 'update'])->name('organizations.stats.update');
+        Route::delete('organizations/{organization}/stats/{stat}', [OrgStatController::class, 'destroy'])->name('organizations.stats.destroy');
+        Route::post('organizations/{organization}/snapshots', [OrgStatSnapshotController::class, 'store'])->name('organizations.snapshots.store');
+        Route::get('organizations/{organization}/snapshots/{snapshot}', [OrgStatSnapshotController::class, 'show'])->name('organizations.snapshots.show');
+        Route::get('organizations/{organization}/charts', [App\Http\Controllers\Admin\OrganizationChartsController::class, 'index'])->name('organizations.charts');
         Route::get('subscribers', [SubscriberController::class, 'index'])->name('subscribers.index');
         Route::get('analytics', [AnalyticsController::class, 'index'])->name('analytics.index');
         Route::get('search', [AdminSearchController::class, 'index'])->name('search');
@@ -135,6 +151,7 @@ Route::get('/document-requests/{slug}', [DocumentRequestController::class, 'show
 Route::post('/document-requests/{slug}', [DocumentRequestController::class, 'store'])->name('document-requests.store')->middleware('throttle:document_request_submit');
 Route::get('/document-requests/track', [DocumentRequestController::class, 'trackForm'])->name('document-requests.track.form');
 Route::post('/document-requests/track', [DocumentRequestController::class, 'trackSubmit'])->name('document-requests.track.submit')->middleware('throttle:document_request_track');
+Route::post('/newsletter/subscribe', [NewsletterSubscriptionController::class, 'store'])->name('newsletter.subscribe');
 Route::get('/appointments', [AppointmentController::class, 'index'])->name('appointments.index');
 Route::get('/appointments/track', [AppointmentController::class, 'trackForm'])->name('appointments.track.form');
 Route::post('/appointments/track', [AppointmentController::class, 'trackSubmit'])->name('appointments.track.submit')->middleware('throttle:appointment_track');
@@ -165,6 +182,8 @@ Route::get('/chat/status', [ChatController::class, 'status'])->name('chat.status
 Route::get('/appointments/{appointmentService}', [AppointmentController::class, 'show'])->name('appointments.show');
 Route::post('/appointments/{appointmentService}/book', [AppointmentController::class, 'book'])->name('appointments.book')->middleware('throttle:appointment_book');
 Route::post('/appointments/{reference}/cancel', [AppointmentController::class, 'cancel'])->name('appointments.cancel')->middleware('throttle:appointment_cancel');
+Route::get('/public-servants', [PublicServantsController::class, 'index'])->name('public-servants.index');
+Route::get('/public-servants-dashboard', [PublicServantDashboardController::class, 'index'])->name('public-servants.dashboard');
 Route::get('/health', function () {
     try {
         DB::connection()->getPdo()->query('select 1');

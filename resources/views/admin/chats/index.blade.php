@@ -15,7 +15,7 @@
                         <a href="{{ route('admin.chats.show', $session) }}" class="block rounded-xl border border-slate-100 px-4 py-3 text-sm font-medium text-slate-700 transition hover:border-slate-300">
                             <div class="flex items-center justify-between text-xs uppercase tracking-wide text-slate-400">
                                 <span>{{ $session->visitor_name ?? __('common.labels.anonymous') }}</span>
-                                <span>{{ $session->started_at?->format('M d, H:i') }}</span>
+                                <span>{{ $session->started_at ? ethiopian_date($session->started_at, 'dd MMMM yyyy h:mm a', 'Africa/Addis_Ababa', null, 'M d, H:i', true) : '' }}</span>
                             </div>
                             <div class="text-slate-900">{{ $session->visitor_email ?? __('common.labels.phone') }} / {{ $session->visitor_phone ?? __('common.labels.email') }}</div>
                         </a>
@@ -32,7 +32,7 @@
                         <a href="{{ route('admin.chats.show', $session) }}" class="block rounded-xl border border-slate-100 px-4 py-3 text-sm font-medium text-slate-700 transition hover:border-slate-300">
                             <div class="flex items-center justify-between text-xs uppercase tracking-wide text-slate-400">
                                 <span>{{ $session->visitor_name ?? __('common.labels.anonymous') }}</span>
-                                <span>{{ $session->started_at?->format('M d, H:i') }}</span>
+                                <span>{{ $session->started_at ? ethiopian_date($session->started_at, 'dd MMMM yyyy h:mm a', 'Africa/Addis_Ababa', null, 'M d, H:i', true) : '' }}</span>
                             </div>
                             <div class="text-slate-900">{{ $session->assignedTo?->name ?? __('common.labels.unassigned') }}</div>
                         </a>
@@ -49,7 +49,7 @@
                         <a href="{{ route('admin.chats.show', $session) }}" class="block rounded-xl border border-slate-100 px-4 py-3 text-sm font-medium text-slate-700 transition hover:border-slate-300">
                             <div class="flex items-center justify-between text-xs uppercase tracking-wide text-slate-400">
                                 <span>{{ $session->visitor_name ?? __('common.labels.anonymous') }}</span>
-                                <span>{{ $session->closed_at?->format('M d, H:i') }}</span>
+                                <span>{{ $session->closed_at ? ethiopian_date($session->closed_at, 'dd MMMM yyyy h:mm a', 'Africa/Addis_Ababa', null, 'M d, H:i', true) : '' }}</span>
                             </div>
                             <div class="text-slate-900">{{ $session->assignedTo?->name ?? __('common.labels.unassigned') }}</div>
                         </a>

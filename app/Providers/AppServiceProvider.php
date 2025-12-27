@@ -2,36 +2,34 @@
 
 namespace App\Providers;
 
+use App\Contracts\SmsProvider;
+use App\Events\ServiceRequestStatusUpdated;
+use App\Events\TicketCreated;
+use App\Events\TicketReplied;
+use App\Http\Middleware\LogVisitor;
+use App\Listeners\SendServiceRequestStatusSms;
+use App\Listeners\SendTicketCreatedSms;
+use App\Listeners\SendTicketReplySms;
+use App\Models\VisitorLog;
+use App\Services\HttpSmsProvider;
+use App\Services\SiteSettingsService;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Broadcast;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Event;
-use App\Events\TicketCreated;
-use App\Events\TicketReplied;
-use App\Events\ServiceRequestStatusUpdated;
-use App\Listeners\SendTicketCreatedSms;
-use App\Listeners\SendTicketReplySms;
-use App\Listeners\SendServiceRequestStatusSms;
-use App\Contracts\SmsProvider;
-use App\Services\HttpSmsProvider;
-use App\Services\SiteSettingsService;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
     public function register(): void
     {
         $this->app->bind(SmsProvider::class, HttpSmsProvider::class);
     }
 
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
         if ($this->app->environment('production')) {
@@ -106,5 +104,15 @@ class AppServiceProvider extends ServiceProvider
 
         $siteSettings = app(SiteSettingsService::class);
         view()->share('site_settings', $siteSettings->all());
+
+        if ($this->app->resolved('router')) {
+            $router = $this->app->make(\Illuminate\Routing\Router::class);
+            $router->pushMiddlewareToGroup('web', LogVisitor::class);
+        }
+
+        View::composer('layouts.public-footer', function ($view) {
+            $count = Cache::remember('visitor.count.total', now()->addMinutes(5), fn () => VisitorLog::count());
+            $view->with('visitorCount', $count);
+        });
     }
 }

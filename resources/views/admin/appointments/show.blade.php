@@ -24,8 +24,8 @@
 
             <div class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
                 <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500">{{ __('common.labels.appointment_date') }}</h2>
-                <p class="mt-2 text-lg font-semibold text-slate-900">{{ $appointment->slot->starts_at->format('M d, Y') }}</p>
-                <p class="text-sm text-slate-500">{{ $appointment->slot->starts_at->format('g:i A') }} - {{ $appointment->slot->ends_at->format('g:i A') }}</p>
+                <p class="mt-2 text-lg font-semibold text-slate-900">{{ ethiopian_date($appointment->slot->starts_at, 'dd MMMM yyyy', 'Africa/Addis_Ababa', null, 'M d, Y', true) }}</p>
+                <p class="text-sm text-slate-500">{{ ethiopian_date($appointment->slot->starts_at, 'h:mm a', 'Africa/Addis_Ababa', null, 'g:i A', true) }} - {{ ethiopian_date($appointment->slot->ends_at, 'h:mm a', 'Africa/Addis_Ababa', null, 'g:i A', true) }}</p>
             </div>
 
             <div class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">

@@ -2,7 +2,17 @@
 
 @section('content')
     <div class="flex items-center justify-between mb-6">
-        <h1 class="text-xl font-semibold">Media</h1>
+        <div>
+            <h1 class="text-xl font-semibold">Media</h1>
+            <p class="text-sm text-gray-500">Browse uploaded files or add new items.</p>
+        </div>
+        <button
+            type="button"
+            class="inline-flex items-center rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400"
+            onclick="document.getElementById('media-upload').classList.toggle('hidden')"
+        >
+            Create media
+        </button>
     </div>
 
     @if(session('success'))
@@ -12,32 +22,6 @@
     @if(session('error'))
         <div class="mb-4 p-3 rounded bg-red-100 text-red-800">{{ session('error') }}</div>
     @endif
-
-    {{-- Upload --}}
-    <div class="border rounded p-4 mb-8">
-        <h2 class="font-semibold mb-3">Upload</h2>
-
-        <form method="POST" action="{{ route('admin.media.index') }}" enctype="multipart/form-data" class="flex flex-col gap-3">
-            @csrf
-            <input type="hidden" name="_action" value="store">
-
-            <div>
-                <label class="block text-sm font-medium mb-1">Title (optional)</label>
-                <input class="w-full border rounded p-2" type="text" name="title" value="{{ old('title') }}">
-                @error('title') <div class="text-red-600 text-sm mt-1">{{ $message }}</div> @enderror
-            </div>
-
-            <div>
-                <label class="block text-sm font-medium mb-1">File</label>
-                <input type="file" name="file" required>
-                @error('file') <div class="text-red-600 text-sm mt-1">{{ $message }}</div> @enderror
-            </div>
-
-            <div>
-                <x-admin.button type="submit">Upload</x-admin.button>
-            </div>
-        </form>
-    </div>
 
     {{-- List --}}
     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
@@ -103,4 +87,43 @@
     <div class="mt-6">
         {{ $media->links() }}
     </div>
+
+    <section id="media-upload" class="mt-6 hidden rounded-2xl border border-dashed border-gray-300 bg-white p-6 shadow-sm">
+        <div class="flex items-center justify-between mb-4">
+            <div>
+                <p class="text-xs font-semibold uppercase tracking-[0.3em] text-gray-500">Upload</p>
+                <h2 class="text-lg font-semibold text-gray-900">Create Media Item</h2>
+            </div>
+            <button
+                type="button"
+                class="text-sm font-medium text-blue-600 hover:text-blue-800"
+                onclick="document.getElementById('media-upload').classList.add('hidden')"
+            >
+                Close
+            </button>
+        </div>
+
+        <form method="POST" action="{{ route('admin.media.index') }}" enctype="multipart/form-data" class="space-y-4">
+            @csrf
+            <input type="hidden" name="_action" value="store">
+
+            <div>
+                <label class="block text-xs font-semibold uppercase tracking-wide text-gray-500">Title (optional)</label>
+                <input class="mt-1 w-full rounded border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-blue-300 focus:outline-none focus:ring-1 focus:ring-blue-200" type="text" name="title" value="{{ old('title') }}">
+                @error('title') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
+            </div>
+
+            <div>
+                <label class="block text-xs font-semibold uppercase tracking-wide text-gray-500">File</label>
+                <input class="mt-1 w-full rounded border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-blue-300 focus:outline-none focus:ring-1 focus:ring-blue-200" type="file" name="file" required>
+                @error('file') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
+            </div>
+
+            <div>
+                <x-admin.button type="submit" class="w-full">
+                    Upload
+                </x-admin.button>
+            </div>
+        </form>
+    </section>
 @endsection

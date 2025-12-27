@@ -10,7 +10,7 @@ return [
     'official_message' => [
         'portrait_label' => 'Official Portrait',
         'title' => 'Message from the :role',
-        'highlight' => 'Higher Official',
+        'highlight' => 'Bureau Head',
         'read_more' => 'Read more',
         'read_less' => 'Read less',
     ],
@@ -44,10 +44,18 @@ return [
     ],
     'live_support' => [
         'label' => 'Live Support',
-        'heading' => "We're here for you 24/7",
+        'heading' => "We are Always Here to Assist You",
         'description' => 'Our dedicated live support team is ready to answer your questions, help you submit requests, and guide you through every digital service - any time of day, any day of the week.',
         'start_chat' => 'Start Live Chat',
         'request_call' => 'Request a Call',
         'badge' => 'Live Support 24/7',
+    ],
+    'public_servant_dashboard' => [
+        'title' => 'Public servant statistics',
+        'description' => 'Total employees aggregated across every registered organization.',
+        'total_label' => 'Total public servants',
+        'male_label' => 'Male',
+        'female_label' => 'Female',
+        'view_all' => 'View all',
     ],
 ];

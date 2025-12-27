@@ -14,8 +14,14 @@ final class OfficialMessage extends Model
 
     protected $fillable = [
         'name',
+        'name_am',
+        'name_en',
         'title',
+        'title_am',
+        'title_en',
         'message',
+        'message_am',
+        'message_en',
         'photo_path',
         'is_active',
     ];
@@ -23,6 +29,14 @@ final class OfficialMessage extends Model
     protected $casts = [
         'is_active' => 'bool',
     ];
+
+    public function localized(string $field, ?string $locale = null): ?string
+    {
+        $locale = $locale ?? app()->getLocale();
+        $localizedKey = "{$field}_{$locale}";
+
+        return $this->{$localizedKey} ?? $this->{$field} ?? null;
+    }
 
     public function newUniqueId(): string
     {

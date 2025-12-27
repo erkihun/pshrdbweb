@@ -76,6 +76,17 @@
                         </a>
                     </div>
 
+                    @if(isset($visitorCount))
+                        @php
+                            $visitorLabel = \Illuminate\Support\Facades\Lang::has('common.footer.visitor_count')
+                                ? __('common.footer.visitor_count', ['count' => number_format($visitorCount)])
+                                : number_format($visitorCount) . ' visitors';
+                        @endphp
+                        <div class="mt-4 text-sm font-semibold text-gray-300">
+                            {{ $visitorLabel }}
+                        </div>
+                    @endif
+
                     {{-- Social Media Links --}}
                     <div class="pt-4">
                         <h4 class="mb-4 text-sm font-semibold uppercase tracking-wider text-white/90">{{ __('common.footer.follow_us') }}</h4>
@@ -285,36 +296,60 @@
 </style>
 
 <script>
-    // Newsletter form submission
-    document.getElementById('newsletterForm')?.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const email = this.querySelector('input[type="email"]').value;
-        
-        // Add loading animation
-        const button = this.querySelector('button[type="submit"]');
-        const originalText = button.textContent;
-        button.textContent = 'Subscribing...';
-        button.disabled = true;
-        
-        // Simulate API call
-        setTimeout(() => {
-            // Show success message
-            button.textContent = '✓ Subscribed!';
-            button.classList.remove('from-brand-gold', 'to-amber-500');
-            button.classList.add('from-green-500', 'to-emerald-500');
-            
-            // Reset after 2 seconds
-            setTimeout(() => {
+        // Newsletter form submission
+    const newsletterForm = document.getElementById('newsletterForm');
+    if (newsletterForm) {
+        const button = newsletterForm.querySelector('button[type="submit"]');
+        const statusEl = document.createElement('p');
+        statusEl.className = 'text-xs text-green-400 transition-opacity duration-200 mt-1';
+        newsletterForm.appendChild(statusEl);
+
+        newsletterForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const emailInput = this.querySelector('input[type="email"]');
+            const email = emailInput.value.trim();
+            if (! email) {
+                statusEl.textContent = 'Please enter an email address.';
+                statusEl.classList.replace('text-green-400', 'text-red-400');
+                return;
+            }
+
+            const originalText = button.textContent;
+            button.textContent = 'Subscribing...';
+            button.disabled = true;
+            statusEl.textContent = '';
+
+            const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') ?? '';
+            try {
+                const response = await fetch(@json(route('newsletter.subscribe')), {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': token,
+                        'Accept': 'application/json',
+                    },
+                    body: JSON.stringify({ email }),
+                });
+                const payload = await response.json();
+
+                if (response.ok) {
+                    statusEl.textContent = payload.message ?? 'Subscribed successfully.';
+                    statusEl.classList.replace('text-red-400', 'text-green-400');
+                    this.reset();
+                } else {
+                    statusEl.textContent = payload.message ?? 'Unable to subscribe at the moment.';
+                    statusEl.classList.replace('text-green-400', 'text-red-400');
+                }
+            } catch (error) {
+                statusEl.textContent = 'Unable to subscribe at the moment.';
+                statusEl.classList.replace('text-green-400', 'text-red-400');
+            } finally {
                 button.textContent = originalText;
                 button.disabled = false;
-                button.classList.remove('from-green-500', 'to-emerald-500');
-                button.classList.add('from-brand-gold', 'to-amber-500');
-                this.reset();
-            }, 2000);
-        }, 1000);
-    });
-
-    // Back to top button visibility
+            }
+        });
+    }
+// Back to top button visibility
     window.addEventListener('scroll', function() {
         const backToTop = document.getElementById('backToTop');
         if (window.scrollY > 300) {

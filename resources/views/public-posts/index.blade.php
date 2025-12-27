@@ -153,7 +153,7 @@
                                             </div>
                                             <div class="text-sm">
                                                 <time datetime="{{ $post->published_at?->toIso8601String() }}" class="font-semibold text-gray-900">
-                                                    {{ $post->published_at ? $post->published_at->format('M d, Y') : __('common.labels.recently_updated') }}
+                                                    {{ $post->published_at ? ethiopian_date($post->published_at, 'dd MMMM yyyy') : __('common.labels.recently_updated') }}
                                                 </time>
                                             </div>
                                         </div>

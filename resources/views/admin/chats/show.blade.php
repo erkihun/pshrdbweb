@@ -21,7 +21,7 @@
                 <div>
                     <div class="text-xs uppercase tracking-wide text-slate-400">{{ __('common.labels.status') }}</div>
                     <div class="text-sm text-slate-900">{{ $chatSession->status }}</div>
-                    <div class="text-xs text-slate-500">{{ $chatSession->started_at?->format('M d, H:i') }}</div>
+                    <div class="text-xs text-slate-500">{{ $chatSession->started_at ? ethiopian_date($chatSession->started_at, 'dd MMMM yyyy h:mm a', 'Africa/Addis_Ababa', null, 'M d, H:i', true) : '' }}</div>
                 </div>
                 <div>
                     <div class="text-xs uppercase tracking-wide text-slate-400">{{ __('common.labels.assigned_to') }}</div>
@@ -62,7 +62,7 @@
                     <div class="rounded-2xl border border-slate-100 bg-slate-50 p-4">
                         <div class="flex items-center justify-between text-xs uppercase tracking-wide text-slate-400">
                             <span>{{ $message->sender_type === 'agent' ? __('common.labels.agent') : __('common.labels.visitor') }}</span>
-                            <span>{{ $message->sent_at?->format('M d, H:i') }}</span>
+                            <span>{{ $message->sent_at ? ethiopian_date($message->sent_at, 'dd MMMM yyyy h:mm a', 'Africa/Addis_Ababa', null, 'M d, H:i', true) : '' }}</span>
                         </div>
                         <p class="mt-2 text-sm text-slate-700">{{ $message->message }}</p>
                     </div>

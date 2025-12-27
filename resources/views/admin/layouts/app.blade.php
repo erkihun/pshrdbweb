@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html>
+ï»¿<!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <title>{{ config('app.name', 'Laravel') }} · {{ __('ui.dashboard') }}</title>
+        <title>{{ config('app.name', 'Laravel') }} Â· {{ __('ui.dashboard') }}</title>
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
         @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -43,6 +43,13 @@
 
                 <main class="flex-1 overflow-y-auto px-4 py-6 sm:px-6 lg:px-10 bg-[#f4f6fb]">
                     <div class="mx-auto w-full max-w-6xl space-y-6">
+                        <x-breadcrumbs
+                            class="mb-4"
+                            :home-url="route('admin.dashboard')"
+                            :home-label="__('ui.dashboard')"
+                            :skip-segments="['admin']"
+                        />
+
                         @if(session('success'))
                             <div class="rounded-2xl border border-emerald-200 bg-emerald-50 p-4  font-semibold text-emerald-700" role="alert">
                                 {{ session('success') }}

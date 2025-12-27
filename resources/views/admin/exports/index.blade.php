@@ -48,7 +48,7 @@
                                     {{ __('common.status.' . $export->status) ?? ucfirst($export->status) }}
                                 </span>
                             </td>
-                            <td class="px-6 py-4 text-slate-500">{{ $export->requested_at->format('F j, Y g:i A') }}</td>
+                            <td class="px-6 py-4 text-slate-500">{{ ethiopian_date($export->requested_at, 'dd MMMM yyyy h:mm a', 'Africa/Addis_Ababa', null, 'F j, Y g:i A', true) }}</td>
                             <td class="px-6 py-4 text-right">
                                 @if ($export->isCompleted() && $export->file_path)
                                     @php

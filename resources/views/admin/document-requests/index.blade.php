@@ -66,7 +66,7 @@
                             <td class="px-6 py-4">
                                 <span class="badge badge-muted">{{ __('common.status.' . $item->status) }}</span>
                             </td>
-                            <td class="px-6 py-4 text-slate-500">{{ $item->submitted_at?->format('M d, Y H:i') }}</td>
+                            <td class="px-6 py-4 text-slate-500">{{ $item->submitted_at ? ethiopian_date($item->submitted_at, 'dd MMMM yyyy h:mm a', 'Africa/Addis_Ababa', null, 'M d, Y H:i', true) : '' }}</td>
                             <td class="px-6 py-4 text-right">
                                 <a href="{{ route('admin.document-requests.show', $item) }}" class="text-sm font-medium text-slate-600 hover:text-slate-900">{{ __('common.actions.view') }}</a>
                             </td>

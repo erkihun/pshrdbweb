@@ -3,7 +3,7 @@
 @section('title', 'Official Message')
 
 @section('content')
-<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
     <!-- Header -->
     <div class="flex items-start justify-between mb-8">
@@ -20,23 +20,6 @@
         </div>
     </div>
 
-    <!-- Success Message -->
-    @if(session('success'))
-        <div class="mb-6 p-4 bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-xl flex items-start">
-            <svg class="w-5 h-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-            </svg>
-            <div class="flex-1">
-                <p class="text-green-800 font-medium">{{ session('success') }}</p>
-                <p class="text-green-600 text-sm mt-1">Message has been updated successfully.</p>
-            </div>
-            <button type="button" class="ml-auto text-green-500 hover:text-green-700" onclick="this.parentElement.remove()">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
-            </button>
-        </div>
-    @endif
 
     <!-- Error Message -->
     @if($errors->any())
@@ -58,8 +41,8 @@
     <!-- Form Container -->
     <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
         <div class="border-b border-gray-200 bg-gradient-to-r from-gray-50 to-white px-6 py-4">
-            <h2 class="text-lg font-semibold text-gray-900">Edit Message</h2>
-            <p class="text-sm text-gray-600 mt-1">Update the official's information and message</p>
+            <h2 class="text-lg font-semibold text-gray-900">{{ __('common.official_message_form.heading') }}</h2>
+            <p class="text-sm text-gray-600 mt-1">{{ __('common.official_message_form.description') }}</p>
         </div>
         
         <div class="p-6">
@@ -70,73 +53,138 @@
                 <!-- Name Field -->
                 <div>
                     <div class="flex items-center justify-between mb-2">
-                        <label class="block text-sm font-semibold text-gray-900">Name *</label>
-                        <span class="text-xs text-gray-500">Required</span>
+                        <label class="block text-sm font-semibold text-gray-900">{{ __('common.official_message_form.name') }} *</label>
+                        <span class="text-xs text-gray-500">{{ __('common.official_message_form.required') }}</span>
                     </div>
-                    <input type="text" 
-                           name="name" 
-                           value="{{ old('name', $message->name) }}"
-                           class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:ring-opacity-50 transition-colors duration-200"
-                           placeholder="Enter official's full name"
-                           required>
-                    @error('name') 
-                        <p class="mt-2 text-sm text-red-600 flex items-center">
-                            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
-                            </svg>
-                            {{ $message }}
-                        </p> 
-                    @enderror
+                    <div class="grid gap-4 md:grid-cols-2">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">{{ __('common.official_message_form.amharic') }}</label>
+                            <input type="text"
+                                   name="name_am"
+                                   value="{{ old('name_am', $message->name_am ?? $message->name) }}"
+                                   class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:ring-opacity-50 transition-colors duration-200"
+                                   placeholder="_name in Amharic_"
+                                   required>
+                            @error('name_am')
+                                <p class="mt-2 text-sm text-red-600 flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                                    </svg>
+                                    {{ $message }}
+                                </p>
+                            @enderror
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">{{ __('common.official_message_form.english') }}</label>
+                            <input type="text"
+                                   name="name_en"
+                                   value="{{ old('name_en', $message->name_en ?? $message->name) }}"
+                                   class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:ring-opacity-50 transition-colors duration-200"
+                                   placeholder="Name in English"
+                                   required>
+                            @error('name_en')
+                                <p class="mt-2 text-sm text-red-600 flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                                    </svg>
+                                    {{ $message }}
+                                </p>
+                            @enderror
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Title Field -->
                 <div>
                     <div class="flex items-center justify-between mb-2">
-                        <label class="block text-sm font-semibold text-gray-900">Title / Position *</label>
-                        <span class="text-xs text-gray-500">Required</span>
+                        <label class="block text-sm font-semibold text-gray-900">{{ __('common.official_message_form.title') }} *</label>
+                        <span class="text-xs text-gray-500">{{ __('common.official_message_form.required') }}</span>
                     </div>
-                    <input type="text" 
-                           name="title" 
-                           value="{{ old('title', $message->title) }}"
-                           class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:ring-opacity-50 transition-colors duration-200"
-                           placeholder="e.g., CEO, Director, President"
-                           required>
-                    @error('title') 
-                        <p class="mt-2 text-sm text-red-600 flex items-center">
-                            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
-                            </svg>
-                            {{ $message }}
-                        </p> 
-                    @enderror
+                    <div class="grid gap-4 md:grid-cols-2">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">{{ __('common.official_message_form.amharic') }}</label>
+                            <input type="text"
+                                   name="title_am"
+                                   value="{{ old('title_am', $message->title_am ?? $message->title) }}"
+                                   class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:ring-opacity-50 transition-colors duration-200"
+                                   placeholder="Title in Amharic"
+                                   required>
+                            @error('title_am')
+                                <p class="mt-2 text-sm text-red-600 flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                                    </svg>
+                                    {{ $message }}
+                                </p>
+                            @enderror
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">{{ __('common.official_message_form.english') }}</label>
+                            <input type="text"
+                                   name="title_en"
+                                   value="{{ old('title_en', $message->title_en ?? $message->title) }}"
+                                   class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:ring-opacity-50 transition-colors duration-200"
+                                   placeholder="Title in English"
+                                   required>
+                            @error('title_en')
+                                <p class="mt-2 text-sm text-red-600 flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                                    </svg>
+                                    {{ $message }}
+                                </p>
+                            @enderror
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Message Field -->
                 <div>
                     <div class="flex items-center justify-between mb-2">
-                        <label class="block text-sm font-semibold text-gray-900">Message *</label>
-                        <span class="text-xs text-gray-500">Required</span>
+                        <label class="block text-sm font-semibold text-gray-900">{{ __('common.official_message_form.message') }} *</label>
+                        <span class="text-xs text-gray-500">{{ __('common.official_message_form.required') }}</span>
                     </div>
-                    <textarea name="message" 
-                              rows="6" 
-                              class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:ring-opacity-50 transition-colors duration-200 resize-none"
-                              placeholder="Enter the official's message"
-                              required>{{ old('message', $message->message) }}</textarea>
-                    @error('message') 
-                        <p class="mt-2 text-sm text-red-600 flex items-center">
-                            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
-                            </svg>
-                            {{ $message }}
-                        </p> 
-                    @enderror
+                    <div class="grid gap-4 md:grid-cols-2">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">{{ __('common.official_message_form.amharic') }}</label>
+                            <textarea name="message_am"
+                                      rows="5"
+                                      class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:ring-opacity-50 transition-colors duration-200 resize-none"
+                                      placeholder="Message in Amharic"
+                                      required>{{ old('message_am', $message->message_am ?? $message->message) }}</textarea>
+                            @error('message_am')
+                                <p class="mt-2 text-sm text-red-600 flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                                    </svg>
+                                    {{ $message }}
+                                </p>
+                            @enderror
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">{{ __('common.official_message_form.english') }}</label>
+                            <textarea name="message_en"
+                                      rows="5"
+                                      class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:ring-opacity-50 transition-colors duration-200 resize-none"
+                                      placeholder="Message in English"
+                                      required>{{ old('message_en', $message->message_en ?? $message->message) }}</textarea>
+                            @error('message_en')
+                                <p class="mt-2 text-sm text-red-600 flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                                    </svg>
+                                    {{ $message }}
+                                </p>
+                            @enderror
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Photo Field -->
                 <div>
                     <div class="flex items-center justify-between mb-2">
-                        <label class="block text-sm font-semibold text-gray-900">Photo</label>
-                        <span class="text-xs text-gray-500">One photo only</span>
+                        <label class="block text-sm font-semibold text-gray-900">{{ __('common.official_message_form.photo') }}</label>
+                        <span class="text-xs text-gray-500">{{ __('common.official_message_form.photo_note') }}</span>
                     </div>
                     
                     <div class="mt-2">
@@ -145,8 +193,8 @@
                                 <svg class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                                 </svg>
-                                <p class="mb-2 text-sm text-gray-500"><span class="font-semibold">Click to upload</span> or drag and drop</p>
-                                <p class="text-xs text-gray-500">PNG, JPG, GIF (MAX. 2MB)</p>
+                                <p class="mb-2 text-sm text-gray-500">{{ __('common.official_message_form.upload_instruction') }}</p>
+                                <p class="text-xs text-gray-500">{{ __('common.official_message_form.file_types') }}</p>
                             </div>
                             <input type="file" name="photo" accept="image/*" class="hidden">
                         </label>
@@ -164,7 +212,7 @@
                     <!-- Current Photo Preview -->
                     @if($message->photo_path)
                         <div class="mt-6">
-                            <p class="text-sm font-medium text-gray-700 mb-3">Current Photo</p>
+                            <p class="text-sm font-medium text-gray-700 mb-3">{{ __('common.official_message_form.current_photo') }}</p>
                             <div class="relative inline-block group">
                                 <img src="{{ asset('storage/'.$message->photo_path) }}" 
                                      class="w-48 h-48 object-cover rounded-xl shadow-lg border border-gray-200">
@@ -179,8 +227,8 @@
                 <!-- Active Toggle -->
                 <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                     <div>
-                        <label class="block text-sm font-semibold text-gray-900 mb-1">Status</label>
-                        <p class="text-sm text-gray-600">Show this message on the website</p>
+                        <label class="block text-sm font-semibold text-gray-900 mb-1">{{ __('common.official_message_form.status') }}</label>
+                        <p class="text-sm text-gray-600">{{ __('common.official_message_form.status_hint') }}</p>
                     </div>
                     <div class="flex items-center">
                         <input type="hidden" name="is_active" value="0">
@@ -200,13 +248,13 @@
 
                 <!-- Submit Button -->
                 <div class="pt-4 border-t border-gray-200 flex justify-end">
-                    <button type="submit"
-                            class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 shadow-sm hover:shadow-md">
-                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
-                        </svg>
-                        Save Changes
-                    </button>
+                        <button type="submit"
+                                class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 shadow-sm hover:shadow-md">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
+                            </svg>
+                        {{ __('common.official_message_form.save_changes') }}
+                        </button>
                 </div>
             </form>
         </div>

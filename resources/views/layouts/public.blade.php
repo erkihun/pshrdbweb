@@ -5,8 +5,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>{{ $site_settings['site.branding']['site_name_' . app()->getLocale()] ?? config('app.name', 'Laravel') }}</title>
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Nyala&family=Abyssinica+SIL:wght@400;600&family=Noto+Sans+Ethiopic:wght@400;600&family=Noto+Serif+Ethiopic:wght@400;600&display=swap"
+            rel="stylesheet"
+        >
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         @stack('meta')
@@ -28,9 +32,6 @@
         @php
             $officeHoursService = app(\App\Services\OfficeHoursService::class);
         @endphp
-        @include('components.chat-widget', [
-            'isOpen' => $officeHoursService->isOpen(),
-            'summary' => $officeHoursService->summary(),
-        ])
+  
     </body>
 </html>

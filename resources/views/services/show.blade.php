@@ -10,7 +10,7 @@
             <div class="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm">
                 <div class="text-sm text-gray-500">aapublicservice</div>
                 <p class="mt-2 text-xs font-semibold uppercase tracking-wide text-gray-400">
-                    {{ __('common.labels.last_updated') }}: {{ $service->updated_at?->format('M d, Y') }}
+                    {{ __('common.labels.last_updated') }}: {{ $service->updated_at ? ethiopian_date($service->updated_at, 'dd MMMM yyyy') : '' }}
                 </p>
                 @if ($feedbackCount > 0)
                     <div class="mt-3 flex items-center gap-3 text-sm text-gray-700">
@@ -95,7 +95,7 @@
                             <div class="rounded-xl border border-gray-100 bg-gray-50 p-4">
                                 <div class="flex items-center gap-2 text-sm font-semibold text-gray-900">
                                     <span>{{ $item->rating }}/5</span>
-                                    <span class="text-xs text-gray-500">{{ $item->submitted_at?->format('M d, Y') }}</span>
+                                    <span class="text-xs text-gray-500">{{ $item->submitted_at ? ethiopian_date($item->submitted_at, 'dd MMMM yyyy') : '' }}</span>
                                 </div>
                                 @if ($item->comment)
                                     <p class="mt-2 text-sm text-gray-700 whitespace-pre-line">{{ $item->comment }}</p>

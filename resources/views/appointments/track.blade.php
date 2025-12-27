@@ -67,7 +67,7 @@
                             {{ $appointment->service->display_name }}
                         </p>
                         <p class="text-sm text-slate-500">
-                            {{ $appointment->slot->starts_at->format('M d, Y') }} · {{ $appointment->slot->starts_at->format('g:i A') }} - {{ $appointment->slot->ends_at->format('g:i A') }}
+                            {{ ethiopian_date($appointment->slot->starts_at, 'dd MMMM yyyy') }} · {{ ethiopian_date($appointment->slot->starts_at, 'h:mm a') }} - {{ ethiopian_date($appointment->slot->ends_at, 'h:mm a') }}
                         </p>
                         <p class="text-sm text-slate-500">
                             {{ __('common.labels.full_name') }}: {{ $appointment->full_name }}

@@ -3,7 +3,8 @@
 @tailwind utilities;
 
 body {
-    @apply font-sans antialiased;
+    font-family: 'Consolas', 'DejaVu Sans Mono', 'Menlo', monospace;
+    @apply antialiased;
 }
 
 @layer components {
@@ -25,5 +26,19 @@ body {
 
     .alert-success {
         @apply p-3 rounded-md bg-green-50 border border-green-200 text-green-800;
+    }
+    .font-noto-ethiopic {
+        font-family: 'Consolas', 'DejaVu Sans Mono', 'Menlo', monospace;
+    }
+.font-abyssinica {
+        font-family: 'Abyssinica SIL', 'Nyala', 'Noto Serif Ethiopic', 'Noto Sans Ethiopic', 'Segoe UI', serif;
+        font-weight: 700;
+    }
+    .public-navbar svg {
+        @apply text-blue-600;
+    }
+
+    [x-cloak] {
+        display: none !important;
     }
 }

@@ -1,4 +1,4 @@
-<x-app-layout>
+﻿<x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('common.labels.track_request') }}
@@ -23,10 +23,10 @@
                         <div class="mt-8 rounded-xl border border-gray-100 bg-gray-50 p-6">
                             <div class="text-xs font-semibold uppercase tracking-wide text-gray-400">{{ $serviceRequest->reference_code }}</div>
                             <h3 class="mt-2 text-lg font-semibold text-gray-900">{{ $serviceRequest->subject }}</h3>
-                            <p class="mt-1 text-sm text-gray-600">{{ $serviceRequest->full_name }} @if($serviceRequest->phone) � {{ $serviceRequest->phone }} @endif</p>
+                            <p class="mt-1 text-sm text-gray-600">{{ $serviceRequest->full_name }} @if($serviceRequest->phone) · {{ $serviceRequest->phone }} @endif</p>
                             <div class="mt-3 inline-flex items-center gap-2">
                                 <span class="badge badge-muted">{{ __('common.status.' . $serviceRequest->status) }}</span>
-                                <span class="text-xs text-gray-500">{{ __('common.labels.last_updated') }}: {{ $serviceRequest->updated_at?->format('M d, Y H:i') }}</span>
+                                <span class="text-xs text-gray-500">{{ __('common.labels.last_updated') }}: {{ $serviceRequest->updated_at ? ethiopian_date($serviceRequest->updated_at, 'dd MMMM yyyy h:mm a') : '' }}</span>
                             </div>
                             @if ($serviceRequest->admin_note)
                                 <div class="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">

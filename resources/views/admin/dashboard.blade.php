@@ -237,7 +237,7 @@
                                     @endif
                                 </td>
                                 <td class="px-6 py-4">
-                                    <div class="text-sm text-slate-900">{{ $ticket->created_at->format('M d, Y') }}</div>
+                                    <div class="text-sm text-slate-900">{{ ethiopian_date($ticket->created_at, 'dd MMMM yyyy', 'Africa/Addis_Ababa', null, 'M d, Y', true) }}</div>
                                     <div class="text-xs text-slate-500">{{ $ticket->created_at->diffForHumans() }}</div>
                                 </td>
                                 <td class="px-6 py-4">
