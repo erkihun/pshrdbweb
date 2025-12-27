@@ -19,18 +19,21 @@ const baseConfig = {
     'charmap',
     'code',
     'directionality',
+    'fontfamily',
+    'fontsize',
     'fullscreen',
     'image',
     'link',
     'lists',
+    'paste',
     'table',
     'wordcount',
   ],
   toolbar: [
-    'undo redo | blocks | bold italic underline strikethrough',
+    'undo redo | blocks | fontfamily fontsize | bold italic underline strikethrough',
     'alignleft aligncenter alignright alignjustify',
     'bullist numlist | outdent indent',
-    'ltr rtl | link image table | charmap | fullscreen | code removeformat',
+    'ltr rtl | link image table | charmap fullscreen | code removeformat',
   ],
   autoresize_bottom_margin: 20,
   autoresize_overflow_padding: 10,
@@ -62,6 +65,9 @@ const baseConfig = {
     th, td { border: 1px solid #ddd; padding: 6px; vertical-align: top; }
     th { font-weight: 600; }
   `,
+  fontsize_formats: '10px 12px 14px 16px 18px 20px 24px 28px 32px 36px 48px',
+  font_family_formats:
+    'Default=Inter,system-ui,sans-serif; Abyssinica SIL=Abyssinica SIL,serif; Nyala=Nyala,serif; Arial=Arial,Helvetica,sans-serif; Times New Roman="Times New Roman",Times,serif',
 };
 
 const initTinymceEditors = () => {
