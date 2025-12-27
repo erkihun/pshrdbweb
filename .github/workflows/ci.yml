@@ -29,9 +29,6 @@ jobs:
       - name: Generate app key
         run: php artisan key:generate
 
-      - name: Run tests
-        run: php artisan test
-
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -42,3 +39,6 @@ jobs:
 
       - name: Build assets
         run: npm run build
+
+      - name: Run tests
+        run: php artisan test
