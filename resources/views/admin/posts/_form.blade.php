@@ -116,7 +116,8 @@
                         id="excerpt_am"
                         name="excerpt_am"
                         rows="3"
-                        class="mt-2 w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 shadow-sm transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+                        data-editor="tinymce"
+                        class="mt-2 w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 shadow-sm transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 js-editor"
                     >{{ old('excerpt_am', $post->excerpt_am ?? '') }}</textarea>
                     @error('excerpt_am')
                         <div class="mt-2 flex items-center gap-2 text-xs text-rose-600">
@@ -163,7 +164,8 @@
                         id="excerpt_en"
                         name="excerpt_en"
                         rows="3"
-                        class="mt-2 w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 shadow-sm transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+                        data-editor="tinymce"
+                        class="mt-2 w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 shadow-sm transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 js-editor"
                     >{{ old('excerpt_en', $post->excerpt_en ?? '') }}</textarea>
                     @error('excerpt_en')
                         <div class="mt-2 flex items-center gap-2 text-xs text-rose-600">
@@ -268,7 +270,8 @@
                         id="body_am"
                         name="body_am"
                         rows="8"
-                        class="mt-2 w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 shadow-sm transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+                        data-editor="tinymce"
+                        class="mt-2 w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 shadow-sm transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 js-editor"
                         required
                     >{{ old('body_am', $post->body_am ?? '') }}</textarea>
                     @error('body_am')
@@ -290,7 +293,8 @@
                         id="body_en"
                         name="body_en"
                         rows="8"
-                        class="mt-2 w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 shadow-sm transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+                        data-editor="tinymce"
+                        class="mt-2 w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 shadow-sm transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 js-editor"
                         required
                     >{{ old('body_en', $post->body_en ?? '') }}</textarea>
                     @error('body_en')
@@ -345,7 +349,8 @@
                         id="seo_description"
                         name="seo_description"
                         rows="3"
-                        class="mt-2 w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 shadow-sm transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+                        data-editor="tinymce"
+                        class="mt-2 w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 shadow-sm transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 js-editor"
                     >{{ old('seo_description', $post->seo_description ?? '') }}</textarea>
                     @error('seo_description')
                         <div class="mt-2 flex items-center gap-2 text-xs text-rose-600">
@@ -372,13 +377,14 @@
                     Body (Legacy)
                     <span class="ml-2 rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-800">Deprecated</span>
                 </label>
-                <textarea
-                    id="body"
-                    name="body"
-                    rows="8"
-                    class="mt-2 w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 shadow-sm transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
-                    required
-                >{{ old('body', $post->body ?? '') }}</textarea>
+                    <textarea
+                        id="body"
+                        name="body"
+                        rows="8"
+                        data-editor="tinymce"
+                        class="mt-2 w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 shadow-sm transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 js-editor"
+                        required
+                    >{{ old('body', $post->body ?? '') }}</textarea>
                 @error('body')
                     <div class="mt-2 flex items-center gap-2 text-xs text-rose-600">
                         <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">

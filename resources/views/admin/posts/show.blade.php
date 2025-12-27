@@ -76,7 +76,12 @@
             @endif
 
             <div class="mt-6 border-t border-slate-100 pt-6 text-sm text-slate-700">
-                {!! nl2br(e($post->display_body)) !!}
+                <h2 class="text-sm font-semibold text-slate-900">{{ __('common.labels.body') }}</h2>
+                <div class="mt-4">
+                    <x-rich-content>
+                        {!! $post->body !!}
+                    </x-rich-content>
+                </div>
             </div>
         </div>
     </div>

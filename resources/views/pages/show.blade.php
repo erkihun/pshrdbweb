@@ -65,22 +65,25 @@
         <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
             <article class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
                 {{-- Compact Cover Image --}}
-                @if ($page->cover_image_path)
-                    <div class="relative">
-                        <img
-                            src="{{ asset('storage/' . ltrim($page->cover_image_path, '/')) }}"
-                            alt="{{ $page->display_title }}"
-                            class="h-40 w-full object-cover"
-                            loading="lazy"
-                            onerror="this.style.display='none'"
-                        />
-                    </div>
-                @endif
+           @if ($page->cover_image_path)
+    <div class="relative px-6 py-4 sm:px-8 flex justify-center">
+        <img
+            src="{{ asset('storage/' . ltrim($page->cover_image_path, '/')) }}"
+            alt="{{ $page->display_title }}"
+            class="w-32 h-20 rounded-xl object-contain shadow-sm"
+            loading="lazy"
+            onerror="this.style.display='none'"
+        />
+    </div>
+@endif
+
 
                 <div class="p-6">
                     {{-- Content Area --}}
-                    <div class="prose max-w-none prose-gray prose-headings:mt-6 prose-headings:mb-4 prose-p:mb-4 prose-p:text-gray-700 prose-a:text-blue-600 hover:prose-a:text-blue-700 prose-a:no-underline prose-blockquote:border-l-3 prose-blockquote:border-gray-300 prose-blockquote:pl-4 prose-blockquote:italic">
-                        {!! $page->display_body !!}
+                    <div class="mt-2">
+                        <x-rich-content class="prose-sm">
+                            {!! $page->display_body !!}
+                        </x-rich-content>
                     </div>
 
                     {{-- Back Button --}}

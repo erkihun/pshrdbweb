@@ -40,7 +40,8 @@
                 id="description_am"
                 name="description_am"
                 rows="6"
-                class="mt-2 w-full rounded-lg border border-slate-200 px-4 py-2 text-sm focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-300"
+                data-editor="tinymce"
+                class="mt-2 w-full rounded-lg border border-slate-200 px-4 py-2 text-sm focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-300 js-editor"
                 required
             >{{ old('description_am', $service->description_am ?? '') }}</textarea>
             @error('description_am')
@@ -54,7 +55,8 @@
                 id="requirements_am"
                 name="requirements_am"
                 rows="4"
-                class="mt-2 w-full rounded-lg border border-slate-200 px-4 py-2 text-sm focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-300"
+                data-editor="tinymce"
+                class="mt-2 w-full rounded-lg border border-slate-200 px-4 py-2 text-sm focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-300 js-editor"
             >{{ old('requirements_am', $service->requirements_am ?? '') }}</textarea>
             @error('requirements_am')
                 <p class="mt-2 text-xs text-rose-600">{{ $message }}</p>
@@ -84,7 +86,8 @@
                 id="description_en"
                 name="description_en"
                 rows="6"
-                class="mt-2 w-full rounded-lg border border-slate-200 px-4 py-2 text-sm focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-300"
+                data-editor="tinymce"
+                class="mt-2 w-full rounded-lg border border-slate-200 px-4 py-2 text-sm focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-300 js-editor"
                 required
             >{{ old('description_en', $service->description_en ?? '') }}</textarea>
             @error('description_en')
@@ -98,7 +101,8 @@
                 id="requirements_en"
                 name="requirements_en"
                 rows="4"
-                class="mt-2 w-full rounded-lg border border-slate-200 px-4 py-2 text-sm focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-300"
+                data-editor="tinymce"
+                class="mt-2 w-full rounded-lg border border-slate-200 px-4 py-2 text-sm focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-300 js-editor"
             >{{ old('requirements_en', $service->requirements_en ?? '') }}</textarea>
             @error('requirements_en')
                 <p class="mt-2 text-xs text-rose-600">{{ $message }}</p>

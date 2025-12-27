@@ -53,6 +53,8 @@ class PostController extends Controller
         $data = $request->validated();
         $data['title'] = $data['title_en'];
         $data['body'] = $data['body_en'];
+        // TinyMCE returns HTML; sanitize or escape this before exposing it to untrusted visitors.
+        // TinyMCE returns HTML; sanitize or escape this before exposing it to untrusted visitors.
         $data['excerpt'] = $data['excerpt_en'] ?? null;
         $data['slug'] = $this->uniqueSlug($data['title_en']);
         $data['is_published'] = $request->boolean('is_published');

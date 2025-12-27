@@ -200,6 +200,7 @@ return [
         'appointment_service' => 'የቀጠሮ አገልግሎት',
 
         'appointment_slot' => 'የቀጠሮ ሰዓት',
+        'characters' => 'ፊደሎች',
 
         'appointment_slots' => 'የቀጠሮ ሰዓቶች',
 

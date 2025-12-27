@@ -57,7 +57,8 @@
                         id="body_am"
                         name="body_am"
                         rows="10"
-                        class="mt-2 w-full rounded-lg border border-slate-200 px-4 py-2 text-sm focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-300"
+                        data-editor="tinymce"
+                        class="mt-2 w-full rounded-lg border border-slate-200 px-4 py-2 text-sm focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-300 js-editor"
                         required
                     >{{ old('body_am', $page?->body_am ?? '') }}</textarea>
                     @error('body_am')
@@ -87,7 +88,8 @@
                         id="body_en"
                         name="body_en"
                         rows="10"
-                        class="mt-2 w-full rounded-lg border border-slate-200 px-4 py-2 text-sm focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-300"
+                        data-editor="tinymce"
+                        class="mt-2 w-full rounded-lg border border-slate-200 px-4 py-2 text-sm focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-300 js-editor"
                         required
                     >{{ old('body_en', $page?->body_en ?? '') }}</textarea>
                     @error('body_en')
@@ -135,6 +137,6 @@
                 </button>
             </div>
         </form>
+
     </div>
 @endsection
-

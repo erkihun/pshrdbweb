@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\AppointmentSlotController;
 use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Admin\DocumentRequestController as AdminDocumentRequestController;
 use App\Http\Controllers\Admin\DocumentRequestTypeController;
+use App\Http\Controllers\Admin\EditorUploadController;
 use App\Http\Controllers\Admin\HomepageController as AdminHomepageController;
 use App\Http\Controllers\Admin\PageController as AdminPageController;
 use App\Http\Controllers\Admin\PostController;
@@ -78,6 +79,7 @@ Route::middleware(['auth', 'verified'])
          Route::resource('home-slides', HomeSlideController::class)->except(['show']);
         Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
         Route::resource('posts', PostController::class)->middleware('permission:manage posts');
+        Route::post('editor/upload', [EditorUploadController::class, 'store'])->name('editor.upload');
         Route::resource('services', AdminServiceController::class)->middleware('permission:manage services');
         Route::resource('document-categories', DocumentCategoryController::class)->middleware('permission:manage documents');
         Route::resource('documents', AdminDocumentController::class)->middleware('permission:manage documents');

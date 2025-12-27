@@ -71,13 +71,22 @@
                 </div>
                 <div>
                     <label class="text-sm font-semibold text-slate-700" for="body_am">{{ __('common.labels.body') }} ({{ __('common.tabs.am') }})</label>
+                    <div
+                        x-data="{ count: {{ mb_strlen(old('body_am', '')) }}, label: @json(__('common.labels.characters')) }"
+                        class="mt-2"
+                    >
                     <textarea
                         id="body_am"
                         name="body_am"
                         rows="10"
-                        class="mt-2 w-full rounded-lg border border-slate-200 px-4 py-2 text-sm focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-300"
+                        x-ref="bodyAm"
+                        x-on:input="count = $event.target.value.length"
+                        data-editor="tinymce"
+                        class="w-full rounded-lg border border-slate-200 px-4 py-2 text-sm focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-300 js-editor"
                         required
                     >{{ old('body_am') }}</textarea>
+                        <p class="mt-2 text-xs text-slate-500" x-text="`${count} ${label}`"></p>
+                    </div>
                     @error('body_am')
                         <p class="mt-2 text-xs text-rose-600">{{ $message }}</p>
                     @enderror
@@ -101,13 +110,22 @@
                 </div>
                 <div>
                     <label class="text-sm font-semibold text-slate-700" for="body_en">{{ __('common.labels.body') }} ({{ __('common.tabs.en') }})</label>
-                    <textarea
-                        id="body_en"
-                        name="body_en"
-                        rows="10"
-                        class="mt-2 w-full rounded-lg border border-slate-200 px-4 py-2 text-sm focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-300"
-                        required
-                    >{{ old('body_en') }}</textarea>
+                    <div
+                        x-data="{ count: {{ mb_strlen(old('body_en', '')) }}, label: @json(__('common.labels.characters')) }"
+                        class="mt-2"
+                    >
+                        <textarea
+                            id="body_en"
+                            name="body_en"
+                            rows="10"
+                            x-ref="bodyEn"
+                            x-on:input="count = $event.target.value.length"
+                            data-editor="tinymce"
+                            class="w-full rounded-lg border border-slate-200 px-4 py-2 text-sm focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-300 js-editor"
+                            required
+                        >{{ old('body_en') }}</textarea>
+                        <p class="mt-2 text-xs text-slate-500" x-text="`${count} ${label}`"></p>
+                    </div>
                     @error('body_en')
                         <p class="mt-2 text-xs text-rose-600">{{ $message }}</p>
                     @enderror
@@ -153,5 +171,6 @@
                 </button>
             </div>
         </form>
+
     </div>
 @endsection

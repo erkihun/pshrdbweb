@@ -36,4 +36,16 @@ class StorePostRequest extends FormRequest
             'cover_image' => ['nullable', 'image', 'max:2048'],
         ];
     }
+
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'title_am' => trim(strip_tags($this->input('title_am'))),
+            'title_en' => trim(strip_tags($this->input('title_en'))),
+            'excerpt_am' => trim(strip_tags($this->input('excerpt_am'))),
+            'excerpt_en' => trim(strip_tags($this->input('excerpt_en'))),
+            'seo_title' => trim(strip_tags($this->input('seo_title'))),
+            'seo_description' => trim(strip_tags($this->input('seo_description'))),
+        ]);
+    }
 }

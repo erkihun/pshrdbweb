@@ -119,6 +119,7 @@ return [
         'appointment' => 'Appointment',
         'appointment_service' => 'Appointment Service',
         'appointment_slot' => 'Appointment Slot',
+        'characters' => 'Characters',
         'appointment_slots' => 'Appointment Slots',
         'appointment_service_duration' => 'Duration (mins)',
         'appointment_date' => 'Appointment Date',

@@ -21,16 +21,20 @@
                         <span class="text-gray-500">({{ $feedbackCount }} {{ __('common.labels.feedback_count') }})</span>
                     </div>
                 @endif
-                <div class="mt-4 text-sm text-gray-700 whitespace-pre-line">
-                    {{ $service->display_description }}
+                <div class="mt-4">
+                    <x-rich-content>
+                        {!! $service->description !!}
+                    </x-rich-content>
                 </div>
 
                 @if ($service->display_requirements)
                     <div class="mt-6 border-t border-gray-100 pt-6">
                         <h3 class="text-sm font-semibold text-gray-900">{{ __('common.labels.requirements') }}</h3>
-                        <p class="mt-2 text-sm text-gray-700 whitespace-pre-line">
-                            {{ $service->display_requirements }}
-                        </p>
+                        <div class="mt-2">
+                            <x-rich-content class="text-sm">
+                                {!! $service->requirements !!}
+                            </x-rich-content>
+                        </div>
                     </div>
                 @endif
 

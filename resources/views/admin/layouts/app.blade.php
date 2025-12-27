@@ -1,4 +1,4 @@
-ï»¿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
@@ -10,7 +10,10 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         @stack('meta')
     </head>
-    <body class="min-h-screen bg-[#f4f6fb]  text-slate-900">
+    <body
+        class="min-h-screen bg-[#f4f6fb]  text-slate-900"
+        data-editor-upload-url="{{ route('admin.editor.upload') }}"
+    >
         <div x-data="{ sidebarOpen: false }" class="flex min-h-screen">
             <div
                 x-show="sidebarOpen"
@@ -41,8 +44,8 @@
             <div class="flex flex-1 flex-col">
                 @include('admin.layouts.topbar')
 
-                <main class="flex-1 overflow-y-auto px-4 py-6 sm:px-6 lg:px-10 bg-[#f4f6fb]">
-                    <div class="mx-auto w-full max-w-6xl space-y-6">
+                <main class="flex-1 overflow-y-auto bg-[#f4f6fb]">
+                    <div class="w-full space-y-6 px-4 py-6 sm:px-6 lg:px-10">
                         <x-breadcrumbs
                             class="mb-4"
                             :home-url="route('admin.dashboard')"
@@ -74,5 +77,9 @@
             </div>
         </div>
 
+        @stack('scripts')
+        <script src="{{ asset('vendor/tinymce/tinymce.min.js') }}"></script>
+        <script src="{{ asset('js/admin-tinymce.js') }}"></script>
     </body>
 </html>
+

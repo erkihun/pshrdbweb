@@ -78,6 +78,7 @@ class PageController extends Controller
             $data['cover_image_path'] = $this->storeCover($request->file('cover_image'), null);
         }
 
+        // TinyMCE returns HTML for body fields; consider sanitizing before rendering in public-facing views.
         Page::updateOrCreate(['key' => $data['key']], $data);
 
         return redirect()
@@ -111,6 +112,7 @@ class PageController extends Controller
             $data['cover_image_path'] = $page?->cover_image_path;
         }
 
+        // TinyMCE returns HTML for body fields; sanitize when exposing to untrusted visitors.
         Page::updateOrCreate(['key' => $key], $data);
 
         return redirect()

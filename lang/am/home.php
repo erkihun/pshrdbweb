@@ -30,7 +30,7 @@ return [
     ],
     'services' => [
         'tagline' => 'የእኛ አገልግሎቶች',
-        'title' => 'የሕዝብ :highlight እና መረጃ',
+        'title' => ':highlight',
         'highlight' => 'አገልግሎቶች',
         'description' => 'በአስተማማኝ የዲጂታል ይፋዊ ገፃችን አገልግሎቶችን ያግኙ፣ ጥያቄዎችን ያቅርቡ እና መረጃ ያግኙ።',
     ],
