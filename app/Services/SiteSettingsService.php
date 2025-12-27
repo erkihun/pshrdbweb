@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Setting;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Schema;
 
 class SiteSettingsService
 {
@@ -41,6 +42,10 @@ class SiteSettingsService
 
     public function all(): array
     {
+        if (!Schema::hasTable('cache')) {
+            return $this->load();
+        }
+
         return Cache::remember(self::CACHE_KEY, self::CACHE_TTL, function () {
             return $this->load();
         });
