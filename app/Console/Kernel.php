@@ -13,6 +13,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->job(new SendAppointmentReminderJob())->hourly();
         $schedule->job(new CleanupOldExportsJob())->daily();
+        $schedule->command('analytics:build-daily-stats')->daily();
     }
 
     protected function commands(): void

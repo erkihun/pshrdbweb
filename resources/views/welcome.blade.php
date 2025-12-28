@@ -9,11 +9,14 @@
         ?? $heroSettings['logo_light']
         ?? $heroSettings['logo']
         ?? ($heroSettings['logo_' . app()->getLocale()] ?? null);
+    $faviconLogo = $heroSettings['favicon_path'] ?? null;
+    $heroCenteredLogo = $faviconLogo ?? $heroSignatureLogo;
     $heroSignatureName = $heroSettings['site_name_' . app()->getLocale()] ?? config('app.name');
     $heroSignatureTag = __('common.hero.signature', ['site' => $heroSignatureName]);
 @endphp
 <div class="font-noto-ethiopic">
 @php
+    use App\Models\Department;
     use App\Models\HomeSlide;
     use App\Models\Post;
     use App\Models\Service;
@@ -59,12 +62,20 @@
         ->take(6)
         ->get();
 
+    $charterDepartments = Department::query()
+        ->where('is_active', true)
+        ->withCount('charterServices')
+        ->orderBy('sort_order')
+        ->get();
+
+    $viewActionClasses = 'inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-blue-500/30 transition hover:from-blue-700 hover:to-indigo-700 hover:shadow-blue-600/40';
+
     $type = 'news';
 @endphp
 
 {{-- ================= HERO SLIDER (TITLE/SUBTITLE BOTTOM) ================= --}}
 <section id="hero" class="scroll-section is-visible relative w-full bg-gray-900 overflow-hidden">
-    <div id="heroSlider" class="relative w-full h-[60vh] min-h-[450px] max-h-[550px] overflow-hidden">
+    <div id="heroSlider" class="relative w-full min-h-[75vh] h-[90vh] overflow-hidden">
         @forelse ($slides as $index => $slide)
             <div
                 class="hero-slide absolute inset-0 transition-all duration-700 ease-in-out {{ $index === 0 ? 'opacity-100 z-10' : 'opacity-0 z-0' }}"
@@ -83,6 +94,17 @@
 
                 {{-- Bottom gradient panel --}}
                 <div class="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+
+                {{-- Centered branding --}}
+                <div class="absolute inset-0 flex flex-col items-center justify-center gap-4 px-6 text-center pointer-events-none">
+                    @if($heroCenteredLogo)
+                        <img
+                            src="{{ asset('storage/' . ltrim($heroCenteredLogo, '/')) }}"
+                            alt="{{ $heroSignatureName }} logo"
+                            class="h-24 sm:h-32 md:h-36 lg:h-40 w-auto object-contain drop-shadow-[0_20px_45px_rgba(0,0,0,0.55)] opacity-40"
+                        >
+                    @endif
+                </div>
 
                 {{-- Content (BOTTOM) --}}
                 <div class="relative h-full flex items-end">
@@ -256,71 +278,6 @@
 </section>
 @endif
 
-@if($organizationSummaries->count())
-<section id="organization-stats" class="scroll-section bg-gradient-to-b from-white to-gray-50 py-12">
-    <div class="relative mx-auto max-w-full lg:max-w-screen-2xl w-full px-6 sm:px-8 lg:px-12">
-        <div class="mb-10 flex flex-wrap items-start justify-between gap-4 text-left max-w-5xl">
-            <div class="flex-1 min-w-0">
-                <p class="text-xs uppercase tracking-wide text-slate-400">{{ __('common.nav.public_servant_dashboard') }}</p>
-                <h3 class="text-3xl font-bold text-gray-900">{{ __('home.public_servant_dashboard.title') }}</h3>
-                <p class="text-sm text-slate-600">{{ __('home.public_servant_dashboard.description') }}</p>
-            </div>
-            <a href="{{ route('public-servants.dashboard') }}"
-               class="group inline-flex items-center gap-3 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-blue-200 hover:text-blue-600">
-                <span>{{ __('home.public_servant_dashboard.view_all') ?? 'View all' }}</span>
-                <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-            </a>
-        </div>
-
-        <div class="grid gap-4 sm:grid-cols-3">
-            <div class="relative overflow-hidden rounded-2xl border border-slate-200 bg-gradient-to-br from-blue-50 to-blue-100 p-6 shadow-sm">
-                <div class="absolute inset-y-0 right-5 w-16 opacity-20 blur-3xl bg-blue-400"></div>
-                <div class="flex items-center gap-3">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-600 text-white shadow-lg">
-                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c2.76 0 5-1.79 5-4s-2.24-4-5-4-5 1.79-5 4 2.24 4 5 4zm0 2c-3.33 0-10 1.67-10 5v3h20v-3c0-3.33-6.67-5-10-5z"/>
-                        </svg>
-                    </div>
-                    <div class="text-left">
-                        <p class="text-xs uppercase tracking-wide text-blue-600">{{ __('home.public_servant_dashboard.total_label') }}</p>
-                        <p class="mt-1 text-3xl font-semibold text-blue-900">{{ number_format($citizenTotals['total']) }}</p>
-                    </div>
-                </div>
-            </div>
-            <div class="relative overflow-hidden rounded-2xl border border-slate-200 bg-gradient-to-br from-emerald-50 to-emerald-100 p-6 shadow-sm">
-                <div class="absolute inset-y-0 right-5 w-16 opacity-20 blur-3xl bg-emerald-400"></div>
-                <div class="flex items-center gap-3">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-600 text-white shadow-lg">
-                        <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 4a4 4 0 100 8 4 4 0 000-8zm0-2c3.313 0 6 2.687 6 6s-2.687 6-6 6-6-2.687-6-6 2.687-6 6-6zm1 12H9a1 1 0 00-1 1v5h2v-4h2v4h2v-5a1 1 0 00-1-1z"/>
-                        </svg>
-                    </div>
-                    <div class="text-left">
-                        <p class="text-xs uppercase tracking-wide text-emerald-600">{{ __('home.public_servant_dashboard.male_label') }}</p>
-                        <p class="mt-1 text-3xl font-semibold text-emerald-900">{{ number_format($citizenTotals['male']) }}</p>
-                    </div>
-                </div>
-            </div>
-            <div class="relative overflow-hidden rounded-2xl border border-slate-200 bg-gradient-to-br from-rose-50 to-rose-100 p-6 shadow-sm">
-                <div class="absolute inset-y-0 right-5 w-16 opacity-20 blur-3xl bg-rose-400"></div>
-                <div class="flex items-center gap-3">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-rose-600 text-white shadow-lg">
-                        <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 2a6 6 0 11-6 6 6 6 0 016-6zm0 2a4 4 0 100 8 4 4 0 000-8zm-2 10a5 5 0 00-5 5h2a3 3 0 016 0h2a5 5 0 00-5-5z"/>
-                        </svg>
-                    </div>
-                    <div class="text-left">
-                        <p class="text-xs uppercase tracking-wide text-rose-600">{{ __('home.public_servant_dashboard.female_label') }}</p>
-                        <p class="mt-1 text-3xl font-semibold text-rose-900">{{ number_format($citizenTotals['female']) }}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-@endif
 
 {{-- ================= LATEST NEWS ================= --}}
 @if($latestNews->count())
@@ -328,32 +285,34 @@
     <div class="relative mx-auto max-w-full lg:max-w-screen-2xl w-full px-6 sm:px-8 lg:px-12">
         <div class="absolute right-0 top-1/2 -translate-y-1/2 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl -z-10"></div>
 
-        <div class="flex items-center justify-between mb-12">
-            <div>
-                <h4 class="text-3xl lg:text-4xl font-bold text-gray-900">
+        <div class="flex items-center justify-between mb-12 gap-6">
+            <div class="flex items-center gap-3">
+                <x-heroicon-o-newspaper class="h-6 w-6 text-blue-600" aria-hidden="true" />
+                <h5 class="text-2xl lg:text-3xl font-bold text-gray-900">
                     <span class=" text-blue-600 ">{{ __('home.news.title') }}</span>
-                </h4>
+                </h5>
             </div>
 
                 <a href="{{ url('/news') }}"
-                   class="group hidden lg:flex items-center gap-3 px-6 py-3 rounded-xl bg-gradient-to-r from-white to-gray-50 text-gray-700 font-semibold hover:text-blue-700 transition-all duration-300 transform hover:-translate-y-1 ring-1 ring-gray-200 hover:ring-blue-200">
-                <span>{{ __('home.news.view_all') }}</span>
+                   class="{{ $viewActionClasses }} hidden lg:inline-flex">
+                    <span>{{ __('home.news.view_all') }}</span>
                 <svg class="w-4 h-4 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
             </a>
         </div>
 
-        <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            @foreach ($latestNews as $post)
-                <a
-                    href="{{ $type === 'news' ? route('news.show', $post->slug) : route('announcements.show', $post->slug) }}"
-                    class="group relative flex h-full flex-col rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition-all duration-500 hover:-translate-y-2 hover:border-transparent hover:shadow-2xl hover:shadow-blue-500/10"
-                >
-                    <div class="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl opacity-0 group-hover:opacity-10 blur transition duration-500"></div>
+        <div class="grid gap-8 items-stretch grid-cols-1 lg:grid-cols-[minmax(0,3fr)_420px]">
+            <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                @foreach ($latestNews as $post)
+                    <a
+                        href="{{ $type === 'news' ? route('news.show', $post->slug) : route('announcements.show', $post->slug) }}"
+                        class="group relative flex h-full flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition-all duration-500 hover:-translate-y-1 hover:border-transparent hover:shadow-xl hover:shadow-blue-500/10"
+                    >
+                        <div class="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl opacity-0 group-hover:opacity-10 blur transition duration-500"></div>
 
                     @if ($post->cover_image_path)
-                        <div class="relative mb-6 h-48 w-full rounded-xl overflow-hidden">
+                        <div class="relative mb-5 h-40 w-full rounded-xl overflow-hidden">
                             <img
                                 src="{{ asset('storage/' . $post->cover_image_path) }}"
                                 alt="{{ $post->display_title }}"
@@ -372,8 +331,8 @@
                             {{ $post->display_title }}
                         </h3>
 
-                        <p class="mt-3 text-gray-600 line-clamp-3">
-                            {{ $post->display_excerpt ?: \Illuminate\Support\Str::limit(strip_tags($post->display_body), 140) }}
+                        <p class="mt-2 text-gray-600 line-clamp-2">
+                            {{ $post->display_excerpt ?: \Illuminate\Support\Str::limit(strip_tags($post->display_body), 100) }}
                         </p>
 
                         <div class="mt-6 pt-6 border-t border-gray-100 flex items-center justify-between">
@@ -392,10 +351,52 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                                 </svg>
                             </div>
+                            </div>
+                        </div>
+                    </a>
+                @endforeach
+            </div>
+
+            <aside class="lg:sticky lg:top-10 self-stretch">
+                <div class="h-full space-y-6 rounded-3xl border border-gray-200 bg-white p-6 shadow-sm shadow-blue-500/10">
+                    <div>
+                        <p class="text-sm font-semibold uppercase text-blue-600 tracking-wide">Community</p>
+                        <h3 class="text-xl font-bold text-gray-900">Stay connected</h3>
+                    </div>
+                    <div class="relative overflow-hidden rounded-2xl border border-gray-100">
+                        <iframe
+                            class="w-full h-[360px] rounded-2xl"
+                            src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fweb.facebook.com%2Fprofile.php%3Fid%3D100067771711638&tabs=timeline&width=340&height=500&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
+                            width="340"
+                            height="500"
+                            style="border:none;overflow:hidden"
+                            scrolling="no"
+                            frameborder="0"
+                            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                        ></iframe>
+                    </div>
+                    <div>
+                        <p class="text-sm font-semibold uppercase text-blue-600 tracking-wide">Important Links</p>
+                        <h4 class="text-lg font-bold text-gray-900 mb-3">Quick access</h4>
+                        <div class="space-y-3">
+                            @foreach ([
+                                'Emergency Contacts',
+                                'Public Announcements',
+                                'Citizen Charter',
+                                'Digital Services Hub',
+                                'Feedback & Complaints'
+                            ] as $link)
+                                <a href="#" class="flex items-center justify-between rounded-2xl border border-gray-100 bg-white px-4 py-3 text-sm font-medium text-blue-700 hover:bg-blue-50 transition">
+                                    {{ $link }}
+                                    <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </a>
+                            @endforeach
                         </div>
                     </div>
-                </a>
-            @endforeach
+                </div>
+            </aside>
         </div>
 
         <div class="mt-12 lg:hidden text-center">
@@ -417,15 +418,17 @@
     <div class="relative mx-auto max-w-full lg:max-w-screen-2xl w-full px-6 sm:px-8 lg:px-12">
         <div class="absolute left-0 top-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-500/5 rounded-full blur-3xl -z-10"></div>
         
-        <div class="flex items-center justify-between mb-8">
-            <div>
-                @php
-                    $leadersHighlight = '<span class="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">' . __('home.leaders.highlight') . '</span>';
-                @endphp
-                <h4 class="text-3xl lg:text-4xl font-bold text-gray-900">
-                    {!! __('home.leaders.title', ['highlight' => $leadersHighlight]) !!}
-                </h4>
-              
+        <div class="flex items-center justify-between mb-8 gap-4">
+            <div class="flex items-center gap-3">
+                <x-heroicon-o-user-group class="h-6 w-6 text-indigo-600" aria-hidden="true" />
+                <div>
+                    @php
+                        $leadersHighlight = '<span class="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">' . __('home.leaders.highlight') . '</span>';
+                    @endphp
+                    <h5 class="text-2xl lg:text-3xl font-bold text-gray-900">
+                        {!! __('home.leaders.title', ['highlight' => $leadersHighlight]) !!}
+                    </h5>
+                </div>
             </div>
 
             {{-- Slider controls (desktop) --}}
@@ -542,21 +545,98 @@
     </div>
 </section>
 @endif
+@if($organizationSummaries->count())
+<section id="organization-stats" class="scroll-section bg-gradient-to-b from-white to-gray-50 py-12 overflow-hidden">
+    <div class="relative mx-auto max-w-full lg:max-w-screen-2xl w-full px-6 sm:px-8 lg:px-12">
+        <div class="flex items-center justify-between mb-12 gap-6">
+            <div class="flex items-center gap-3">
+                <x-heroicon-o-chart-bar class="h-6 w-6 text-blue-600" aria-hidden="true" />
+                <h5 class="text-2xl lg:text-3xl font-bold text-gray-900">
+                    <span class=" text-blue-600 ">{{ __('home.public_servant_dashboard.title') }}</span>
+                </h5>
+            </div>
+
+            <a href="{{ route('public-servants.dashboard') }}"
+               class="{{ $viewActionClasses }} hidden lg:inline-flex"
+            >
+                <span>{{ __('home.news.view_all') }}</span>
+                <svg class="w-4 h-4 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+            </a>
+        </div>
+
+        <div class="flex flex-wrap justify-between gap-6">
+            <div class="group relative flex-1 min-w-[220px] max-w-xs">
+                <div class="absolute inset-0 rounded-full border border-transparent bg-gradient-to-br from-blue-400 to-cyan-500 opacity-0 blur transition duration-500 group-hover:opacity-60"></div>
+                <div class="relative z-10 flex aspect-square w-full flex-col items-center justify-center gap-4 overflow-hidden rounded-full border border-gray-200 bg-white p-6 text-center shadow-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-500/20">
+                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-600 text-white shadow-lg">
+                        <x-heroicon-s-users class="h-7 w-7" />
+                    </div>
+                    <div class="space-y-1">
+                        <p class="text-xs uppercase tracking-wide text-blue-600">{{ __('home.public_servant_dashboard.total_label') }}</p>
+                        <p class="text-3xl font-semibold text-blue-900">
+                            <span class="stat-value" data-stat-target="{{ $citizenTotals['total'] }}">0</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="group relative flex-1 min-w-[220px] max-w-xs">
+                <div class="absolute inset-0 rounded-full border border-transparent bg-gradient-to-br from-emerald-400 to-emerald-600 opacity-0 blur transition duration-500 group-hover:opacity-60"></div>
+                <div class="relative z-10 flex aspect-square w-full flex-col items-center justify-center gap-4 overflow-hidden rounded-full border border-gray-200 bg-white p-6 text-center shadow-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-emerald-500/30">
+                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-600 text-white shadow-lg">
+                        <x-heroicon-s-user class="h-7 w-7" />
+                    </div>
+                    <div class="space-y-1">
+                        <p class="text-xs uppercase tracking-wide text-emerald-600">{{ __('home.public_servant_dashboard.male_label') }}</p>
+                        <p class="text-3xl font-semibold text-emerald-900">
+                            <span class="stat-value" data-stat-target="{{ $citizenTotals['male'] }}">0</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="group relative flex-1 min-w-[220px] max-w-xs">
+                <div class="absolute inset-0 rounded-full border border-transparent bg-gradient-to-br from-rose-400 to-rose-600 opacity-0 blur transition duration-500 group-hover:opacity-60"></div>
+                <div class="relative z-10 flex aspect-square w-full flex-col items-center justify-center gap-4 overflow-hidden rounded-full border border-gray-200 bg-white p-6 text-center shadow-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-rose-500/30">
+                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-rose-600 text-white shadow-lg">
+                        <x-heroicon-s-user-circle class="h-7 w-7" />
+                    </div>
+                    <div class="space-y-1">
+                        <p class="text-xs uppercase tracking-wide text-rose-600">{{ __('home.public_servant_dashboard.female_label') }}</p>
+                        <p class="text-3xl font-semibold text-rose-900">
+                            <span class="stat-value" data-stat-target="{{ $citizenTotals['female'] }}">0</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@endif
 
 <section id="services-section" class="scroll-section bg-gradient-to-b from-white to-gray-50 py-10 overflow-hidden">
     <div class="relative mx-auto max-w-full lg:max-w-screen-2xl w-full px-6 sm:px-8 lg:px-12">
-        <div class="max-w-3xl mb-16 text-left">
-           
-
-             <div>
-                @php
-                    $servicesHighlight = '<span class="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">' . __('home.services.highlight') . '</span>';
-                @endphp
-                <h4 class="text-3xl lg:text-4xl font-bold text-gray-900">
-                   {!! __('home.services.title', ['highlight' => $servicesHighlight]) !!}
-                </h4>
-              
+        <div class="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between mb-16">
+            <div class="flex items-center gap-3">
+                <x-heroicon-o-cube-transparent class="h-6 w-6 text-indigo-600" aria-hidden="true" />
+                <div>
+                    @php
+                        $servicesHighlight = '<span class="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">' . __('home.services.highlight') . '</span>';
+                    @endphp
+                    <h5 class="text-5xl lg:text-3xl font-bold text-gray-900">
+                       {!! __('home.services.title', ['highlight' => $servicesHighlight]) !!}
+                    </h5>
+                </div>
             </div>
+
+            <a
+                href="{{ route('services.index') }}"
+                class="{{ $viewActionClasses }}"
+            >
+                {{ __('home.services.view_all') }}
+            </a>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -585,11 +665,7 @@
                     <div class="absolute -inset-0.5 bg-gradient-to-r {{ $palette }} rounded-2xl opacity-0 group-hover:opacity-20 blur transition duration-500"></div>
 
                     <div class="relative h-full rounded-2xl border border-gray-200 bg-white p-8 transition-all duration-500 hover:border-transparent hover:shadow-2xl">
-                        <div class="mb-6">
-                            <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br {{ $palette }} shadow-lg">
-                                <span class="text-white text-xl font-bold">{{ $loop->index + 1 }}</span>
-                            </div>
-                        </div>
+                      
 
                         <h3 class="text-2xl font-bold text-gray-900 mb-4">{{ $service->display_title }}</h3>
                         <p class="text-gray-600 mb-6 line-clamp-3 text-justify">
@@ -614,6 +690,76 @@
         </div>
     </div>
 </section>
+
+@if($charterDepartments->count())
+<section id="citizen-charter-highlight" class="scroll-section bg-gradient-to-b from-gray-50 to-white py-16 overflow-hidden">
+    <div class="relative mx-auto max-w-full lg:max-w-screen-2xl w-full px-6 sm:px-8 lg:px-12">
+        <div class="absolute -top-16 right-0 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl -z-10"></div>
+        <div class="absolute -bottom-16 left-4 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl -z-10"></div>
+
+        <div class="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between mb-10">
+            <div class="flex flex-col gap-4 text-left lg:flex-row lg:items-start lg:gap-6">
+                <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 text-white shadow-lg">
+                    <x-heroicon-o-scale class="h-6 w-6 text-indigo-200" aria-hidden="true" />
+                </div>
+                <div class="space-y-2 max-w-3xl">
+               
+                    <h4 class="text-3xl lg:text-4xl font-bold text-blue-900">
+                        {{ __('public.citizen_charter.overview.heading') }}
+                    </h4>
+                   
+                </div>
+            </div>
+
+            <a
+                href="{{ route('citizen-charter.index') }}"
+                class="{{ $viewActionClasses }}"
+            >
+                {{ __('public.buttons.view_details') }}
+                <x-heroicon-o-arrow-top-right-on-square class="h-4 w-4" aria-hidden="true" />
+            </a>
+        </div>
+
+        <div class="relative">
+            <div class="overflow-hidden">
+                <div
+                    id="citizenCharterTrack"
+                    class="flex snap-x snap-mandatory gap-6 overflow-x-auto pb-4 pr-4 lg:pr-0 scroll-smooth"
+                >
+                    @foreach($charterDepartments as $department)
+                        <a
+                            href="{{ route('citizen-charter.department', $department) }}"
+                            class="charter-card group relative flex-none w-80 overflow-hidden rounded-3xl border border-gray-200 bg-white p-6 shadow-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl"
+                        >
+                            <div class="absolute inset-0 rounded-3xl border border-transparent transition duration-500 group-hover:border-blue-200"></div>
+
+                            <div class="relative h-full flex flex-col justify-between space-y-4">
+                        
+
+                                <h3 class="text-2xl font-semibold text-gray-900">
+                                    {{ $department->display_name }}
+                                </h3>
+                                <p class="text-sm text-gray-500">
+                                    {{ $department->charter_services_count ?? 0 }} {{ __('public.citizen_charter.index.services_count') }}
+                                </p>
+
+                                <div class="mt-6 flex justify-center">
+                                    <span class="{{ $viewActionClasses }}">
+                                        {{ __('public.buttons.view_details') }}
+                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5l7 7-7 7M18 12H3" />
+                                        </svg>
+                                    </span>
+                                </div>
+                            </div>
+                        </a>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@endif
 
 {{-- ================= CTA ================= --}}
 <section id="cta-section" class="scroll-section relative py-20 overflow-hidden">
@@ -662,7 +808,7 @@
                     </button>
                 </form>
                 <a
-                    href="{{ route('contact.create') }}"
+                    href="{{ route('contact') }}"
                     class="inline-flex items-center justify-center gap-2 rounded-full border border-white/40 px-6 py-3 text-sm font-semibold text-white/90 transition hover:bg-white/10"
                 >
                     {{ __('home.live_support.request_call') }}
@@ -681,6 +827,8 @@
     const totalSlides = slides.length;
 
     let leadersAutoScrollInterval = null;
+    let charterMotionFrame = null;
+    let charterMotionDirection = 1;
 
     function showSlide(index) {
         slides.forEach((slide) => {
@@ -807,6 +955,27 @@
             leadersTrack.addEventListener('mouseleave', startAutoScroll);
         }
 
+        const charterTrack = document.getElementById('citizenCharterTrack');
+        if (charterTrack) {
+            const startCharterMotion = () => {
+                if (charterMotionFrame) return;
+                animateCharterTrack(charterTrack);
+            };
+
+            const stopCharterMotion = () => {
+                if (!charterMotionFrame) return;
+                cancelAnimationFrame(charterMotionFrame);
+                charterMotionFrame = null;
+            };
+
+            startCharterMotion();
+
+            charterTrack.addEventListener('mouseenter', stopCharterMotion);
+            charterTrack.addEventListener('mouseleave', startCharterMotion);
+        }
+
+        animateStatCounters();
+
         // Official message "Read more" button visibility
         const textEl = document.getElementById('officialMessageText');
         const btnEl = document.getElementById('officialMessageToggle');
@@ -849,6 +1018,58 @@
                 track.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
             }
         }
+    }
+
+    function animateCharterTrack(track) {
+        const maxScrollLeft = track.scrollWidth - track.clientWidth;
+        if (maxScrollLeft <= 0) {
+            charterMotionFrame = null;
+            return;
+        }
+
+        const step = 0.35 * charterMotionDirection;
+        const next = track.scrollLeft + step;
+
+        if (next >= maxScrollLeft) {
+            track.scrollLeft = maxScrollLeft;
+            charterMotionDirection = -1;
+        } else if (next <= 0) {
+            track.scrollLeft = 0;
+            charterMotionDirection = 1;
+        } else {
+            track.scrollLeft = next;
+        }
+
+        charterMotionFrame = requestAnimationFrame(() => animateCharterTrack(track));
+    }
+
+    function animateStatCounters() {
+        const stats = document.querySelectorAll('[data-stat-target]');
+        if (!stats.length) return;
+
+        const locale = document.documentElement.lang || 'en';
+        const formatter = new Intl.NumberFormat(locale);
+
+        stats.forEach((el) => {
+            const target = parseInt(el.dataset.statTarget, 10) || 0;
+            const duration = 1600;
+            const startTime = performance.now();
+
+            const tick = (now) => {
+                const progress = Math.min((now - startTime) / duration, 1);
+                const value = Math.round(target * progress);
+                el.textContent = formatter.format(value);
+
+                if (progress < 1) {
+                    requestAnimationFrame(tick);
+                } else {
+                    el.textContent = formatter.format(target);
+                }
+            };
+
+            el.textContent = formatter.format(0);
+            requestAnimationFrame(tick);
+        });
     }
 </script>
 
@@ -908,6 +1129,13 @@
     }
     #leadersTrack::-webkit-scrollbar {
         display: none; /* Chrome, Safari */
+    }
+
+    #citizenCharterTrack {
+        scrollbar-width: none;
+    }
+    #citizenCharterTrack::-webkit-scrollbar {
+        display: none;
     }
 
     @keyframes fade-in-up {

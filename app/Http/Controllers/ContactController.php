@@ -12,7 +12,7 @@ class ContactController extends Controller
 {
     public function create()
     {
-        return view('contact');
+        return view('contact.index');
     }
 
     public function store(StoreContactRequest $request)
@@ -32,7 +32,7 @@ class ContactController extends Controller
         TicketCreated::dispatch($ticket);
 
         return redirect()
-            ->route('contact.create')
+            ->route('contact')
             ->with('success', __('common.messages.contact_success'));
     }
 

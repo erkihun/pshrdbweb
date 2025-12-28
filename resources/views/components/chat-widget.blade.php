@@ -5,7 +5,7 @@
         statusUrl: '{{ route('chat.status') }}',
         isOpen: {{ json_encode($isOpen) }},
         summary: '{{ $summary }}',
-        contactUrl: '{{ route('contact.create') }}',
+        contactUrl: '{{ route('contact') }}',
     })"
     x-cloak
     class="print-hidden fixed bottom-6 right-6 z-50 w-80 rounded-2xl border border-slate-200 bg-white shadow-xl"

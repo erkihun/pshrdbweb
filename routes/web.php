@@ -17,7 +17,8 @@ use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
 use App\Http\Controllers\Admin\StaffController as AdminStaffController;
 use App\Http\Controllers\Admin\TicketController as AdminTicketController;
 use App\Http\Controllers\Admin\ServiceFeedbackController as AdminServiceFeedbackController;
-use App\Http\Controllers\Admin\AnalyticsController;
+use App\Http\Controllers\Admin\AnalysisController;
+use App\Http\Controllers\Admin\ContactInfoController;
 use App\Http\Controllers\Admin\AlertController;
 use App\Http\Controllers\Admin\ExportController;
 use App\Http\Controllers\Admin\MediaController;
@@ -28,6 +29,7 @@ use App\Http\Controllers\NewsletterSubscriptionController;
 use App\Http\Controllers\Admin\TenderController;
 use App\Http\Controllers\Admin\ChatController as AdminChatController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\CharterServiceController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\HomepageController;
@@ -46,6 +48,9 @@ use App\Http\Controllers\ServiceFeedbackController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\DocumentRequestController;
 use App\Http\Controllers\LocaleController;
+use App\Http\Controllers\Public\ContactController as PublicContactController;
+use App\Http\Controllers\Public\CitizenCharterController;
+use App\Http\Controllers\Public\TenderController as PublicTenderController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Admin\OfficialMessageController;
@@ -138,7 +143,11 @@ Route::middleware(['auth', 'verified'])
         Route::get('organizations/{organization}/snapshots/{snapshot}', [OrgStatSnapshotController::class, 'show'])->name('organizations.snapshots.show');
         Route::get('organizations/{organization}/charts', [App\Http\Controllers\Admin\OrganizationChartsController::class, 'index'])->name('organizations.charts');
         Route::get('subscribers', [SubscriberController::class, 'index'])->name('subscribers.index');
-        Route::get('analytics', [AnalyticsController::class, 'index'])->name('analytics.index');
+        Route::resource('contact-info', ContactInfoController::class)
+            ->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])
+            ->middleware('permission:manage settings');
+        Route::resource('charter-services', CharterServiceController::class)->middleware('permission:manage services');
+        Route::get('analysis', [AnalysisController::class, 'index'])->name('analysis.index');
         Route::get('search', [AdminSearchController::class, 'index'])->name('search');
     });
 
@@ -162,6 +171,8 @@ Route::get('/news', [PublicPostController::class, 'newsIndex'])->name('news.inde
 Route::get('/news/{slug}', [PublicPostController::class, 'newsShow'])->name('news.show');
 Route::get('/announcements', [PublicPostController::class, 'announcementsIndex'])->name('announcements.index');
 Route::get('/announcements/{slug}', [PublicPostController::class, 'announcementsShow'])->name('announcements.show');
+Route::get('/tenders', [PublicTenderController::class, 'index'])->name('tenders.index');
+Route::get('/tenders/{tender:slug}', [PublicTenderController::class, 'show'])->name('tenders.show');
 Route::get('/about', [PageController::class, 'show'])->defaults('key', 'about')->name('pages.about');
 Route::get('/organization/mission-vision-values', [PageController::class, 'show'])->defaults('key', 'mission_vision_values')->name('pages.mission');
 Route::get('/organization/leadership', [PageController::class, 'show'])->defaults('key', 'leadership')->name('pages.leadership');
@@ -171,7 +182,7 @@ Route::get('/pages/{key}', [PageController::class, 'show'])->name('pages.show');
 Route::get('/leadership', [\App\Http\Controllers\StaffController::class, 'leadership'])->name('staff.leadership');
 Route::get('/staff', [\App\Http\Controllers\StaffController::class, 'index'])->name('staff.index');
 Route::get('/staff/{staff}', [\App\Http\Controllers\StaffController::class, 'show'])->name('staff.show');
-Route::get('/contact', [ContactController::class, 'create'])->name('contact.create');
+Route::get('/contact', [PublicContactController::class, 'index'])->name('contact');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store')->middleware('throttle:contact');
 Route::get('/request-service', [ServiceRequestController::class, 'create'])->name('service-requests.create');
 Route::post('/request-service', [ServiceRequestController::class, 'store'])->name('service-requests.store')->middleware('throttle:service_request_submit');
@@ -186,6 +197,9 @@ Route::post('/appointments/{appointmentService}/book', [AppointmentController::c
 Route::post('/appointments/{reference}/cancel', [AppointmentController::class, 'cancel'])->name('appointments.cancel')->middleware('throttle:appointment_cancel');
 Route::get('/public-servants', [PublicServantsController::class, 'index'])->name('public-servants.index');
 Route::get('/public-servants-dashboard', [PublicServantDashboardController::class, 'index'])->name('public-servants.dashboard');
+Route::get('/citizen-charter', [CitizenCharterController::class, 'index'])->name('citizen-charter.index');
+Route::get('/citizen-charter/{department:slug}', [CitizenCharterController::class, 'department'])->name('citizen-charter.department');
+Route::get('/citizen-charter/{department:slug}/{service:slug}', [CitizenCharterController::class, 'service'])->name('citizen-charter.service');
 Route::get('/health', function () {
     try {
         DB::connection()->getPdo()->query('select 1');

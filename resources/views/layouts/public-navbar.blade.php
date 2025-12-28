@@ -38,12 +38,9 @@
                             loading="eager"
                         >
                     @else
-                        <div class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-brand-blue text-white shadow-sm">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m0 0v9a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 00-1-1H9a1 1 0 00-1 1v4a1 1 0 001 1h3" />
-                            </svg>
-                        </div>
+                    <div class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-brand-blue text-white shadow-sm">
+                        <x-heroicon-o-building-office-2 class="h-5 w-5" aria-hidden="true" />
+                    </div>
 
                         <span class="text-base font-semibold tracking-tight text-gray-900">
                             {{ $brandName }}
@@ -55,17 +52,45 @@
             {{-- DESKTOP NAV --}}
             <div class="hidden lg:flex lg:items-center lg:gap-1 lg:ml-6 lg:mr-4 lg:flex-nowrap">
                 @php
-                    $nav = [
-                        ['label' => __('common.nav.announcements'), 'href' => route('announcements.index'), 'active' => request()->routeIs('announcements.*'), 'icon' => '<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>'],
-                        ['label' => __('common.nav.downloads'), 'href' => route('downloads.index'), 'active' => request()->routeIs('downloads.*'), 'icon' => '<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v12m0 0l4-4m-4 4l-4-4M21 21H3"/></svg>'],
-                        ['label' => __('common.nav.contact'), 'href' => route('contact.create'), 'active' => request()->routeIs('contact.*'), 'icon' => '<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 8a2 2 0 00-2-2h-3.586a1 1 0 01-.707-.293l-1.414-1.414A1 1 0 0012.586 3H8a2 2 0 00-2 2v14l4-2 4 2 4-2 4 2V8z"/></svg>'],
+                    $navLinks = [
+                        ['label' => __('public.navigation.downloads'), 'href' => route('downloads.index'), 'active' => request()->routeIs('downloads.*'), 'icon' => 'arrow-down-tray'],
+                        ['label' => __('public.navigation.contact'), 'href' => route('contact'), 'active' => request()->routeIs('contact.*'), 'icon' => 'map-pin'],
+                        ['label' => __('public.navigation.citizen_charter'), 'href' => route('citizen-charter.index'), 'active' => request()->routeIs('citizen-charter.*'), 'icon' => 'document-text'],
                     ];
 
-                    if (Route::has('tenders.index')) {
-                        $nav[] = ['label' => __('common.nav.tenders') ?? 'Tenders', 'href' => route('tenders.index'), 'active' => request()->routeIs('tenders.*'), 'icon' => '<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6M9 16h6M9 8h6M4 6h16v12H4z"/></svg>'];
-                    } elseif (Route::has('admin.tenders.index') && auth()->check() && auth()->user()->can('view tenders')) {
-                        $nav[] = ['label' => __('common.nav.tenders') ?? 'Tenders', 'href' => route('admin.tenders.index'), 'active' => request()->routeIs('admin.tenders.*'), 'icon' => '<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6M9 16h6M9 8h6M4 6h16v12H4z"/></svg>'];
+                    $announcementDropdown = [];
+                    if (Route::has('announcements.index')) {
+                        $announcementDropdown[] = [
+                            'label' => __('public.navigation.announcements'),
+                            'href' => route('announcements.index'),
+                            'active' => request()->routeIs('announcements.*'),
+                            'icon' => 'speakerphone',
+                        ];
                     }
+
+                    $tenderRoute = null;
+                    if (Route::has('tenders.index')) {
+                        $tenderRoute = [
+                            'label' => __('public.navigation.tenders'),
+                            'href' => route('tenders.index'),
+                            'active' => request()->routeIs('tenders.*'),
+                            'icon' => 'document-arrow-down',
+                        ];
+                    } elseif (Route::has('admin.tenders.index') && auth()->check() && auth()->user()->can('view tenders')) {
+                        $tenderRoute = [
+                            'label' => __('public.navigation.tenders'),
+                            'href' => route('admin.tenders.index'),
+                            'active' => request()->routeIs('admin.tenders.*'),
+                            'icon' => 'document-arrow-down',
+                        ];
+                    }
+
+                    if ($tenderRoute) {
+                        $announcementDropdown[] = $tenderRoute;
+                    }
+
+                    $hasAnnouncementDropdown = count($announcementDropdown) > 0;
+                    $announcementActive = collect($announcementDropdown)->contains('active', true);
                 @endphp
 
                 {{-- Shared desktop link UI --}}
@@ -80,8 +105,10 @@
                     @if(request()->is('/'))
                         <div class="absolute -bottom-[9px] left-1/2 -translate-x-1/2 w-8 h-0.5 bg-brand-blue rounded-full"></div>
                     @endif
-                    <span class="inline-flex items-center">{!! '<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m0 0v9a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 00-1-1H9a1 1 0 00-1 1v4a1 1 0 001 1h3"/></svg>' !!}</span>
-                    <span>{{ __('common.nav.home') }}</span>
+                    <span class="inline-flex items-center">
+                        <x-heroicon-o-home class="h-4 w-4" aria-hidden="true" />
+                    </span>
+                    <span>{{ __('public.navigation.home') }}</span>
                 </a>
 
                 {{-- About dropdown (desktop) --}}
@@ -92,17 +119,11 @@
                                 aria-haspopup="true"
                                 class="{{ $desktopLinkBase }} {{ $desktopLinkHover }} {{ $aboutActive ? 'text-brand-blue' : 'text-gray-700' }} font-abyssinica">
                         <span class="inline-flex items-center gap-2">
-                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M13 16h-1v-4h-1m1-4h.01M12 20a8 8 0 100-16 8 8 0 000 16z"/>
-                            </svg>
-                            <span>{{ __('common.nav.about') ?? 'About' }}</span>
+                            <x-heroicon-o-information-circle class="h-4 w-4" aria-hidden="true" />
+                            <span>{{ __('public.navigation.about') ?? 'About' }}</span>
                         </span>
 
-                        <svg class="ml-1 h-4 w-4 transition-transform duration-200 group-hover:rotate-180 group-focus-within:rotate-180"
-                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                        </svg>
+                        <x-heroicon-o-chevron-down class="ml-1 h-4 w-4 transition-transform duration-200 group-hover:rotate-180 group-focus-within:rotate-180 text-current" aria-hidden="true" />
 
                         @if($aboutActive)
                             <div class="absolute -bottom-[9px] left-1/2 -translate-x-1/2 w-8 h-0.5 bg-brand-blue rounded-full"></div>
@@ -120,12 +141,9 @@
                                    class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm hover:bg-gray-50 transition
                                           {{ request()->routeIs('pages.*') ? 'text-brand-blue font-semibold' : 'text-gray-700' }}">
                                     <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-gray-50 text-gray-700">
-                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                  d="M13 16h-1v-4h-1m1-4h.01M12 20a8 8 0 100-16 8 8 0 000 16z" />
-                                        </svg>
+                                        <x-heroicon-o-information-circle class="h-4 w-4" aria-hidden="true" />
                                     </span>
-                                    <span>{{ __('common.nav.about') ?? 'About' }}</span>
+                                    <span>{{ __('public.navigation.about') ?? 'About' }}</span>
                                 </a>
                             @endif
 
@@ -134,12 +152,9 @@
                                    class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm hover:bg-gray-50 transition
                                           {{ request()->routeIs('staff.*') ? 'text-brand-blue font-semibold' : 'text-gray-700' }}">
                                     <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-gray-50 text-gray-700">
-                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                  d="M17 20h5v-2a4 4 0 00-4-4h-1M9 20H4v-2a4 4 0 014-4h1m0-4a4 4 0 100-8 4 4 0 000 8zm8 0a4 4 0 10-8 0 4 4 0 008 0z" />
-                                        </svg>
+                                        <x-heroicon-o-users class="h-4 w-4" aria-hidden="true" />
                                     </span>
-                                   <span>{{ __('common.nav.staff') ?? 'Staff' }}</span>
+                                   <span>{{ __('public.navigation.staff') ?? 'Staff' }}</span>
                                </a>
                            @endif
 
@@ -148,12 +163,9 @@
                                    class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm hover:bg-gray-50 transition
                                           {{ request()->routeIs('public-servants.dashboard') ? 'text-brand-blue font-semibold' : 'text-gray-700' }}">
                                     <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-gray-50 text-gray-700">
-                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                  d="M12 6v6l4 2m2-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                        </svg>
+                                        <x-heroicon-o-users class="h-4 w-4" aria-hidden="true" />
                                     </span>
-                                    <span>{{ __('common.nav.public_servant_dashboard') }}</span>
+                                    <span>{{ __('public.navigation.public_servant_dashboard') }}</span>
                                 </a>
                             @endif
                         </div>
@@ -168,10 +180,51 @@
                             <div class="absolute -bottom-[9px] left-1/2 -translate-x-1/2 w-8 h-0.5 bg-brand-blue rounded-full"></div>
                         @endif
                         <span class="inline-flex items-center gap-2">
-                            {!! '<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h6a2 2 0 012 2v9a2 2 0 01-2 2z"/></svg>' !!}
-                            <span>{{ __('common.nav.news') }}</span>
+                            <x-heroicon-o-newspaper class="h-4 w-4" aria-hidden="true" />
+                            <span>{{ __('public.navigation.news') }}</span>
                         </span>
                     </a>
+                @endif
+
+                {{-- Announcements dropdown (desktop) --}}
+                @if($hasAnnouncementDropdown)
+                    <div class="relative group">
+                        <button type="button"
+                                aria-haspopup="true"
+                                class="{{ $desktopLinkBase }} {{ $desktopLinkHover }} {{ $announcementActive ? 'text-brand-blue' : 'text-gray-700' }} font-abyssinica">
+                            <span class="inline-flex items-center gap-2">
+                                <x-heroicon-o-speakerphone class="h-4 w-4" aria-hidden="true" />
+                                <span>{{ __('public.navigation.announcements') }}</span>
+                            </span>
+                            <x-heroicon-o-chevron-down class="ml-1 h-4 w-4 transition-transform duration-200 group-hover:rotate-180 group-focus-within:rotate-180 text-current" aria-hidden="true" />
+                            @if($announcementActive)
+                                <div class="absolute -bottom-[9px] left-1/2 -translate-x-1/2 w-8 h-0.5 bg-brand-blue rounded-full"></div>
+                            @endif
+                        </button>
+
+                        <div class="absolute left-0 mt-2 w-80 rounded-2xl bg-white border border-gray-100 shadow-xl z-50
+                                opacity-0 translate-y-1 pointer-events-none
+                                group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto
+                                group-focus-within:opacity-100 group-focus-within:translate-y-0 group-focus-within:pointer-events-auto
+                                transition-all duration-150">
+                            <div class="p-2 font-abyssinica">
+                                @foreach($announcementDropdown as $item)
+                                    <a href="{{ $item['href'] }}"
+                                       class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm hover:bg-gray-50 transition
+                                              {{ $item['active'] ? 'text-brand-blue font-semibold' : 'text-gray-700' }}">
+                                        <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-gray-50 text-gray-700">
+                                            <x-dynamic-component
+                                                :component="'heroicon-o-'.$item['icon']"
+                                                class="h-4 w-4"
+                                                aria-hidden="true"
+                                            />
+                                        </span>
+                                        <span>{{ $item['label'] }}</span>
+                                    </a>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
                 @endif
 
                 {{-- Services dropdown (desktop) --}}
@@ -179,29 +232,21 @@
                     $servicesActive = request()->routeIs('services.*') || request()->routeIs('service-requests.*') || request()->routeIs('appointments.*');
                 @endphp
 
-                    <div class="relative group">
-                        <button type="button"
-                                aria-haspopup="true"
-                                class="{{ $desktopLinkBase }} {{ $desktopLinkHover }} {{ $servicesActive ? 'text-brand-blue' : 'text-gray-700' }} font-abyssinica">
+                <div class="relative group">
+                    <button type="button"
+                            aria-haspopup="true"
+                            class="{{ $desktopLinkBase }} {{ $desktopLinkHover }} {{ $servicesActive ? 'text-brand-blue' : 'text-gray-700' }} font-abyssinica">
                         <span class="inline-flex items-center gap-2">
-                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M16 7V6a2 2 0 00-2-2H10a2 2 0 00-2 2v1M3 7h18v10a2 2 0 01-2 2H5a2 2 0 01-2-2V7z" />
-                            </svg>
-                            <span>{{ __('common.nav.services') }}</span>
+                            <x-heroicon-o-briefcase class="h-4 w-4" aria-hidden="true" />
+                            <span>{{ __('public.navigation.services') }}</span>
                         </span>
-
-                        <svg class="ml-1 h-4 w-4 transition-transform duration-200 group-hover:rotate-180 group-focus-within:rotate-180"
-                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                        </svg>
-
+                        <x-heroicon-o-chevron-down class="ml-1 h-4 w-4 transition-transform duration-200 group-hover:rotate-180 group-focus-within:rotate-180 text-current" aria-hidden="true" />
                         @if($servicesActive)
                             <div class="absolute -bottom-[9px] left-1/2 -translate-x-1/2 w-8 h-0.5 bg-brand-blue rounded-full"></div>
                         @endif
                     </button>
 
-                        <div class="absolute left-0 mt-2 w-80 rounded-2xl bg-white border border-gray-100 shadow-xl z-50
+                    <div class="absolute left-0 mt-2 w-80 rounded-2xl bg-white border border-gray-100 shadow-xl z-50
                                 opacity-0 translate-y-1 pointer-events-none
                                 group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto
                                 group-focus-within:opacity-100 group-focus-within:translate-y-0 group-focus-within:pointer-events-auto
@@ -211,11 +256,9 @@
                                class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm hover:bg-gray-50 transition
                                       {{ request()->routeIs('services.*') ? 'text-brand-blue font-semibold' : 'text-gray-700' }}">
                                 <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-gray-50 text-gray-700">
-                                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                                    </svg>
+                                    <x-heroicon-o-rectangle-stack class="h-4 w-4" aria-hidden="true" />
                                 </span>
-                                <span>{{ __('common.nav.services') }}</span>
+                                <span>{{ __('public.navigation.services') }}</span>
                             </a>
 
                             @if(Route::has('service-requests.create'))
@@ -223,12 +266,9 @@
                                    class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm hover:bg-gray-50 transition
                                           {{ request()->routeIs('service-requests.*') ? 'text-brand-blue font-semibold' : 'text-gray-700' }}">
                                     <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-gray-50 text-gray-700">
-                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                  d="M8 16h8M8 12h8M8 8h8M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                        </svg>
+                                        <x-heroicon-o-clipboard-document class="h-4 w-4" aria-hidden="true" />
                                     </span>
-                                    <span>{{ __('common.nav.request_service') ?? 'Request Service' }}</span>
+                                    <span>{{ __('public.navigation.request_service') }}</span>
                                 </a>
                             @endif
 
@@ -237,26 +277,29 @@
                                    class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm hover:bg-gray-50 transition
                                           {{ request()->routeIs('appointments.*') ? 'text-brand-blue font-semibold' : 'text-gray-700' }}">
                                     <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-gray-50 text-gray-700">
-                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3M3 11h18M21 21H3a2 2 0 01-2-2V7a2 2 0 012-2h1" />
-                                        </svg>
+                                        <x-heroicon-o-calendar-days class="h-4 w-4" aria-hidden="true" />
                                     </span>
-                                    <span>{{ __('common.nav.appointments') ?? 'Appointments' }}</span>
+                                    <span>{{ __('public.navigation.appointments') }}</span>
                                 </a>
                             @endif
                         </div>
                     </div>
                 </div>
-
                 {{-- Remaining simple links --}}
-                @foreach($nav as $item)
+                @foreach($navLinks as $item)
                     <a href="{{ $item['href'] }}"
                        class="{{ $desktopLinkBase }} {{ $desktopLinkHover }} {{ $item['active'] ? 'text-brand-blue' : 'text-gray-700' }}">
                         @if($item['active'])
                             <div class="absolute -bottom-[9px] left-1/2 -translate-x-1/2 w-8 h-0.5 bg-brand-blue rounded-full"></div>
                         @endif
                         <span class="inline-flex items-center gap-2">
-                            <span class="inline-flex items-center text-current">{!! $item['icon'] ?? '' !!}</span>
+                            <span class="inline-flex items-center text-current">
+                                <x-dynamic-component
+                                    :component="'heroicon-o-'.$item['icon']"
+                                    class="h-4 w-4"
+                                    aria-hidden="true"
+                                />
+                            </span>
                             <span>{{ $item['label'] }}</span>
                         </span>
                     </a>
@@ -270,8 +313,8 @@
                 <div class="hidden lg:flex items-center rounded-xl border border-gray-200 bg-white p-1 shadow-sm">
                     @php
                         $localeMeta = [
-                            'am' => ['label' => 'አማ', 'title' => __('Amharic')],
-                            'en' => ['label' => 'EN', 'title' => __('English')],
+                            'am' => ['label' => __('public.language.short.am'), 'title' => __('public.language.full.am')],
+                            'en' => ['label' => __('public.language.short.en'), 'title' => __('public.language.full.en')],
                         ];
                     @endphp
 
@@ -284,20 +327,7 @@
                                     {{ app()->getLocale() === $locale
                                         ? 'bg-brand-blue text-white shadow-sm'
                                         : 'text-gray-700 hover:bg-gray-50 hover:text-orange-600' }}">
-                                @if($locale === 'am')
-                                    <svg class="h-4 w-4" viewBox="0 0 24 24" aria-hidden="true">
-                                        <rect x="2" y="5" width="20" height="14" rx="2" fill="currentColor" opacity=".12"></rect>
-                                        <rect x="3" y="6" width="18" height="4" fill="#22c55e"></rect>
-                                        <rect x="3" y="10" width="18" height="4" fill="#fbbf24"></rect>
-                                        <rect x="3" y="14" width="18" height="4" fill="#ef4444"></rect>
-                                    </svg>
-                                @else
-                                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21a9 9 0 110-18 9 9 0 010 18z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.6 9h16.8M3.6 15h16.8" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3c2.5 2.2 4 5.4 4 9s-1.5 6.8-4 9c-2.5-2.2-4-5.4-4-9s1.5-6.8 4-9z" />
-                                    </svg>
-                                @endif
+                                <x-heroicon-o-flag class="h-4 w-4" aria-hidden="true" />
                                 <span>{{ $localeMeta[$locale]['label'] }}</span>
                             </button>
                         </form>
@@ -309,16 +339,9 @@
                         class="lg:hidden inline-flex items-center justify-center rounded-xl border border-gray-200 bg-white p-2.5 text-gray-700 shadow-sm hover:bg-gray-50 hover:text-orange-600 transition relative z-50"
                         @click="open = !open"
                         :aria-expanded="open"
-                        aria-label="Toggle navigation">
-                    <svg x-show="!open" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-
-                    <svg x-show="open" x-cloak class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M6 18L18 6M6 6l12 12" />
-                    </svg>
+                        aria-label="{{ __('public.navigation.navigation_toggle') }}">
+                    <x-heroicon-o-bars-3 x-show="!open" class="h-5 w-5" aria-hidden="true" />
+                    <x-heroicon-o-x-mark x-show="open" x-cloak class="h-5 w-5" aria-hidden="true" />
                 </button>
             </div>
         </div>
@@ -340,8 +363,8 @@
                     <a href="{{ url('/') }}" @click="open = false"
                        class="{{ $mobileLinkBase }} {{ $mobileLinkHover }} text-gray-700">
                         <span class="inline-flex items-center gap-3">
-                            {!! '<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m0 0v9a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 00-1-1H9a1 1 0 00-1 1v4a1 1 0 001 1h3"/></svg>' !!}
-                            <span>{{ __('common.nav.home') }}</span>
+                            <x-heroicon-o-home class="h-4 w-4" aria-hidden="true" />
+                            <span>{{ __('public.navigation.home') }}</span>
                         </span>
                     </a>
 
@@ -350,8 +373,8 @@
                         <a href="{{ route('pages.about') }}" @click="open = false"
                            class="{{ $mobileLinkBase }} {{ $mobileLinkHover }} text-gray-700">
                             <span class="inline-flex items-center gap-3">
-                                {!! '<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 20a8 8 0 100-16 8 8 0 000 16z"/></svg>' !!}
-                                <span>{{ __('common.nav.about') ?? 'About' }}</span>
+                                <x-heroicon-o-information-circle class="h-4 w-4" aria-hidden="true" />
+                                <span>{{ __('public.navigation.about') }}</span>
                             </span>
                         </a>
                     @endif
@@ -360,8 +383,8 @@
                         <a href="{{ route('staff.index') }}" @click="open = false"
                            class="{{ $mobileLinkBase }} {{ $mobileLinkHover }} text-gray-700">
                             <span class="inline-flex items-center gap-3">
-                                {!! '<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a4 4 0 00-4-4h-1M9 20H4v-2a4 4 0 014-4h1m0-4a4 4 0 100-8 4 4 0 000 8zm8 0a4 4 0 10-8 0 4 4 0 008 0z"/></svg>' !!}
-                                <span>{{ __('common.nav.staff') ?? 'Staff' }}</span>
+                                <x-heroicon-o-users class="h-4 w-4" aria-hidden="true" />
+                                <span>{{ __('public.navigation.staff') }}</span>
                             </span>
                         </a>
                     @endif
@@ -370,8 +393,8 @@
                         <a href="{{ route('public-servants.dashboard') }}" @click="open = false"
                            class="{{ $mobileLinkBase }} {{ $mobileLinkHover }} text-gray-700">
                             <span class="inline-flex items-center gap-3">
-                                {!! '<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2m2-2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>' !!}
-                                <span>{{ __('common.nav.public_servant_dashboard') }}</span>
+                                <x-heroicon-o-users class="h-4 w-4" aria-hidden="true" />
+                                <span>{{ __('public.navigation.public_servant_dashboard') }}</span>
                             </span>
                         </a>
                     @endif
@@ -381,49 +404,74 @@
                         <a href="{{ route('news.index') }}" @click="open = false"
                            class="{{ $mobileLinkBase }} {{ $mobileLinkHover }} text-gray-700">
                             <span class="inline-flex items-center gap-3">
-                                {!! '<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h6a2 2 0 012 2v9a2 2 0 01-2 2z"/></svg>' !!}
-                                <span>{{ __('common.nav.news') }}</span>
+                                <x-heroicon-o-newspaper class="h-4 w-4" aria-hidden="true" />
+                                <span>{{ __('public.navigation.news') }}</span>
                             </span>
                         </a>
+                    @endif
+
+                    @if($hasAnnouncementDropdown)
+                        <div class="rounded-2xl border border-gray-100 bg-gray-50/60 p-3 font-abyssinica">
+                            <div class="flex items-center gap-2 px-1 pb-2 text-sm font-semibold text-gray-900">
+                                <x-heroicon-o-speakerphone class="h-4 w-4" aria-hidden="true" />
+                                <span>{{ __('public.navigation.announcements') }}</span>
+                            </div>
+                            <div class="space-y-1">
+                                @foreach($announcementDropdown as $item)
+                                    <a href="{{ $item['href'] }}" @click="open = false"
+                                       class="flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-gray-700 hover:bg-white hover:text-orange-600 transition">
+                                        <x-dynamic-component
+                                            :component="'heroicon-o-'.$item['icon']"
+                                            class="h-4 w-4"
+                                            aria-hidden="true"
+                                        />
+                                        <span>{{ $item['label'] }}</span>
+                                    </a>
+                                @endforeach
+                            </div>
+                        </div>
                     @endif
 
                     {{-- Services (mobile) --}}
                     <div class="rounded-2xl border border-gray-100 bg-gray-50/60 p-3 font-abyssinica">
                         <div class="flex items-center gap-2 px-1 pb-2 text-sm font-semibold text-gray-900">
-                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M16 7V6a2 2 0 00-2-2H10a2 2 0 00-2 2v1M3 7h18v10a2 2 0 01-2 2H5a2 2 0 01-2-2V7z" />
-                            </svg>
-                            <span>{{ __('common.nav.services') }}</span>
+                            <x-heroicon-o-briefcase class="h-4 w-4" aria-hidden="true" />
+                            <span>{{ __('public.navigation.services') }}</span>
                         </div>
 
                         <div class="space-y-1">
                             <a href="{{ url('/services') }}" @click="open = false"
                                class="block rounded-xl px-3 py-2 text-sm font-medium text-gray-700 hover:bg-white hover:text-orange-600 transition">
-                                {{ __('common.nav.services') }}
+                                {{ __('public.navigation.services') }}
                             </a>
 
                             @if(Route::has('service-requests.create'))
                                 <a href="{{ route('service-requests.create') }}" @click="open = false"
                                    class="block rounded-xl px-3 py-2 text-sm font-medium text-gray-700 hover:bg-white hover:text-orange-600 transition">
-                                    {{ __('common.nav.request_service') ?? 'Request Service' }}
+                                    {{ __('public.navigation.request_service') }}
                                 </a>
                             @endif
 
                             @if(Route::has('appointments.index'))
                                 <a href="{{ route('appointments.index') }}" @click="open = false"
                                    class="block rounded-xl px-3 py-2 text-sm font-medium text-gray-700 hover:bg-white hover:text-orange-600 transition">
-                                    {{ __('common.nav.appointments') ?? 'Appointments' }}
+                                    {{ __('public.navigation.appointments') }}
                                 </a>
                             @endif
                         </div>
                     </div>
 
                 {{-- Remaining links --}}
-                @foreach($nav as $item)
+                @foreach($navLinks as $item)
                     <a href="{{ $item['href'] }}" @click="open = false"
                        class="{{ $mobileLinkBase }} {{ $mobileLinkHover }} flex items-center gap-3 {{ $item['active'] ? 'text-brand-blue bg-gray-50' : 'text-gray-700' }}">
-                        <span class="inline-flex items-center">{!! $item['icon'] ?? '' !!}</span>
+                        <span class="inline-flex items-center">
+                            <x-dynamic-component
+                                :component="'heroicon-o-'.$item['icon']"
+                                class="h-4 w-4"
+                                aria-hidden="true"
+                            />
+                        </span>
                         <span>{{ $item['label'] }}</span>
                     </a>
                 @endforeach
@@ -432,8 +480,8 @@
                     <div class="flex gap-2 pt-3">
                         @php
                             $localeMeta = [
-                                'am' => ['label' => 'አማ', 'title' => __('Amharic')],
-                                'en' => ['label' => 'EN', 'title' => __('English')],
+                            'am' => ['label' => __('public.language.short.am'), 'title' => __('public.language.full.am')],
+                            'en' => ['label' => __('public.language.short.en'), 'title' => __('public.language.full.en')],
                             ];
                         @endphp
 
@@ -447,20 +495,7 @@
                                         {{ app()->getLocale() === $locale
                                             ? 'bg-brand-blue text-white shadow-sm'
                                             : 'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:text-orange-600' }}">
-                                    @if($locale === 'am')
-                                        <svg class="h-4 w-4" viewBox="0 0 24 24" aria-hidden="true">
-                                            <rect x="2" y="5" width="20" height="14" rx="2" fill="currentColor" opacity=".12"></rect>
-                                            <rect x="3" y="6" width="18" height="4" fill="#22c55e"></rect>
-                                            <rect x="3" y="10" width="18" height="4" fill="#fbbf24"></rect>
-                                            <rect x="3" y="14" width="18" height="4" fill="#ef4444"></rect>
-                                        </svg>
-                                    @else
-                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21a9 9 0 110-18 9 9 0 010 18z" />
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.6 9h16.8M3.6 15h16.8" />
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3c2.5 2.2 4 5.4 4 9s-1.5 6.8-4 9c-2.5-2.2-4-5.4-4-9s1.5-6.8 4-9z" />
-                                        </svg>
-                                    @endif
+                                    <x-heroicon-o-flag class="h-4 w-4" aria-hidden="true" />
                                     <span>{{ $localeMeta[$locale]['label'] }}</span>
                                 </button>
                             </form>

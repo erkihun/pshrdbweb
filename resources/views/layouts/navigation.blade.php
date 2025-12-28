@@ -45,19 +45,22 @@
                     <x-nav-link :href="route('announcements.index')" :active="request()->routeIs('announcements.*')">
                         {{ __('common.nav.announcements') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('pages.about')" :active="request()->routeIs('pages.about')">
-                        {{ __('common.nav.about') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('pages.mission')" :active="request()->routeIs('pages.mission')">
-                        {{ __('common.nav.organization') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('staff.leadership')" :active="request()->routeIs('staff.*')">
-                        {{ __('common.nav.leadership_staff') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('contact.create')" :active="request()->routeIs('contact.*')">
-                        {{ __('common.nav.contact') }}
-                    </x-nav-link>
-                </div>
+            <x-nav-link :href="route('pages.about')" :active="request()->routeIs('pages.about')">
+                {{ __('common.nav.about') }}
+            </x-nav-link>
+            <x-nav-link :href="route('pages.mission')" :active="request()->routeIs('pages.mission')">
+                {{ __('common.nav.organization') }}
+            </x-nav-link>
+            <x-nav-link :href="route('staff.leadership')" :active="request()->routeIs('staff.*')">
+                {{ __('common.nav.leadership_staff') }}
+            </x-nav-link>
+            <x-nav-link :href="route('contact')" :active="request()->routeIs('contact.*')">
+                {{ __('common.nav.contact') }}
+            </x-nav-link>
+            <x-nav-link :href="route('citizen-charter.index')" :active="request()->routeIs('citizen-charter.*')">
+                {{ __('common.nav.citizen_charter') }}
+            </x-nav-link>
+        </div>
             </div>
 
             <!-- Settings Dropdown -->
@@ -195,8 +198,11 @@
             <x-responsive-nav-link :href="route('staff.leadership')" :active="request()->routeIs('staff.*')">
                 {{ __('common.nav.leadership_staff') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('contact.create')" :active="request()->routeIs('contact.*')">
+            <x-responsive-nav-link :href="route('contact')" :active="request()->routeIs('contact.*')">
                 {{ __('common.nav.contact') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('citizen-charter.index')" :active="request()->routeIs('citizen-charter.*')">
+                {{ __('common.nav.citizen_charter') }}
             </x-responsive-nav-link>
         </div>
 

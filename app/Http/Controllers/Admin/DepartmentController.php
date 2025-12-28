@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreDepartmentRequest;
+use App\Http\Requests\UpdateDepartmentRequest;
 use App\Models\Department;
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class DepartmentController extends Controller
@@ -30,15 +31,9 @@ class DepartmentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreDepartmentRequest $request)
     {
-        $data = $request->validate([
-            'name_am' => ['required', 'string', 'max:255'],
-            'name_en' => ['required', 'string', 'max:255'],
-            'sort_order' => ['nullable', 'integer', 'min:0'],
-            'is_active' => ['sometimes', 'boolean'],
-        ]);
-
+        $data = $request->validated();
         $data['is_active'] = $request->boolean('is_active');
         $data['sort_order'] = $data['sort_order'] ?? 0;
         $data['slug'] = $this->uniqueSlug($data['name_en']);
@@ -61,15 +56,9 @@ class DepartmentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Department $department)
+    public function update(UpdateDepartmentRequest $request, Department $department)
     {
-        $data = $request->validate([
-            'name_am' => ['required', 'string', 'max:255'],
-            'name_en' => ['required', 'string', 'max:255'],
-            'sort_order' => ['nullable', 'integer', 'min:0'],
-            'is_active' => ['sometimes', 'boolean'],
-        ]);
-
+        $data = $request->validated();
         $data['is_active'] = $request->boolean('is_active');
         $data['sort_order'] = $data['sort_order'] ?? 0;
 

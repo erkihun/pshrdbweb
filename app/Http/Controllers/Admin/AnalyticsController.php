@@ -46,7 +46,7 @@ class AnalyticsController extends Controller
         $selectedDimensionSegments = $dimensionChartData[$selectedDimension]['segments'] ?? [];
         $monthlyTrend = $this->buildMonthlyTrend($year);
 
-        return view('admin.analytics.index', [
+        return view('admin.analysis.index', [
             'summary' => $aggregate['totals'],
             'genderChart' => [
                 'labels' => ['Male', 'Female', 'Other'],

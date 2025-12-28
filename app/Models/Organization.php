@@ -18,6 +18,16 @@ class Organization extends Model
         'name',
         'code',
         'is_active',
+        'phone_primary',
+        'phone_secondary',
+        'email_primary',
+        'email_secondary',
+        'physical_address',
+        'city',
+        'region',
+        'country',
+        'map_embed_url',
+        'website_url',
     ];
 
     protected $casts = [

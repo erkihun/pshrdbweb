@@ -2,7 +2,22 @@
 
 @php
     use Illuminate\Support\Str;
+
     $dimensionGroups = $summary['by_dimension'] ?? [];
+    $contactFields = collect([
+        $organization->phone_primary,
+        $organization->phone_secondary,
+        $organization->email_primary,
+        $organization->email_secondary,
+        $organization->physical_address,
+        $organization->city,
+        $organization->region,
+        $organization->country,
+        $organization->website_url,
+        $organization->map_embed_url,
+    ]);
+
+    $hasContactInfo = $contactFields->filter(fn ($value) => filled($value))->isNotEmpty();
 @endphp
 
 @section('content')
@@ -66,6 +81,89 @@
             </div>
         </div>
 
+        @if($hasContactInfo)
+            <div class="grid gap-5 lg:grid-cols-[1.25fr,0.75fr]">
+                <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-xs uppercase tracking-wide text-slate-400">{{ __('common.admin_organizations.contact.card_title') }}</p>
+                            <h2 class="text-lg font-semibold text-slate-900">{{ __('common.admin_organizations.contact.card_subtitle') }}</h2>
+                        </div>
+                    </div>
+                    <div class="mt-4 space-y-4 text-sm text-slate-700">
+                        @if($organization->physical_address)
+                            <p class="space-y-1">
+                                <span class="text-xs uppercase tracking-wide text-slate-400">{{ __('common.admin_organizations.contact.address') }}</span>
+                                <span class="block font-semibold text-slate-900">
+                                    {{ $organization->physical_address }}
+                                    @if($organization->city), {{ $organization->city }}@endif
+                                    @if($organization->region), {{ $organization->region }}@endif
+                                    @if($organization->country), {{ $organization->country }}@endif
+                                </span>
+                            </p>
+                        @endif
+                    <div class="grid gap-3 sm:grid-cols-2">
+                        @if($organization->phone_primary)
+                            <div>
+                                <p class="text-xs uppercase tracking-wide text-slate-400">{{ __('common.admin_organizations.contact.primary_phone') }}</p>
+                                    <a href="tel:{{ preg_replace('/\\D+/', '', $organization->phone_primary) }}" class="font-semibold text-slate-900 hover:text-blue-600">
+                                        {{ $organization->phone_primary }}
+                                    </a>
+                                </div>
+                            @endif
+                            @if($organization->phone_secondary)
+                            <div>
+                                <p class="text-xs uppercase tracking-wide text-slate-400">{{ __('common.admin_organizations.contact.secondary_phone') }}</p>
+                                    <a href="tel:{{ preg_replace('/\\D+/', '', $organization->phone_secondary) }}" class="font-semibold text-slate-900 hover:text-blue-600">
+                                        {{ $organization->phone_secondary }}
+                                    </a>
+                                </div>
+                            @endif
+                        </div>
+                    <div class="grid gap-3 sm:grid-cols-2">
+                        @if($organization->email_primary)
+                            <div>
+                                <p class="text-xs uppercase tracking-wide text-slate-400">{{ __('common.admin_organizations.contact.primary_email') }}</p>
+                                    <a href="mailto:{{ $organization->email_primary }}" class="font-semibold text-slate-900 hover:text-blue-600">
+                                        {{ $organization->email_primary }}
+                                    </a>
+                                </div>
+                            @endif
+                            @if($organization->email_secondary)
+                            <div>
+                                <p class="text-xs uppercase tracking-wide text-slate-400">{{ __('common.admin_organizations.contact.secondary_email') }}</p>
+                                    <a href="mailto:{{ $organization->email_secondary }}" class="font-semibold text-slate-900 hover:text-blue-600">
+                                        {{ $organization->email_secondary }}
+                                    </a>
+                                </div>
+                            @endif
+                        </div>
+                        @if($organization->website_url)
+                            <div>
+                                <p class="text-xs uppercase tracking-wide text-slate-400">{{ __('common.admin_organizations.contact.website') }}</p>
+                                <a href="{{ $organization->website_url }}" target="_blank" rel="nofollow noopener" class="font-semibold text-blue-600 hover:underline">
+                                    {{ $organization->website_url }}
+                                </a>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+                @if($organization->map_embed_url)
+                    <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+               <p class="text-xs uppercase tracking-wide text-slate-400">Map</p>
+                <p class="text-xs uppercase tracking-wide text-slate-400">{{ __('common.admin_organizations.contact.map') }}</p>
+                        <div class="mt-3 h-48 overflow-hidden rounded-xl border border-slate-200">
+                            <iframe
+                                src="{{ $organization->map_embed_url }}"
+                                class="h-full w-full border-0"
+                                loading="lazy"
+                                allowfullscreen
+                            ></iframe>
+                        </div>
+                    </div>
+                @endif
+            </div>
+        @endif
         <div class="rounded-2xl border border-slate-200 bg-white shadow-sm">
             <div class="flex flex-wrap gap-2 border-b border-slate-200 px-4 py-3">
                 <button

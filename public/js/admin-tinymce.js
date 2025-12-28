@@ -46,15 +46,16 @@ const baseConfig = {
     aligncenter: { selector: 'p,div,li,td,th', styles: { textAlign: 'center' } },
     alignright: { selector: 'p,div,li,td,th', styles: { textAlign: 'right' } },
   },
-  content_style: `
+    content_style: `
     body {
       font-size: 14px;
       line-height: 1.7;
       padding: 10px;
+      text-align: left;
     }
 
     p, div, li, td, th, blockquote {
-      text-align: justify;
+      text-align: left;
       text-justify: inter-word;
     }
 
@@ -110,7 +111,7 @@ const initTinymceEditors = () => {
         editor.on('change input undo redo', () => editor.save());
         editor.on('init', () => {
           try {
-            editor.formatter.apply('alignjustify');
+            editor.formatter.apply('alignleft');
           } catch (error) {
             // ignore
           }

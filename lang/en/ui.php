@@ -51,5 +51,8 @@ return [
     'reports_exports' => 'Reports & Exports',
     'notifications_alerts' => 'Notifications / Alerts',
     'subscriptions' => 'Subscriptions',
-    'analytics' => 'Analytics',          
+    'analytics' => 'Analytics',
+    'analysis' => 'Analysis',
+    'citizen_charter' => 'Citizen Charter',
+    'charter_services' => 'Charter Services',
 ];

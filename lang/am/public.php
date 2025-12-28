@@ -1,0 +1,99 @@
+<?php
+
+return [
+    'navigation' => [
+        'home' => 'መነሻ',
+        'announcements' => 'ማስታወቂያ',
+        'tenders' => 'የጨረታ',
+        'news' => 'ዜና',
+        'downloads' => 'ህግ/ደንብ',
+        'contact' => 'ያግኙን',
+        'citizen_charter' => 'ቻርተር',
+        'services' => 'አገልግሎት',
+        'request_service' => 'አገልግሎት ይጠይቁ',
+        'appointments' => 'ቀጠሮ',
+        'about' => 'ስለ እኛ',
+        'staff' => 'ሠራተኞች',
+        'public_servant_dashboard' => 'የሠራተኛ ',
+        'navigation_toggle' => 'አስተዳደር ይንቀሳቀሱ',
+    ],
+
+    'buttons' => [
+        'apply' => 'ማመልከቻ',
+        'view_details' => 'ዝርዝር ይመልከቱ',
+        'download' => 'ያውርዱ',
+        'filter' => 'መሰረጃ',
+        'search' => 'ፈልግ',
+        'subscribe' => 'ተመዝገቡ',
+        'back_to_top' => 'ወደ ላይ',
+        'back' => 'ተመለስ',
+    ],
+
+    'language' => [
+        'short' => [
+            'am' => 'አማ',
+            'en' => 'EN',
+        ],
+        'full' => [
+            'am' => 'አማርኛ',
+            'en' => 'እንግሊዝኛ',
+        ],
+    ],
+
+    'citizen_charter' => [
+        'overview' => [
+            'label' => 'ቻርተር',
+            'heading' => 'አገልግሎቶች',
+            'description' => 'ክፍሎችን እና አገልግሎቶችን ይወቁ፣ የምንዛሬዎችን መስፈርቶች ይመልከቱ።',
+            'note' => 'አገልግሎቶች በቅድሚያ እየተጠናቀቁ ናቸው። ምንም አገልግሎት ካልተመዘገበ ማቅረብ ያስታውቁ።',
+        ],
+        'index' => [
+            'department' => 'ክፍል',
+            'services_count' => 'አገልግሎቶች',
+            'empty' => 'አሁን ክፍሎች ገጽታ ላይ አልተዘጋጀም።',
+        ],
+        'department' => [
+            'label' => 'ክፍል',
+            'description' => 'ይህ ክፍል የሚያቀርብትን አገልግሎቶች ያሳያል።',
+            'services_label' => 'አገልግሎቶች',
+            'empty' => 'በዚህ ክፍል ላይ አገልግሎት የለም።',
+        ],
+        'service' => [
+            'subtitle' => 'ከመገኘት በፊት ያስፈልጉትን መረጃ',
+            'prerequisites' => 'የመጀመሪያ መስፈርቶች',
+            'other_info' => 'ተጨማሪ መረጃ',
+            'info_heading' => 'የአገልግሎቱ ዝርዝር',
+            'delivery_mode' => 'የአገልግሎት መንገድ',
+            'fee' => 'ክፍያ',
+            'free' => 'በነፃ',
+            'open_days' => 'የስራ ቀናት',
+            'open_hours' => 'የስራ ሰዓታት',
+            'location_heading' => 'የሚደርሱበት ቦታ',
+            'location_building' => 'ሕንፃ',
+            'location_floor' => 'ፎር',
+            'location_side' => 'አቅጣጫ',
+            'location_office_room' => 'ቢሮ / ክፍል',
+            'location_note' => 'አድራሻ አሳሰባ',
+        ],
+    ],
+
+    'footer' => [
+        'follow_us' => 'ይከተሉን',
+        'quick_links' => 'ፈጣን አገናኝ',
+        'office_hours' => 'የስራ ሰዓታት',
+        'newsletter' => 'ዜና ቅጽ',
+        'email_placeholder' => 'ኢሜይል አድራሻ',
+        'newsletter_note' => 'አስፈላጊ ማስታወቂያዎችን ብቻ እናስተላለፋለን።',
+        'office_hours_value' => 'ሰኞ - አርብ 08:30 - 17:30',
+        'address' => 'አዲስ አበባ፣ ኢትዮጵያ',
+        'phone' => '+251 11 123 4567',
+        'email' => 'info@bureau.gov.et',
+        'visitor_count' => ':count ጎብኚዎች',
+        'rights_reserved' => 'ሁሉም መብቶች የተጠበቁ ናቸው።',
+        'disclaimer' => 'መረጃው በጊዜ ሊለዋወጥ ይችላል።',
+        'privacy_policy' => 'የግል መብት ፖሊሲ',
+        'terms_service' => 'የአገልግሎት ውሎች',
+        'accessibility' => 'ቀላል መዳረሻ',
+        'sitemap' => 'የድር ካርታ',
+    ],
+];

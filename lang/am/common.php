@@ -26,6 +26,7 @@ return [
     'pages' => 'ገጾች',
 
         'exports' => 'ወደ ውጭ የተላኩ መረጃዎች',
+        'citizen_charter' => 'ቻርተር',
 
 
     ],
@@ -224,6 +225,7 @@ return [
 
         'queued' => 'በተራ ላይ ያለ',
         'other_documents' => 'ሌሎች ሰነዶች',
+        'learn_more' => 'ተጨማሪ ለማወቅ',
     ],
 
     'settings' => [
@@ -249,6 +251,88 @@ return [
         'quick_links' => 'ፈጣን አገናኞች',
         'office_hours' => 'የስራ ሰዓት',
         'office_hours_value' => 'ከ ሰኞ - አርብ፣ ከጠዋቱ 2:30 - 11:30 እና ቅዳሜ አስከ 6፡30', // Fixed localized time format
+    ],
+    'citizen_charter' => [
+        'label' => 'የዜግነት ስምምነት',
+        'working_days' => [
+            'mon' => 'ሰኞ',
+            'tue' => 'ማክሰኞ',
+            'wed' => 'ረቡዕ',
+            'thu' => 'ሐሙስ',
+            'fri' => 'አርብ',
+            'sat' => 'ቅዳሜ',
+            'sun' => 'እሑድ',
+        ],
+        'delivery_modes' => [
+            'in_person' => 'በቀጥታ',
+            'online' => 'በኦንላይን',
+            'both' => 'በቀጥታ እና በኦንላይን',
+        ],
+        'admin' => [
+            'heading' => 'የዜግነት አገልግሎቶች',
+            'description' => 'ክፍሎች የሚያቀርቡ አገልግሎቶችን በአጠቃላይ ይዘው ዝርዝር ያስገቡ፣ አጠቃላይ መረጃ ይሰጡ።',
+            'filters' => [
+                'department' => 'ክፍል',
+                'status' => 'ሁኔታ',
+                'search' => 'አገልግሎት ይፈልጉ',
+                'search_placeholder' => 'የአገልግሎት ስም ወይም ቃል ያስገቡ',
+            ],
+            'columns' => [
+                'service' => 'አገልግሎት',
+                'department' => 'ክፍል',
+                'open_days' => 'የክፍት ቀናት',
+                'status' => 'ሁኔታ',
+                'updated' => 'መጨረሻ አዘምን',
+            ],
+            'confirm' => [
+                'delete' => 'ይህን አገልግሎት ማስወገድ ትፈልጋለህ? ይህን እርምጃ ማድረግ አይቻልም።',
+            ],
+            'empty' => 'ምንም የቻርተር አገልግሎት አልተመዘገበም።',
+            'actions' => [
+                'create_title' => 'የዜግነት አገልግሎት ያክሉ',
+                'create_description' => 'የአገልግሎቱን መንገድ እና መስፈርቶች ያስቀምጡ።',
+                'edit_title' => ':name አገልግሎትን ያስተካክሉ',
+                'edit_description' => 'የቅድሚያ መረጃዎችን ያስተካክሉ።',
+            ],
+            'created' => 'የቻርተር አገልግሎት ተቀምጧል።',
+            'updated' => 'አገልግሎቱ ተሻሽሏል።',
+            'deleted' => 'አገልግሎቱ ተሰርዟል።',
+            'form' => [
+                'address_details' => 'የአድራሻ ዝርዝሮች',
+                'building' => 'ሕንጻ',
+                'floor' => 'ደረጃ',
+                'side' => 'ጎን',
+                'office_room' => 'ቢሮ / ክፍል',
+                'address_note_am' => 'የአድራሻ ማስታወሻ (አማርኛ)',
+                'address_note_en' => 'የአድራሻ ማስታወሻ (እንግሊዝኛ)',
+                'department' => 'ክፍል',
+                'service_name' => 'የአገልግሎቱ ስም',
+                'prerequisites' => 'የመጀመሪያ መስፈርቶች',
+                'service_place' => 'የአገልግሎቱ ቦታ',
+                'working_days' => 'ስራ ቀናት',
+                'opening_hours' => 'የመከፈቻ ሰዓት',
+                'break_hours' => 'የእረፍት ሰዓት',
+                'delivery_mode' => 'የማቅረብ መንገድ',
+                'fee' => 'ክፍያ',
+                'other_info' => 'ተጨማሪ መረጃ',
+            ],
+            'show' => [
+                'subtitle' => 'የአገልግሎቱ ዝርዝር',
+                'department' => 'ክፍል',
+                'status' => 'ሁኔታ',
+                'sort_order' => 'የቅደም ተከተል',
+                'delivery_mode' => 'የማቅረብ መንገድ',
+                'open_days' => 'የክፍት ቀናት',
+                'service_place' => 'የአገልግሎቱ ቦታ',
+                'department_address' => 'የክፍሉ አድራሻ',
+                'building' => 'ሕንጻ',
+                'floor' => 'ደረጃ',
+                'side' => 'ጎን',
+                'office_room' => 'ቢሮ / ክፍል',
+                'prerequisites' => 'የመጀመሪያ መስፈርቶች',
+                'other_info' => 'ተጨማሪ መረጃ',
+            ],
+        ],
     ],
     'languages' => [
         'am' => 'አማርኛ',

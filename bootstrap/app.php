@@ -16,6 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
             \App\Http\Middleware\SetLocale::class,
             \App\Http\Middleware\SecurityHeaders::class,
             \App\Http\Middleware\AssetCacheHeaders::class,
+            \App\Http\Middleware\TrackAnalytics::class,
         ]);
 
         $middleware->api(append: [

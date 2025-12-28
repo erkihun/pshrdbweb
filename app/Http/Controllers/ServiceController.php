@@ -40,11 +40,20 @@ class ServiceController extends Controller
             ->selectRaw('avg(rating) as avg_rating, count(*) as total')
             ->first();
 
+        $locale = app()->getLocale();
+        $cacheKey = PublicCacheService::key('services', $locale);
+        $services = Cache::remember($cacheKey, PublicCacheService::TTL, function () {
+            return Service::where('is_active', true)
+                ->orderBy('sort_order')
+                ->get();
+        });
+
         return view('services.show', [
             'service' => $service,
             'feedback' => $feedback,
             'averageRating' => $average?->avg_rating ? round($average->avg_rating, 1) : null,
             'feedbackCount' => $average?->total ?? 0,
+            'services' => $services,
         ]);
     }
 }

@@ -79,4 +79,107 @@
             <label class="text-sm font-semibold text-slate-700" for="is_active">{{ __('common.status.active') }}</label>
         </div>
     </div>
+
+    <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm space-y-4">
+        <div class="text-sm font-semibold text-slate-700">{{ __('common.citizen_charter.admin.form.address_details') }}</div>
+        <div class="grid gap-6 sm:grid-cols-2">
+            <div>
+                <label class="text-sm font-semibold text-slate-700" for="building_name">
+                    {{ __('common.citizen_charter.admin.form.building') }}
+                </label>
+                <input
+                    id="building_name"
+                    name="building_name"
+                    type="text"
+                    value="{{ old('building_name', $department->building_name ?? '') }}"
+                    class="mt-2 w-full rounded-lg border border-slate-200 px-4 py-2 text-sm focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-300"
+                >
+                @error('building_name')
+                    <p class="mt-2 text-xs text-rose-600">{{ $message }}</p>
+                @enderror
+            </div>
+            <div>
+                <label class="text-sm font-semibold text-slate-700" for="floor_number">
+                    {{ __('common.citizen_charter.admin.form.floor') }}
+                </label>
+                <input
+                    id="floor_number"
+                    name="floor_number"
+                    type="text"
+                    value="{{ old('floor_number', $department->floor_number ?? '') }}"
+                    class="mt-2 w-full rounded-lg border border-slate-200 px-4 py-2 text-sm focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-300"
+                >
+                @error('floor_number')
+                    <p class="mt-2 text-xs text-rose-600">{{ $message }}</p>
+                @enderror
+            </div>
+        </div>
+        <div class="grid gap-6 sm:grid-cols-2">
+            <div>
+                <label class="text-sm font-semibold text-slate-700" for="side">
+                    {{ __('common.citizen_charter.admin.form.side') }}
+                </label>
+                <select
+                    id="side"
+                    name="side"
+                    class="mt-2 w-full rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-300"
+                >
+                    <option value="">{{ __('common.actions.choose') }}</option>
+                    <option value="left" @selected(old('side', $department->side ?? '') === 'left')>Left</option>
+                    <option value="right" @selected(old('side', $department->side ?? '') === 'right')>Right</option>
+                    <option value="center" @selected(old('side', $department->side ?? '') === 'center')>Center</option>
+                </select>
+                @error('side')
+                    <p class="mt-2 text-xs text-rose-600">{{ $message }}</p>
+                @enderror
+            </div>
+            <div>
+                <label class="text-sm font-semibold text-slate-700" for="office_room">
+                    {{ __('common.citizen_charter.admin.form.office_room') }}
+                </label>
+                <input
+                    id="office_room"
+                    name="office_room"
+                    type="text"
+                    value="{{ old('office_room', $department->office_room ?? '') }}"
+                    class="mt-2 w-full rounded-lg border border-slate-200 px-4 py-2 text-sm focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-300"
+                >
+                @error('office_room')
+                    <p class="mt-2 text-xs text-rose-600">{{ $message }}</p>
+                @enderror
+            </div>
+        </div>
+        <div class="grid gap-6 md:grid-cols-2">
+            <div>
+                <label class="text-sm font-semibold text-slate-700" for="department_address_note_am">
+                    {{ __('common.citizen_charter.admin.form.address_note_am') }}
+                </label>
+                <textarea
+                    id="department_address_note_am"
+                    name="department_address_note_am"
+                    rows="3"
+                    data-editor="tinymce"
+                    class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-300"
+                >{{ old('department_address_note_am', $department->department_address_note_am ?? '') }}</textarea>
+                @error('department_address_note_am')
+                    <p class="mt-2 text-xs text-rose-600">{{ $message }}</p>
+                @enderror
+            </div>
+            <div>
+                <label class="text-sm font-semibold text-slate-700" for="department_address_note_en">
+                    {{ __('common.citizen_charter.admin.form.address_note_en') }}
+                </label>
+                <textarea
+                    id="department_address_note_en"
+                    name="department_address_note_en"
+                    rows="3"
+                    data-editor="tinymce"
+                    class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-300"
+                >{{ old('department_address_note_en', $department->department_address_note_en ?? '') }}</textarea>
+                @error('department_address_note_en')
+                    <p class="mt-2 text-xs text-rose-600">{{ $message }}</p>
+                @enderror
+            </div>
+        </div>
+    </div>
 </div>

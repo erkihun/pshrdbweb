@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Auth\Events\Login;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -93,6 +94,7 @@ class AppServiceProvider extends ServiceProvider
         Event::listen(TicketCreated::class, SendTicketCreatedSms::class);
         Event::listen(TicketReplied::class, SendTicketReplySms::class);
         Event::listen(ServiceRequestStatusUpdated::class, SendServiceRequestStatusSms::class);
+        Event::listen(Login::class, fn (Login $event) => $event->user->forceFill(['last_login_at' => now()])->saveQuietly());
 
         Broadcast::routes();
 

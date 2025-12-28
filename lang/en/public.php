@@ -1,0 +1,98 @@
+<?php
+
+return [
+    'navigation' => [
+        'home' => 'Home',
+        'announcements' => 'Announcements',
+        'tenders' => 'Tenders',
+        'news' => 'News',
+        'downloads' => 'Downloads',
+        'contact' => 'Contact',
+        'citizen_charter' => 'Charter',
+        'services' => 'Services',
+        'request_service' => 'Request Service',
+        'appointments' => 'Appointments',
+        'about' => 'About',
+        'staff' => 'Staff',
+        'public_servant_dashboard' => 'Public Servant Dashboard',
+        'navigation_toggle' => 'Toggle navigation',
+    ],
+
+    'buttons' => [
+        'apply' => 'Apply',
+        'view_details' => 'View details',
+        'download' => 'Download',
+        'filter' => 'Filter',
+        'search' => 'Search',
+        'subscribe' => 'Subscribe',
+        'back_to_top' => 'Back to top',
+        'back' => 'Back',
+    ],
+
+    'language' => [
+        'short' => [
+            'am' => 'AM',
+            'en' => 'EN',
+        ],
+        'full' => [
+            'am' => 'Amharic',
+            'en' => 'English',
+        ],
+    ],
+
+    'citizen_charter' => [
+        'overview' => [
+            'label' => 'Citizen Charter',
+            'heading' => 'services',
+            'description' => 'Learn about each department, discovered services, and what is required to get help.',
+            'note' => 'All services are regularly updated; check back if you do not see one listed yet.',
+        ],
+        'index' => [
+            'department' => 'Department',
+            'services_count' => 'services available',
+            'empty' => 'No departments published yet.',
+        ],
+        'department' => [
+            'label' => 'Department',
+            'description' => 'Explore services provided by this department.',
+            'services_label' => 'services',
+            'empty' => 'There are no services published for this department.',
+        ],
+        'service' => [
+            'subtitle' => 'Everything you need to know before you visit',
+            'prerequisites' => 'Prerequisites',
+            'other_info' => 'Additional information',
+            'info_heading' => 'Service details',
+            'delivery_mode' => 'Delivery mode',
+            'fee' => 'Fee',
+            'free' => 'Complimentary',
+            'open_days' => 'Operating days',
+            'open_hours' => 'Operating hours',
+            'location_heading' => 'Where to go',
+            'location_building' => 'Building',
+            'location_floor' => 'Floor',
+            'location_side' => 'Side',
+            'location_office_room' => 'Office / room',
+            'location_note' => 'Address note',
+        ],
+    ],
+    'footer' => [
+        'follow_us' => 'Follow us',
+        'quick_links' => 'Quick Links',
+        'office_hours' => 'Office Hours',
+        'newsletter' => 'Newsletter',
+        'email_placeholder' => 'Email address',
+        'newsletter_note' => 'We will only send important updates and announcements.',
+        'office_hours_value' => 'Mon - Fri, 08:30 - 17:30',
+        'address' => 'Addis Ababa, Ethiopia',
+        'phone' => '+251 11 123 4567',
+        'email' => 'info@bureau.gov.et',
+        'visitor_count' => ':count visitors',
+        'rights_reserved' => 'All rights reserved.',
+        'disclaimer' => 'Official information subject to change.',
+        'privacy_policy' => 'Privacy Policy',
+        'terms_service' => 'Terms of Service',
+        'accessibility' => 'Accessibility',
+        'sitemap' => 'Sitemap',
+    ],
+];

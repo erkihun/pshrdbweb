@@ -30,7 +30,7 @@ return [
     ],
     'services' => [
         'tagline' => 'Our Services',
-        'title' => 'Public :highlight & Information',
+        'title' => 'Roles & Responsibilities',
         'highlight' => 'Services',
         'description' => 'Access official services, submit requests, and stay informed through our secure digital platform.',
     ],
