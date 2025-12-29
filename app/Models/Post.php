@@ -32,11 +32,14 @@ class Post extends Model
         'cover_image_path',
         'is_published',
         'published_at',
+        'author_name',
+        'posted_at',
     ];
 
     protected $casts = [
         'published_at' => 'datetime',
         'is_published' => 'boolean',
+        'posted_at' => 'datetime',
     ];
 
     public function getDisplayTitleAttribute(): string

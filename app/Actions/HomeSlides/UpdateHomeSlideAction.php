@@ -17,10 +17,15 @@ final readonly class UpdateHomeSlideAction
             $slide->image_path = $image->store('branding/slides', 'public');
         }
 
+        $transitionStyle = $data['transition_style'] ?? $slide->transition_style ?? 'wave';
+        $contentAlignment = $data['content_alignment'] ?? $slide->content_alignment ?? 'center';
+
         $slide->fill([
             ...$data,
             'is_active' => (bool) ($data['is_active'] ?? $slide->is_active),
             'sort_order' => (int) ($data['sort_order'] ?? $slide->sort_order),
+            'transition_style' => $transitionStyle,
+            'content_alignment' => $contentAlignment,
         ])->save();
 
         return $slide;

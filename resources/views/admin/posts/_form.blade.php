@@ -143,7 +143,6 @@
                         type="text"
                         value="{{ old('title_en', $post->title_en ?? '') }}"
                         class="mt-2 w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 shadow-sm transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
-                        required
                     >
                     @error('title_en')
                         <div class="mt-2 flex items-center gap-2 text-xs text-rose-600">
@@ -295,7 +294,6 @@
                         rows="8"
                         data-editor="tinymce"
                         class="mt-2 w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 shadow-sm transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 js-editor"
-                        required
                     >{{ old('body_en', $post->body_en ?? '') }}</textarea>
                     @error('body_en')
                         <div class="mt-2 flex items-center gap-2 text-xs text-rose-600">
@@ -365,36 +363,37 @@
         </div>
     </div>
 
-    <!-- Single Body Field (Kept for backward compatibility) -->
-    <div class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
-        <div class="border-b border-slate-100 bg-slate-50/50 px-6 py-4">
-            <h3 class="text-lg font-semibold text-slate-900">Legacy Body Field</h3>
-            <p class="mt-1 text-sm text-slate-500">For backward compatibility</p>
-        </div>
-        <div class="p-6">
-            <div>
-                <label class="block text-sm font-medium text-slate-900" for="body">
-                    Body (Legacy)
-                    <span class="ml-2 rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-800">Deprecated</span>
-                </label>
-                    <textarea
-                        id="body"
-                        name="body"
-                        rows="8"
-                        data-editor="tinymce"
-                        class="mt-2 w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 shadow-sm transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 js-editor"
-                        required
-                    >{{ old('body', $post->body ?? '') }}</textarea>
-                @error('body')
-                    <div class="mt-2 flex items-center gap-2 text-xs text-rose-600">
-                        <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                        <span>{{ $message }}</span>
-                        </div>
-                    @enderror
+    @if(!empty($post?->body) || !empty($post?->body_am))
+        <!-- Single Body Field (Kept for backward compatibility) -->
+        <div class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+            <div class="border-b border-slate-100 bg-slate-50/50 px-6 py-4">
+                <h3 class="text-lg font-semibold text-slate-900">Legacy Body Field</h3>
+                <p class="mt-1 text-sm text-slate-500">For backward compatibility</p>
+            </div>
+            <div class="p-6">
+                <div>
+                    <label class="block text-sm font-medium text-slate-900" for="body">
+                        Body (Legacy)
+                        <span class="ml-2 rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-800">Deprecated</span>
+                    </label>
+                        <textarea
+                            id="body"
+                            name="body"
+                            rows="8"
+                            data-editor="tinymce"
+                            class="mt-2 w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 shadow-sm transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 js-editor"
+                        >{{ old('body', $post->body_am ?? $post->body ?? '') }}</textarea>
+                    @error('body')
+                        <div class="mt-2 flex items-center gap-2 text-xs text-rose-600">
+                            <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span>{{ $message }}</span>
+                            </div>
+                        @enderror
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    @endif
 </div>

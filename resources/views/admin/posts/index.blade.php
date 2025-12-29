@@ -138,17 +138,21 @@
                 <table class="w-full min-w-[800px] text-sm">
                     <colgroup>
                         <col style="width:10%;">
-                        <col style="width:30%;">
+                        <col style="width:25%;">
                         <col style="width:15%;">
                         <col style="width:15%;">
                         <col style="width:15%;">
+                        <col style="width:10%;">
+                        <col style="width:10%;">
                         <col style="width:15%;">
                     </colgroup>
                     <thead class="bg-gradient-to-r from-slate-50 to-slate-100">
                         <tr>
                             <th class="whitespace-nowrap px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-700">Picture</th>
                             <th class="whitespace-nowrap px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-700">{{ __('common.labels.title') }}</th>
+                            <th class="whitespace-nowrap px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-700">{{ __('common.labels.author_name') }}</th>
                             <th class="whitespace-nowrap px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-700">{{ __('common.labels.type') }}</th>
+                            <th class="whitespace-nowrap px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-700">{{ __('common.labels.posted_date') }}</th>
                             <th class="whitespace-nowrap px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-700">{{ __('common.labels.publish_date') }}</th>
                             <th class="whitespace-nowrap px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-700">{{ __('common.labels.status') }}</th>
                             <th class="whitespace-nowrap px-6 py-4 text-right text-xs font-semibold uppercase tracking-wider text-slate-700">{{ __('common.actions.actions') }}</th>
@@ -178,9 +182,19 @@
                                     </div>
                                 </td>
                                 <td class="px-6 py-4">
+                                    <div class="text-sm text-slate-700 font-medium">
+                                        {{ $post->author_name ?? '—' }}
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">
                                     <span class="inline-flex items-center rounded-full px-3 py-1 text-xs font-medium {{ $post->type === 'news' ? 'bg-blue-100 text-blue-800' : 'bg-purple-100 text-purple-800' }}">
                                         {{ $post->type === 'news' ? __('common.nav.news') : __('common.nav.announcements') }}
                                     </span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="text-sm text-slate-700">
+                                        {{ $post->posted_at ? ethiopian_date($post->posted_at, 'dd MMMM yyyy h:mm a', 'Africa/Addis_Ababa', null, 'M d, Y H:i', true) : '—' }}
+                                    </div>
                                 </td>
                                 <td class="px-6 py-4">
                                     <div class="text-sm text-slate-700">

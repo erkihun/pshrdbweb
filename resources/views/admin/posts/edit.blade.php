@@ -12,24 +12,27 @@
             action="{{ route('admin.posts.update', $post) }}"
             enctype="multipart/form-data"
             class="space-y-6 rounded-xl border border-slate-200 bg-white p-6 shadow-sm"
+            id="edit-post-form"
         >
             @csrf
             @method('PUT')
 
             @include('admin.posts._form')
 
-            <div class="flex items-center justify-between">
-                <a href="{{ route('admin.posts.show', $post) }}" class="text-sm font-semibold text-slate-500 hover:text-slate-700">
-                    {{ __('common.actions.back') }}
-                </a>
-                <button
-                    type="submit"
-                    class="inline-flex items-center rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
-                >
-                    {{ __('common.actions.save') }}
-                </button>
-            </div>
         </form>
+
+        <div class="flex items-center justify-between">
+            <a href="{{ route('admin.posts.show', $post) }}" class="text-sm font-semibold text-slate-500 hover:text-slate-700">
+                {{ __('common.actions.back') }}
+            </a>
+            <button
+                type="submit"
+                form="edit-post-form"
+                class="inline-flex items-center rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
+            >
+                {{ __('common.actions.save') }}
+            </button>
+        </div>
     </div>
 @endsection
 

@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 return [
     'app_name' => 'Laravel',
@@ -96,6 +96,8 @@ return [
     'labels' => [
         'all' => 'ሁሉም',
         'type' => 'አይነት',
+        'author_name' => 'ደራሲ',
+        'posted_date' => 'የታወቀበት ቀን',
         'title' => 'ርዕስ',
         'excerpt' => 'አጭር ማጠቃለያ',
         'body' => 'ዋና ጽሁፍ',
@@ -483,11 +485,11 @@ return [
         'current_image' => 'ያሁን ምስል',
         'new_image_preview' => 'አዲስ ምስል ንዑስ እይታ',
         'sort_order' => 'የቅደም ተከተል',
-        'sort_order_hint' => '0 የሚጀምር እና ከፍ የሆነ ቁጥር በኋላ ይታያል',
-        'active_status' => 'የተግባር ሁኔታ',
-        'active_hint' => 'ተግባራዊ ሲሆን ስላይድው በመነሻ ገፅ ይታያል። ለጊዜያዊ ቅጣት አስወግዱ።',
-        'visible' => 'እዩ',
-        'hidden' => 'ተደብቆ',
+        'sort_order_hint' => 'ዝቅተኛው ቁጥር መጀመሪያ ይታያል',
+        'active_status' => 'የእይታ ሁኔታ',
+        'active_hint' => 'ይህ ስላይድ ዋና ገፅ ላይ እንዳይታይ ከፈለጉ  የእይታ ሁኔታን ቲክ አያድርጉ',
+        'visible' => 'የሚታይ',
+        'hidden' => 'የማይታይ',
         'status_active' => 'ተግባራዊ',
         'status_inactive' => 'ያልተግባራዊ',
         'table' => [

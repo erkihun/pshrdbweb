@@ -132,7 +132,6 @@
                         </p>
                         <p class="mt-1 text-xs text-slate-500">{{ __('common.home_slides.file_types') }}</p>
                     </div>
-                    <p id="file-name" class="text-xs text-slate-500"></p>
                 </div>
             </div>
         </div>
@@ -170,6 +169,60 @@
                     <p id="preview-info" class="text-xs text-slate-600"></p>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Motion & Alignment -->
+    <div class="grid gap-4 md:grid-cols-2">
+        <div>
+            <label class="mb-1 block text-xs font-semibold text-slate-500">{{ __('common.home_slides.transition_style') }}</label>
+            <p class="text-xs text-slate-500 mb-1">{{ __('common.home_slides.transition_style_hint') }}</p>
+            <select
+                name="transition_style"
+                class="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+            >
+                @foreach ([
+                    'wave' => __('common.home_slides.transition_styles.wave'),
+                    'glide' => __('common.home_slides.transition_styles.glide'),
+                    'swirl' => __('common.home_slides.transition_styles.swirl'),
+                    'drift' => __('common.home_slides.transition_styles.drift'),
+                    'pulse' => __('common.home_slides.transition_styles.pulse'),
+                ] as $value => $label)
+                    <option value="{{ $value }}" {{ old('transition_style', $slide->transition_style ?? 'wave') === $value ? 'selected' : '' }}>
+                        {{ $label }}
+                    </option>
+                @endforeach
+            </select>
+            @error('transition_style')
+                <div class="mt-2 flex items-center gap-2 text-xs text-rose-600">
+                    <svg class="h-3 w-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span>{{ $message }}</span>
+                </div>
+            @enderror
+        </div>
+        <div>
+            <label class="mb-1 block text-xs font-semibold text-slate-500">{{ __('common.home_slides.content_alignment') }}</label>
+            <p class="text-xs text-slate-500 mb-1">{{ __('common.home_slides.content_alignment_hint') }}</p>
+            <select
+                name="content_alignment"
+                class="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+            >
+                @foreach (['left' => __('common.home_slides.content_alignment_options.left'), 'center' => __('common.home_slides.content_alignment_options.center'), 'right' => __('common.home_slides.content_alignment_options.right')] as $value => $label)
+                    <option value="{{ $value }}" {{ old('content_alignment', $slide->content_alignment ?? 'center') === $value ? 'selected' : '' }}>
+                        {{ $label }}
+                    </option>
+                @endforeach
+            </select>
+            @error('content_alignment')
+                <div class="mt-2 flex items-center gap-2 text-xs text-rose-600">
+                    <svg class="h-3 w-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span>{{ $message }}</span>
+                </div>
+            @enderror
         </div>
     </div>
 
@@ -232,7 +285,6 @@
         const input = event.target;
         const preview = document.getElementById('preview');
         const previewContainer = document.getElementById('image-preview');
-        const fileName = document.getElementById('file-name');
         const previewInfo = document.getElementById('preview-info');
         
         if (input.files && input.files[0]) {
@@ -242,14 +294,13 @@
             reader.onload = function(e) {
                 preview.src = e.target.result;
                 previewContainer.classList.remove('hidden');
-                fileName.textContent = `Selected: ${file.name}`;
                 previewInfo.textContent = `${file.name} (${formatBytes(file.size)})`;
             };
             
             reader.readAsDataURL(file);
         } else {
             previewContainer.classList.add('hidden');
-            fileName.textContent = '';
+            previewInfo.textContent = '';
         }
     }
 
@@ -265,10 +316,9 @@
         return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
     }
 
-    // Initialize on page load if there's already a file selected
     document.addEventListener('DOMContentLoaded', function() {
         const fileInput = document.getElementById('image-upload');
-        if (fileInput.files.length > 0) {
+        if (fileInput && fileInput.files.length > 0) {
             previewImage({ target: fileInput });
         }
     });

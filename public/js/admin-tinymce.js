@@ -12,7 +12,7 @@ const baseConfig = {
   menubar: false,
   branding: false,
   promotion: false,
-  directionality: 'rtl',
+  directionality: 'ltr',
   plugins: [
     'advlist',
     'autoresize',
@@ -51,11 +51,11 @@ const baseConfig = {
       font-size: 14px;
       line-height: 1.7;
       padding: 10px;
-      text-align: left;
+      text-align: justify;
     }
 
     p, div, li, td, th, blockquote {
-      text-align: left;
+      text-align: justify;
       text-justify: inter-word;
     }
 
@@ -111,7 +111,7 @@ const initTinymceEditors = () => {
         editor.on('change input undo redo', () => editor.save());
         editor.on('init', () => {
           try {
-            editor.formatter.apply('alignleft');
+            editor.formatter.apply('alignjustify');
           } catch (error) {
             // ignore
           }

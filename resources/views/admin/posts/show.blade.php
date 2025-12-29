@@ -32,9 +32,21 @@
                     </dd>
                 </div>
                 <div>
+                    <dt class="text-xs uppercase tracking-wide text-slate-400">{{ __('common.labels.author_name') }}</dt>
+                    <dd class="mt-1 font-medium text-slate-800">
+                        {{ $post->author_name ?? '—' }}
+                    </dd>
+                </div>
+                <div>
                     <dt class="text-xs uppercase tracking-wide text-slate-400">{{ __('common.labels.status') }}</dt>
                     <dd class="mt-1 font-medium text-slate-800">
                         {{ $post->is_published ? __('common.status.published') : __('common.status.draft') }}
+                    </dd>
+                </div>
+                <div>
+                    <dt class="text-xs uppercase tracking-wide text-slate-400">{{ __('common.labels.posted_date') }}</dt>
+                    <dd class="mt-1 font-medium text-slate-800">
+                        {{ $post->posted_at ? ethiopian_date($post->posted_at, 'dd MMMM yyyy h:mm a', 'Africa/Addis_Ababa', null, 'M d, Y H:i', true) : '—' }}
                     </dd>
                 </div>
                 <div>

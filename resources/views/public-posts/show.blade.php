@@ -157,7 +157,7 @@
 
                     <div class="mt-6 border-t border-gray-100 pt-6">
                         <x-rich-content>
-                            {!! $post->body !!}
+                            {!! $post->display_body !!}
                         </x-rich-content>
                     </div>
 

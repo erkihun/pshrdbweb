@@ -3,7 +3,7 @@
 @section('title', 'Edit Slide')
 
 @section('content')
-<div class="max-w-3xl mx-auto px-6 py-8">
+<div class="w-full px-6 py-8">
 
     <h1 class="text-2xl font-bold mb-6">Edit Homepage Slide</h1>
 
@@ -27,6 +27,7 @@
                 </button>
             </div>
         </form>
+
     </div>
 </div>
 @endsection

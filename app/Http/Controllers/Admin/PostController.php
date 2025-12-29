@@ -8,6 +8,7 @@ use App\Http\Requests\UpdatePostRequest;
 use App\Models\Post;
 use App\Services\AuditLogService;
 use App\Services\PublicCacheService;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -58,9 +59,12 @@ class PostController extends Controller
         $data['excerpt'] = $data['excerpt_en'] ?? null;
         $data['slug'] = $this->uniqueSlug($data['title_en']);
         $data['is_published'] = $request->boolean('is_published');
-        if (! $data['is_published']) {
+        if ($data['is_published']) {
+            $data['published_at'] = $data['published_at'] ?: Carbon::now();
+        } else {
             $data['published_at'] = null;
         }
+        $data['posted_at'] = Carbon::now();
 
         if ($request->hasFile('cover_image')) {
             $data['cover_image_path'] = $request->file('cover_image')->store('posts', 'public');
@@ -113,7 +117,9 @@ class PostController extends Controller
         $data = $request->validated();
         $wasPublished = $post->is_published;
         $data['is_published'] = $request->boolean('is_published');
-        if (! $data['is_published']) {
+        if ($data['is_published']) {
+            $data['published_at'] = $post->published_at ?? Carbon::now();
+        } else {
             $data['published_at'] = null;
         }
 

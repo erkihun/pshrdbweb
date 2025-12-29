@@ -24,14 +24,12 @@ class StorePostRequest extends FormRequest
         return [
             'type' => ['required', 'in:news,announcement'],
             'title_am' => ['required', 'string', 'max:255'],
-            'title_en' => ['required', 'string', 'max:255'],
+            'title_en' => ['nullable', 'string', 'max:255'],
             'excerpt_am' => ['nullable', 'string', 'max:500'],
             'excerpt_en' => ['nullable', 'string', 'max:500'],
             'body_am' => ['required', 'string'],
-            'body_en' => ['required', 'string'],
-            'seo_title' => ['nullable', 'string', 'max:255'],
-            'seo_description' => ['nullable', 'string', 'max:500'],
-            'published_at' => ['nullable', 'date'],
+            'body_en' => ['nullable', 'string'],
+            'body' => ['nullable', 'string'],
             'is_published' => ['sometimes', 'boolean'],
             'cover_image' => ['nullable', 'image', 'max:2048'],
         ];

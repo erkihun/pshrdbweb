@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 final class StoreHomeSlideRequest extends FormRequest
 {
@@ -21,6 +22,8 @@ final class StoreHomeSlideRequest extends FormRequest
             'title_am' => ['nullable', 'string', 'max:255'],
             'subtitle_am' => ['nullable', 'string', 'max:255'],
 
+            'transition_style' => ['required', Rule::in(['wave', 'glide', 'swirl', 'drift', 'pulse'])],
+            'content_alignment' => ['required', Rule::in(['left', 'center', 'right'])],
             'image' => ['required', 'image', 'max:4096'],
             'sort_order' => ['nullable', 'integer', 'min:0', 'max:9999'],
             'is_active' => ['nullable', 'boolean'],

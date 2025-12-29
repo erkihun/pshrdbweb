@@ -9,8 +9,6 @@
         ?? $heroSettings['logo_light']
         ?? $heroSettings['logo']
         ?? ($heroSettings['logo_' . app()->getLocale()] ?? null);
-    $faviconLogo = $heroSettings['favicon_path'] ?? null;
-    $heroCenteredLogo = $faviconLogo ?? $heroSignatureLogo;
     $heroSignatureName = $heroSettings['site_name_' . app()->getLocale()] ?? config('app.name');
     $heroSignatureTag = __('common.hero.signature', ['site' => $heroSignatureName]);
 @endphp
@@ -75,10 +73,21 @@
 
 {{-- ================= HERO SLIDER (TITLE/SUBTITLE BOTTOM) ================= --}}
 <section id="hero" class="scroll-section is-visible relative w-full bg-gray-900 overflow-hidden">
-    <div id="heroSlider" class="relative w-full min-h-[75vh] h-[90vh] overflow-hidden">
+    <div id="heroSlider" class="relative w-full min-h-[45vh] h-[55vh] overflow-hidden" style="perspective: 1600px;">
         @forelse ($slides as $index => $slide)
+            @php
+                $transitionStyle = \Illuminate\Support\Str::of($slide->transition_style ?? 'wave')->kebab()->toString();
+                $contentAlignment = \Illuminate\Support\Str::of($slide->content_alignment ?? 'center')->lower()->toString();
+                $textAlignmentClass = match ($contentAlignment) {
+                    'left' => 'text-left lg:text-left',
+                    'right' => 'text-right lg:text-right',
+                    default => 'text-center lg:text-center',
+                };
+            @endphp
             <div
-                class="hero-slide absolute inset-0 transition-all duration-700 ease-in-out {{ $index === 0 ? 'opacity-100 z-10' : 'opacity-0 z-0' }}"
+                class="hero-slide motion-{{ $transitionStyle }} absolute inset-0 transition-all duration-900 ease-in-out {{ $index === 0 ? 'opacity-100 z-10' : 'opacity-0 z-0' }}"
+                data-transition-style="{{ $transitionStyle }}"
+                data-content-alignment="{{ $contentAlignment }}"
                 data-index="{{ $index }}"
             >
                 {{-- Background image --}}
@@ -95,21 +104,10 @@
                 {{-- Bottom gradient panel --}}
                 <div class="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
 
-                {{-- Centered branding --}}
-                <div class="absolute inset-0 flex flex-col items-center justify-center gap-4 px-6 text-center pointer-events-none">
-                    @if($heroCenteredLogo)
-                        <img
-                            src="{{ asset('storage/' . ltrim($heroCenteredLogo, '/')) }}"
-                            alt="{{ $heroSignatureName }} logo"
-                            class="h-24 sm:h-32 md:h-36 lg:h-40 w-auto object-contain drop-shadow-[0_20px_45px_rgba(0,0,0,0.55)] opacity-40"
-                        >
-                    @endif
-                </div>
-
                 {{-- Content (BOTTOM) --}}
                 <div class="relative h-full flex items-end">
                     <div class="relative mx-auto max-w-full lg:max-w-screen-2xl w-full px-6 sm:px-8 lg:px-12 pb-10">
-                        <div class="max-w-3xl">
+                        <div class="max-w-3xl {{ $textAlignmentClass }}">
                             <h1 class="text-2xl md:text-3xl font-bold text-orange-500 leading-tight">
                                 {{ $slide->title }}
                             </h1>
@@ -163,16 +161,17 @@
             </button>
 
             {{-- Slide indicators --}}
-            <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-20">
-                @foreach($slides as $index => $slide)
-                    <button
-                        type="button"
-                        onclick="goToSlide({{ $index }})"
-                        class="w-2 h-2 rounded-full transition-all duration-300 {{ $index === 0 ? 'bg-white' : 'bg-white/50 hover:bg-white/80' }}"
-                        aria-label="{{ __('home.hero.go_to_slide', ['number' => $index + 1]) }}"
-                    ></button>
-                @endforeach
-            </div>
+                <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3 z-20">
+                    @foreach($slides as $index => $slide)
+                        <button
+                            type="button"
+                            onclick="goToSlide({{ $index }})"
+                            data-hero-indicator
+                            class="hero-indicator w-3 h-3 rounded-full {{ $index === 0 ? 'indicator-active' : 'bg-white/50 hover:bg-white/80' }}"
+                            aria-label="{{ __('home.hero.go_to_slide', ['number' => $index + 1]) }}"
+                        ></button>
+                    @endforeach
+                </div>
         @endif
 
         @if($heroSignatureLogo)
@@ -302,97 +301,113 @@
             </a>
         </div>
 
-        <div class="grid gap-8 items-stretch grid-cols-1 lg:grid-cols-[minmax(0,3fr)_420px]">
-            <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div class="grid gap-8 lg:grid-cols-[minmax(0,3fr)_minmax(320px,1fr)] items-start">
+            <div class="grid gap-6 grid-cols-1 md:grid-cols-2">
                 @foreach ($latestNews as $post)
                     <a
                         href="{{ $type === 'news' ? route('news.show', $post->slug) : route('announcements.show', $post->slug) }}"
-                        class="group relative flex h-full flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition-all duration-500 hover:-translate-y-1 hover:border-transparent hover:shadow-xl hover:shadow-blue-500/10"
+                        class="group relative flex flex-col rounded-2xl border border-gray-200 bg-white p-4 pb-5 shadow-sm transition hover:-translate-y-1 hover:border-transparent hover:shadow-xl hover:shadow-blue-500/10"
                     >
                         <div class="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl opacity-0 group-hover:opacity-10 blur transition duration-500"></div>
-
-                    @if ($post->cover_image_path)
-                        <div class="relative mb-5 h-40 w-full rounded-xl overflow-hidden">
-                            <img
-                                src="{{ asset('storage/' . $post->cover_image_path) }}"
-                                alt="{{ $post->display_title }}"
-                                class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
-                                loading="lazy"
-                            />
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
-                            <div class="absolute top-4 left-4 px-3 py-1 rounded-full bg-white/90 backdrop-blur-sm text-xs font-semibold text-gray-700">
-                                {{ __('home.news.badge') }}
+                        @if ($post->cover_image_path)
+                            <div class="relative mb-4 h-32 w-full rounded-xl overflow-hidden">
+                                <img
+                                    src="{{ asset('storage/' . $post->cover_image_path) }}"
+                                    alt="{{ $post->display_title }}"
+                                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                    loading="lazy"
+                                />
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
+                                <div class="absolute top-3 left-3 rounded-full border border-white/70 bg-white/90 px-3 py-1 text-xs font-semibold text-gray-700">
+                                    {{ __('home.news.badge') }}
+                                </div>
                             </div>
-                        </div>
-                    @endif
+                        @endif
 
-                    <div class="relative flex-1">
-                        <h3 class="text-xl font-bold text-gray-900 group-hover:text-blue-700 transition-colors duration-300">
-                            {{ $post->display_title }}
-                        </h3>
+                        <div class="relative flex-1 space-y-3">
+                            <h3 class="text-xl font-bold text-gray-900 group-hover:text-blue-700 transition-colors duration-300">
+                                {{ $post->display_title }}
+                            </h3>
 
-                        <p class="mt-2 text-gray-600 line-clamp-2">
-                            {{ $post->display_excerpt ?: \Illuminate\Support\Str::limit(strip_tags($post->display_body), 100) }}
-                        </p>
+                            <p class="text-sm text-gray-600 line-clamp-2">
+                                {{ $post->display_excerpt ?: \Illuminate\Support\Str::limit(strip_tags($post->display_body), 100) }}
+                            </p>
 
-                        <div class="mt-6 pt-6 border-t border-gray-100 flex items-center justify-between">
-                            <div class="flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-full bg-gradient-to-r from-blue-100 to-indigo-100 flex items-center justify-center">
-                                    <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            <div class="mt-4 border-t border-gray-100 pt-4 flex items-center justify-between text-sm text-gray-600">
+                                <div class="flex items-center gap-2">
+                                    <div class="h-8 w-8 rounded-full bg-gradient-to-r from-blue-100 to-indigo-100 flex items-center justify-center">
+                                        <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                        </svg>
+                                    </div>
+                                    <span class="font-semibold text-gray-500">
+                                        {{ $post->published_at ? ethiopian_date($post->published_at, 'dd MMMM yyyy') : __('common.labels.recently_updated') }}
+                                    </span>
+                                </div>
+                                <div class="text-blue-600 transition-transform duration-300 group-hover:translate-x-1">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                                     </svg>
                                 </div>
-                                <span class="text-sm font-semibold text-gray-500">
-                                    {{ $post->published_at ? ethiopian_date($post->published_at, 'dd MMMM yyyy') : __('common.labels.recently_updated') }}
-                                </span>
-                            </div>
-                            <div class="text-blue-600 group-hover:translate-x-2 transition-transform duration-300">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                                </svg>
-                            </div>
                             </div>
                         </div>
                     </a>
                 @endforeach
             </div>
 
-            <aside class="lg:sticky lg:top-10 self-stretch">
-                <div class="h-full space-y-6 rounded-3xl border border-gray-200 bg-white p-6 shadow-sm shadow-blue-500/10">
+            @php
+                $importantLinks = [
+                    'Emergency Contacts' => '#',
+                    'Public Announcements' => '#',
+                    'Citizen Charter' => '#',
+                    'Digital Services Hub' => '#',
+                    'Feedback & Complaints' => '#',
+                ];
+            @endphp
+
+            <aside class="lg:sticky lg:top-10 self-start max-w-full">
+                <div class="flex h-full flex-col gap-6 rounded-3xl border border-gray-200 bg-white p-6 shadow-lg shadow-blue-500/10">
                     <div>
-                        <p class="text-sm font-semibold uppercase text-blue-600 tracking-wide">Community</p>
-                        <h3 class="text-xl font-bold text-gray-900">Stay connected</h3>
+                    
+                        <h3 class="mt-2 text-2xl font-bold text-gray-900">Stay connected</h3>
                     </div>
                     <div class="relative overflow-hidden rounded-2xl border border-gray-100">
                         <iframe
-                            class="w-full h-[360px] rounded-2xl"
-                            src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fweb.facebook.com%2Fprofile.php%3Fid%3D100067771711638&tabs=timeline&width=340&height=500&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
-                            width="340"
-                            height="500"
-                            style="border:none;overflow:hidden"
-                            scrolling="no"
-                            frameborder="0"
+                            class="h-72 w-full"
+                            src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fweb.facebook.com%2Fprofile.php%3Fid%3D100067771711638&tabs=timeline&width=500&height=600&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
+                           loading="lazy"
+                                style="border:none;overflow:hidden"
+                                scrolling="yes"
+                                frameborder="0"
                             allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
                         ></iframe>
                     </div>
-                    <div>
-                        <p class="text-sm font-semibold uppercase text-blue-600 tracking-wide">Important Links</p>
-                        <h4 class="text-lg font-bold text-gray-900 mb-3">Quick access</h4>
-                        <div class="space-y-3">
-                            @foreach ([
-                                'Emergency Contacts',
-                                'Public Announcements',
-                                'Citizen Charter',
-                                'Digital Services Hub',
-                                'Feedback & Complaints'
-                            ] as $link)
-                                <a href="#" class="flex items-center justify-between rounded-2xl border border-gray-100 bg-white px-4 py-3 text-sm font-medium text-blue-700 hover:bg-blue-50 transition">
-                                    {{ $link }}
-                                    <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                                    </svg>
-                                </a>
-                            @endforeach
+                    <div class="flex-1">
+                        
+                        <h4 class="mt-2 text-lg font-bold text-gray-900">Quick access</h4>
+                        <div class="mt-3 overflow-hidden rounded-2xl border border-gray-100">
+                            <iframe
+                                class="h-72 w-full"
+                                src="https://ethiocoders.et/"
+                                loading="lazy"
+                                style="border:none;overflow:hidden"
+                                scrolling="yes"
+                                frameborder="0"
+                            ></iframe>
+                        </div>
+                    </div>
+                      <div class="flex-1">
+                        
+                        <h4 class="mt-2 text-lg font-bold text-gray-900">Quick access</h4>
+                        <div class="mt-3 overflow-hidden rounded-2xl border border-gray-100">
+                            <iframe
+                                class="h-72 w-full"
+                                src="https://addis.mesobcenter.et/"
+                                loading="lazy"
+                                style="border:none;overflow:hidden"
+                                scrolling="yes"
+                                frameborder="0"
+                            ></iframe>
                         </div>
                     </div>
                 </div>
@@ -823,28 +838,55 @@
 {{-- ================= SLIDER & SCROLL SCRIPT ================= --}}
 <script>
     let currentSlide = 0;
+    let previousSlideIndex = 0;
     const slides = document.querySelectorAll('.hero-slide');
+    const indicators = document.querySelectorAll('[data-hero-indicator]');
     const totalSlides = slides.length;
+    const enterAnimations = ['heroWaveIn', 'heroGlideIn', 'heroSwirlIn', 'heroDriftIn', 'heroPulseIn'];
+    const exitAnimations = ['heroWaveOut', 'heroGlideOut', 'heroSwirlOut', 'heroDriftOut', 'heroPulseOut'];
 
     let leadersAutoScrollInterval = null;
     let charterMotionFrame = null;
     let charterMotionDirection = 1;
 
+    slides.forEach((slide) => {
+        slide.addEventListener('animationend', (event) => {
+            if (enterAnimations.includes(event.animationName)) {
+                slide.classList.remove('slide-enter');
+            } else if (exitAnimations.includes(event.animationName)) {
+                slide.classList.remove('slide-exit');
+            }
+        });
+    });
+
     function showSlide(index) {
+        if (!slides[index]) return;
+
         slides.forEach((slide) => {
-            slide.classList.remove('opacity-100', 'z-10');
+            slide.classList.remove('opacity-100', 'z-10', 'slide-active');
             slide.classList.add('opacity-0', 'z-0');
         });
-
-        if (!slides[index]) return;
+        const outgoing = slides[previousSlideIndex];
+        if (outgoing && outgoing !== slides[index]) {
+            outgoing.classList.remove('slide-enter', 'slide-active');
+            outgoing.classList.add('slide-exit');
+        }
 
         slides[index].classList.remove('opacity-0', 'z-0');
         slides[index].classList.add('opacity-100', 'z-10');
+        slides[index].classList.add('slide-active', 'slide-enter');
 
         document.querySelectorAll('[onclick^="goToSlide"]').forEach((btn, i) => {
             btn.classList.toggle('bg-white', i === index);
             btn.classList.toggle('bg-white/50', i !== index);
         });
+
+        indicators.forEach((btn, i) => {
+            btn.classList.toggle('indicator-active', i === index);
+        });
+
+        previousSlideIndex = index;
+        currentSlide = index;
     }
 
     function sliderNext() {
@@ -863,6 +905,8 @@
         currentSlide = index;
         showSlide(currentSlide);
     }
+
+    showSlide(currentSlide);
 
     if (totalSlides > 1) {
         setInterval(sliderNext, 7000);
@@ -1157,6 +1201,245 @@
         -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
         overflow: hidden;
+    }
+    .hero-slide {
+        transform-origin: center;
+        filter: brightness(0.8) saturate(0.9);
+        will-change: opacity, transform, filter;
+    }
+
+    .hero-slide.slide-active {
+        filter: brightness(1.05) saturate(1.15);
+    }
+
+    .hero-slide.motion-wave.slide-enter {
+        animation: heroWaveIn 1.2s cubic-bezier(0.25, 0.7, 0.35, 1) forwards;
+    }
+
+    .hero-slide.motion-wave.slide-exit {
+        animation: heroWaveOut 0.95s ease-in-out forwards;
+    }
+
+    .hero-slide.motion-drift.slide-enter {
+        animation: heroDriftIn 1.1s cubic-bezier(0.25, 0.8, 0.4, 1) forwards;
+    }
+
+    .hero-slide.motion-drift.slide-exit {
+        animation: heroDriftOut 0.85s cubic-bezier(0.4, 0.2, 0.3, 1) forwards;
+    }
+
+    .hero-slide.motion-pulse.slide-enter {
+        animation: heroPulseIn 1s cubic-bezier(0.2, 0.6, 0.4, 1) forwards;
+    }
+
+    .hero-slide.motion-pulse.slide-exit {
+        animation: heroPulseOut 0.75s cubic-bezier(0.4, 0.2, 0.3, 1) forwards;
+    }
+    .hero-slide.motion-glide.slide-enter {
+        animation: heroGlideIn 1.05s cubic-bezier(0.22, 0.6, 0.36, 1) forwards;
+    }
+
+    @keyframes heroDriftIn {
+        0% {
+            opacity: 0;
+            transform: translateX(-60px) translateY(20px) scale(0.96);
+            filter: blur(10px);
+        }
+        60% {
+            opacity: 0.9;
+            transform: translateX(-18px) translateY(6px) scale(0.99);
+            filter: blur(4px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateX(0) translateY(0) scale(1);
+            filter: blur(0);
+        }
+    }
+
+    @keyframes heroDriftOut {
+        0% {
+            opacity: 1;
+            transform: translateX(0) translateY(0) scale(1);
+            filter: blur(0);
+        }
+        70% {
+            opacity: 0.65;
+            transform: translateX(30px) translateY(6px) scale(1.02);
+            filter: blur(6px);
+        }
+        100% {
+            opacity: 0;
+            transform: translateX(70px) translateY(20px) scale(1.04);
+            filter: blur(12px);
+        }
+    }
+
+    @keyframes heroPulseIn {
+        0% {
+            opacity: 0;
+            transform: scale(0.9);
+            filter: blur(12px);
+        }
+        50% {
+            opacity: 0.8;
+            transform: scale(1.05);
+            filter: blur(6px);
+        }
+        100% {
+            opacity: 1;
+            transform: scale(1);
+            filter: blur(0);
+        }
+    }
+
+    @keyframes heroPulseOut {
+        0% {
+            opacity: 1;
+            transform: scale(1);
+            filter: blur(0);
+        }
+        60% {
+            opacity: 0.7;
+            transform: scale(1.02);
+            filter: blur(4px);
+        }
+        100% {
+            opacity: 0;
+            transform: scale(0.95);
+            filter: blur(10px);
+        }
+    }
+
+    .hero-slide.motion-glide.slide-exit {
+        animation: heroGlideOut 0.85s cubic-bezier(0.4, 0.2, 0.3, 1) forwards;
+    }
+
+    .hero-slide.motion-swirl.slide-enter {
+        animation: heroSwirlIn 1.15s cubic-bezier(0.22, 0.65, 0.36, 1) forwards;
+    }
+
+    .hero-slide.motion-swirl.slide-exit {
+        animation: heroSwirlOut 0.9s cubic-bezier(0.4, 0.2, 0.3, 1) forwards;
+    }
+
+    @keyframes heroWaveIn {
+        0% {
+            opacity: 0;
+            transform: translateX(-80px) translateZ(0) scale(0.97);
+            filter: blur(16px);
+        }
+        55% {
+            opacity: 0.85;
+            transform: translateX(-30px) translateZ(0) scale(0.99);
+            filter: blur(8px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateX(0) translateZ(0) scale(1);
+            filter: blur(0);
+        }
+    }
+
+    @keyframes heroWaveOut {
+        0% {
+            opacity: 1;
+            transform: translateX(0) scale(1);
+            filter: blur(0);
+        }
+        45% {
+            opacity: 0.7;
+            transform: translateX(20px) scale(1.02);
+            filter: blur(4px);
+        }
+        100% {
+            opacity: 0;
+            transform: translateX(60px) scale(1.04);
+            filter: blur(12px);
+        }
+    }
+
+    @keyframes heroGlideIn {
+        0% {
+            opacity: 0;
+            transform: translateX(-70px) scale(0.96);
+            filter: blur(14px);
+        }
+        50% {
+            opacity: 0.8;
+            transform: translateX(-25px) scale(0.99);
+            filter: blur(6px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateX(0) scale(1);
+            filter: blur(0);
+        }
+    }
+
+    @keyframes heroGlideOut {
+        0% {
+            opacity: 1;
+            transform: translateX(0) scale(1);
+            filter: blur(0);
+        }
+        55% {
+            opacity: 0.7;
+            transform: translateX(30px) scale(1.01);
+            filter: blur(6px);
+        }
+        100% {
+            opacity: 0;
+            transform: translateX(70px) scale(1.03);
+            filter: blur(12px);
+        }
+    }
+
+    @keyframes heroSwirlIn {
+        0% {
+            opacity: 0;
+            transform: translate3d(-60px, 42px, 0) scale(0.95) rotate(6deg);
+            filter: blur(18px);
+        }
+        60% {
+            opacity: 0.75;
+            transform: translate3d(-20px, 12px, 0) scale(0.98) rotate(2deg);
+            filter: blur(6px);
+        }
+        100% {
+            opacity: 1;
+            transform: translate3d(0, 0, 0) scale(1) rotate(0);
+            filter: blur(0);
+        }
+    }
+
+    @keyframes heroSwirlOut {
+        0% {
+            opacity: 1;
+            transform: translate3d(0, 0, 0) scale(1) rotate(0);
+            filter: blur(0);
+        }
+        50% {
+            opacity: 0.6;
+            transform: translate3d(-18px, -10px, 0) scale(1.01) rotate(-3deg);
+            filter: blur(6px);
+        }
+        100% {
+            opacity: 0;
+            transform: translate3d(-52px, -35px, 0) scale(1.03) rotate(-8deg);
+            filter: blur(14px);
+        }
+    }
+
+    .hero-indicator {
+        transition: transform 0.45s ease, box-shadow 0.45s ease, background 0.45s ease;
+        background: rgba(255, 255, 255, 0.65);
+    }
+
+    .hero-indicator.indicator-active {
+        background: #ffffff;
+        box-shadow: 0 0 12px rgba(59, 130, 246, 0.45);
+        transform: scale(1.35);
     }
 </style>
 </div>

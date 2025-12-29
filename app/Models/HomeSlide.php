@@ -22,6 +22,8 @@ final class HomeSlide extends Model
         'is_active',
         'title_am',
         'subtitle_am',
+        'transition_style',
+        'content_alignment',
     ];
 
     protected $casts = [
