@@ -363,7 +363,7 @@
         </div>
     </div>
 
-    @if(!empty($post?->body) || !empty($post?->body_am))
+    @if(!empty($post?->body))
         <!-- Single Body Field (Kept for backward compatibility) -->
         <div class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
             <div class="border-b border-slate-100 bg-slate-50/50 px-6 py-4">
@@ -382,7 +382,7 @@
                             rows="8"
                             data-editor="tinymce"
                             class="mt-2 w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 shadow-sm transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 js-editor"
-                        >{{ old('body', $post->body_am ?? $post->body ?? '') }}</textarea>
+                        >{{ old('body', $post->body ?? '') }}</textarea>
                     @error('body')
                         <div class="mt-2 flex items-center gap-2 text-xs text-rose-600">
                             <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">

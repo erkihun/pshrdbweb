@@ -52,10 +52,18 @@ class PostController extends Controller
     public function store(StorePostRequest $request)
     {
         $data = $request->validated();
+        foreach (['body_am', 'body_en'] as $field) {
+            if (! empty($data[$field])) {
+                $data[$field] = $this->sanitizeRichText($data[$field]);
+            }
+        }
+        foreach (['body_am', 'body_en'] as $field) {
+            if (! empty($data[$field])) {
+                $data[$field] = $this->sanitizeRichText($data[$field]);
+            }
+        }
         $data['title'] = $data['title_en'];
         $data['body'] = $data['body_en'];
-        // TinyMCE returns HTML; sanitize or escape this before exposing it to untrusted visitors.
-        // TinyMCE returns HTML; sanitize or escape this before exposing it to untrusted visitors.
         $data['excerpt'] = $data['excerpt_en'] ?? null;
         $data['slug'] = $this->uniqueSlug($data['title_en']);
         $data['is_published'] = $request->boolean('is_published');
@@ -203,5 +211,18 @@ class PostController extends Controller
         }
 
         return $slug;
+    }
+
+    private function sanitizeRichText(string $html): string
+    {
+        $withoutScript = preg_replace('#<script(.*?)>(.*?)</script>#is', '', $html);
+
+        $withoutListeners = preg_replace_callback('/<([a-z]+)([^>]*)>/i', function ($matches) {
+            $cleanAttributes = preg_replace('/\s+on[a-z]+=(["\']).*?\\1/i', '', $matches[2]);
+            $cleanAttributes = preg_replace('/\s+on[a-z]+=[^\\s>]+/i', '', $cleanAttributes);
+            return "<{$matches[1]}{$cleanAttributes}>";
+        }, $withoutScript);
+
+        return preg_replace('/javascript:/i', '', $withoutListeners);
     }
 }

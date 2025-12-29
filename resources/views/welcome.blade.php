@@ -284,7 +284,7 @@
     <div class="relative mx-auto max-w-full lg:max-w-screen-2xl w-full px-6 sm:px-8 lg:px-12">
         <div class="absolute right-0 top-1/2 -translate-y-1/2 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl -z-10"></div>
 
-        <div class="flex items-center justify-between mb-12 gap-6">
+        <div class="flex items-center justify-between mb-4 gap-6">
             <div class="flex items-center gap-3">
                 <x-heroicon-o-newspaper class="h-6 w-6 text-blue-600" aria-hidden="true" />
                 <h5 class="text-2xl lg:text-3xl font-bold text-gray-900">
@@ -301,117 +301,56 @@
             </a>
         </div>
 
-        <div class="grid gap-8 lg:grid-cols-[minmax(0,3fr)_minmax(320px,1fr)] items-start">
-            <div class="grid gap-6 grid-cols-1 md:grid-cols-2">
-                @foreach ($latestNews as $post)
-                    <a
-                        href="{{ $type === 'news' ? route('news.show', $post->slug) : route('announcements.show', $post->slug) }}"
-                        class="group relative flex flex-col rounded-2xl border border-gray-200 bg-white p-4 pb-5 shadow-sm transition hover:-translate-y-1 hover:border-transparent hover:shadow-xl hover:shadow-blue-500/10"
-                    >
-                        <div class="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl opacity-0 group-hover:opacity-10 blur transition duration-500"></div>
-                        @if ($post->cover_image_path)
-                            <div class="relative mb-4 h-32 w-full rounded-xl overflow-hidden">
-                                <img
-                                    src="{{ asset('storage/' . $post->cover_image_path) }}"
-                                    alt="{{ $post->display_title }}"
-                                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                                    loading="lazy"
-                                />
-                                <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
-                                <div class="absolute top-3 left-3 rounded-full border border-white/70 bg-white/90 px-3 py-1 text-xs font-semibold text-gray-700">
-                                    {{ __('home.news.badge') }}
-                                </div>
+        <div class="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            @foreach ($latestNews as $post)
+                <a
+                    href="{{ $type === 'news' ? route('news.show', $post->slug) : route('announcements.show', $post->slug) }}"
+                    class="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white p-4 pb-5 shadow-sm transition duration-500 hover:-translate-y-1 hover:border-transparent hover:bg-white"
+                >
+                    <span class="pointer-events-none absolute top-10 left-1/2 -translate-x-1/2 h-16 w-16 rounded-full bg-orange-500 opacity-20 transition duration-500 group-hover:scale-110 group-hover:opacity-70"></span>
+                    <div class="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl opacity-0 group-hover:opacity-10 blur transition duration-500"></div>
+                    @if ($post->cover_image_path)
+                        <div class="relative mb-4 h-48 w-full rounded-xl overflow-hidden">
+                            <img
+                                src="{{ asset('storage/' . $post->cover_image_path) }}"
+                                alt="{{ $post->display_title }}"
+                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                loading="lazy"
+                            />
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
+                            <div class="absolute top-3 left-3 rounded-full bg-orange-500 px-3 py-1 text-xs font-semibold text-white shadow">
+                                {{ __('home.news.badge') }}
                             </div>
-                        @endif
+                        </div>
+                    @endif
 
-                        <div class="relative flex-1 space-y-3">
-                            <h3 class="text-xl font-bold text-gray-900 group-hover:text-blue-700 transition-colors duration-300">
-                                {{ $post->display_title }}
-                            </h3>
+                        <div class="relative z-10 flex-1 flex flex-col gap-3">
+                        <h4 class="text-xl font-bold text-gray-900 text-justify group-hover:text-blue-700 transition-colors duration-300">
+                            {{ $post->display_title }}
+                        </h4>
 
-                            <p class="text-sm text-gray-600 line-clamp-2">
-                                {{ $post->display_excerpt ?: \Illuminate\Support\Str::limit(strip_tags($post->display_body), 100) }}
-                            </p>
+                        
 
-                            <div class="mt-4 border-t border-gray-100 pt-4 flex items-center justify-between text-sm text-gray-600">
-                                <div class="flex items-center gap-2">
-                                    <div class="h-8 w-8 rounded-full bg-gradient-to-r from-blue-100 to-indigo-100 flex items-center justify-center">
-                                        <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                        </svg>
-                                    </div>
-                                    <span class="font-semibold text-gray-500">
-                                        {{ $post->published_at ? ethiopian_date($post->published_at, 'dd MMMM yyyy') : __('common.labels.recently_updated') }}
-                                    </span>
-                                </div>
-                                <div class="text-blue-600 transition-transform duration-300 group-hover:translate-x-1">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        <div class="mt-auto rounded-2xl border border-blue-200 bg-gradient-to-r from-blue-50 to-blue-100 px-4 py-3 text-sm text-blue-800 flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <div class="h-8 w-8 rounded-full bg-gradient-to-r from-blue-100 to-indigo-100 flex items-center justify-center">
+                                    <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                     </svg>
                                 </div>
+                                <span class="font-semibold text-gray-500">
+                                    {{ $post->published_at ? ethiopian_date($post->published_at, 'dd MMMM yyyy') : __('common.labels.recently_updated') }}
+                                </span>
+                            </div>
+                            <div class="text-blue-600 transition-transform duration-300 group-hover:translate-x-1">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                </svg>
                             </div>
                         </div>
-                    </a>
-                @endforeach
-            </div>
-
-            @php
-                $importantLinks = [
-                    'Emergency Contacts' => '#',
-                    'Public Announcements' => '#',
-                    'Citizen Charter' => '#',
-                    'Digital Services Hub' => '#',
-                    'Feedback & Complaints' => '#',
-                ];
-            @endphp
-
-            <aside class="lg:sticky lg:top-10 self-start max-w-full">
-                <div class="flex h-full flex-col gap-6 rounded-3xl border border-gray-200 bg-white p-6 shadow-lg shadow-blue-500/10">
-                    <div>
-                    
-                        <h3 class="mt-2 text-2xl font-bold text-gray-900">Stay connected</h3>
                     </div>
-                    <div class="relative overflow-hidden rounded-2xl border border-gray-100">
-                        <iframe
-                            class="h-72 w-full"
-                            src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fweb.facebook.com%2Fprofile.php%3Fid%3D100067771711638&tabs=timeline&width=500&height=600&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
-                           loading="lazy"
-                                style="border:none;overflow:hidden"
-                                scrolling="yes"
-                                frameborder="0"
-                            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-                        ></iframe>
-                    </div>
-                    <div class="flex-1">
-                        
-                        <h4 class="mt-2 text-lg font-bold text-gray-900">Quick access</h4>
-                        <div class="mt-3 overflow-hidden rounded-2xl border border-gray-100">
-                            <iframe
-                                class="h-72 w-full"
-                                src="https://ethiocoders.et/"
-                                loading="lazy"
-                                style="border:none;overflow:hidden"
-                                scrolling="yes"
-                                frameborder="0"
-                            ></iframe>
-                        </div>
-                    </div>
-                      <div class="flex-1">
-                        
-                        <h4 class="mt-2 text-lg font-bold text-gray-900">Quick access</h4>
-                        <div class="mt-3 overflow-hidden rounded-2xl border border-gray-100">
-                            <iframe
-                                class="h-72 w-full"
-                                src="https://addis.mesobcenter.et/"
-                                loading="lazy"
-                                style="border:none;overflow:hidden"
-                                scrolling="yes"
-                                frameborder="0"
-                            ></iframe>
-                        </div>
-                    </div>
-                </div>
-            </aside>
+                </a>
+            @endforeach
         </div>
 
         <div class="mt-12 lg:hidden text-center">
@@ -426,6 +365,61 @@
     </div>
 </section>
 @endif
+
+<section id="quick-access-section" class="scroll-section bg-gradient-to-b from-white to-gray-50 py-10 overflow-hidden">
+    <div class="relative mx-auto max-w-full lg:max-w-screen-2xl w-full px-6 sm:px-8 lg:px-12">
+        <div class="flex items-center gap-3 mb-8">
+            <x-heroicon-o-link class="h-6 w-6 text-blue-600" aria-hidden="true" />
+            <h5 class="text-2xl lg:text-3xl font-bold text-gray-900">Stay connected</h5>
+        </div>
+        <div class="rounded-3xl border border-gray-200 bg-white p-6 shadow-lg shadow-blue-500/10">
+            <div class="grid gap-8 lg:grid-cols-3 items-stretch">
+                <div class="flex flex-col h-full group">
+                    <p class="text-xs font-semibold uppercase tracking-[0.55em] text-blue-600">Community</p>
+                    <div class="relative mt-6 flex-1 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition duration-500 ease-out group-hover:-translate-y-1 group-hover:shadow-[0_20px_45px_rgba(37,99,235,0.4)]">
+                        <iframe
+                            class="h-full w-full"
+                            src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fweb.facebook.com%2Fprofile.php%3Fid%3D100067771711638&tabs=timeline&width=500&height=600&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
+                            width="500"
+                            height="600"
+                            style="border:none;overflow:hidden"
+                            scrolling="no"
+                            frameborder="0"
+                            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                            title="AAC Public Facebook page preview"
+                        ></iframe>
+                    </div>
+                </div>
+                <div class="flex flex-col h-full group">
+                    <div class="mt-6 flex-1 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition duration-500 ease-out group-hover:-translate-y-1 group-hover:shadow-[0_20px_45px_rgba(239,68,68,0.4)]">
+                        <iframe
+                            class="h-full w-full"
+                            src="https://ethiocoders.et/"
+                            loading="lazy"
+                            style="border:none;overflow:hidden"
+                            scrolling="yes"
+                            frameborder="0"
+                            title="Ethiocoders quick access"
+                        ></iframe>
+                    </div>
+                </div>
+                <div class="flex flex-col h-full group">
+                    <div class="mt-6 flex-1 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition duration-500 ease-out group-hover:-translate-y-1 group-hover:shadow-[0_20px_45px_rgba(16,185,129,0.45)]">
+                        <iframe
+                            class="h-full w-full"
+                            src="https://addis.mesobcenter.et/"
+                            loading="lazy"
+                            style="border:none;overflow:hidden"
+                            scrolling="yes"
+                            frameborder="0"
+                            title="Addis Mesob Center quick access"
+                        ></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 {{-- ================= MEET OUR LEADERS – HORIZONTAL SLIDER (3 AT ONCE) ================= --}}
 @if($staffMembers->count())
@@ -677,9 +671,9 @@
                 @endphp
 
                 <div class="group relative">
-                    <div class="absolute -inset-0.5 bg-gradient-to-r {{ $palette }} rounded-2xl opacity-0 group-hover:opacity-20 blur transition duration-500"></div>
+                    <div class="absolute -inset-0.5 bg-gradient-to-r {{ $palette }} rounded-2xl opacity-20 blur transition duration-500 group-hover:opacity-0"></div>
 
-                    <div class="relative h-full rounded-2xl border border-gray-200 bg-white p-8 transition-all duration-500 hover:border-transparent hover:shadow-2xl">
+                    <div class="relative flex h-full flex-col rounded-2xl border border-transparent bg-white p-8 shadow-2xl transition-all duration-500 hover:border-gray-200 hover:shadow-sm">
                       
 
                         <h3 class="text-2xl font-bold text-gray-900 mb-4">{{ $service->display_title }}</h3>
@@ -688,7 +682,7 @@
                         </p>
 
 
-                        <div class="mt-8 pt-6 border-t border-gray-100">
+                        <div class="mt-auto pt-6 border-t border-gray-100">
                             <div class="flex items-center justify-between">
                                 <span class="text-sm font-semibold text-gray-500">{{ __('common.labels.learn_more') }}</span>
                                 <a href="{{ route('services.show', $service->slug) }}"

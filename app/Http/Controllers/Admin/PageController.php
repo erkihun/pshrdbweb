@@ -71,6 +71,12 @@ class PageController extends Controller
             'is_published' => ['sometimes', 'boolean'],
         ]);
 
+        foreach (['body_am', 'body_en'] as $field) {
+            if (! empty($data[$field])) {
+                $data[$field] = $this->sanitizeRichText($data[$field]);
+            }
+        }
+
         $data['is_published'] = $request->boolean('is_published');
         $data['updated_by'] = $request->user()->id;
 
@@ -101,6 +107,12 @@ class PageController extends Controller
             'is_published' => ['sometimes', 'boolean'],
         ]);
 
+        foreach (['body_am', 'body_en'] as $field) {
+            if (! empty($data[$field])) {
+                $data[$field] = $this->sanitizeRichText($data[$field]);
+            }
+        }
+
         $page = Page::firstWhere('key', $key);
         $data['is_published'] = $request->boolean('is_published');
         $data['updated_by'] = $request->user()->id;
@@ -129,6 +141,19 @@ class PageController extends Controller
             'structure',
             'history',
         ];
+    }
+
+    private function sanitizeRichText(string $html): string
+    {
+        $withoutScript = preg_replace('#<script(.*?)>(.*?)</script>#is', '', $html);
+
+        $withoutListeners = preg_replace_callback('/<([a-z]+)([^>]*)>/i', function ($matches) {
+            $cleanAttributes = preg_replace('/\s+on[a-z]+=(["\']).*?\\1/i', '', $matches[2]);
+            $cleanAttributes = preg_replace('/\s+on[a-z]+=[^\\s>]+/i', '', $cleanAttributes);
+            return "<{$matches[1]}{$cleanAttributes}>";
+        }, $withoutScript);
+
+        return preg_replace('/javascript:/i', '', $withoutListeners);
     }
 
     private function storeCover($file, ?string $existingPath): string
