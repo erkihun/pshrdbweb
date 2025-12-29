@@ -22,6 +22,7 @@
         >
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @stack('styles')
         @stack('meta')
     </head>
     <body class="font-sans antialiased bg-gray-50 text-slate-900">
@@ -34,6 +35,9 @@
         @include('layouts.public-navbar')
 
         <main id="main-content" class="min-h-screen">
+            <div class="w-full px-4 sm:px-6 lg:px-8">
+                <x-breadcrumbs variant="full" class="mb-6" />
+            </div>
             @yield('content')
         </main>
 
@@ -41,6 +45,7 @@
         @php
             $officeHoursService = app(\App\Services\OfficeHoursService::class);
         @endphp
+        @stack('scripts')
   
     </body>
 </html>

@@ -3,7 +3,7 @@
     'homeUrl' => url('/'),
     'homeLabel' => __('common.nav.home'),
     'skipSegments' => [],
-    'variant' => 'default', // 'default', 'glass', 'gradient', 'minimal'
+    'variant' => 'default', // 'default', 'glass', 'gradient', 'minimal', 'full'
     'showIcons' => true,
     'separator' => 'chevron', // 'slash', 'chevron', 'dot', 'arrow'
     'theme' => 'sunrise', // 'sunrise', 'ocean', 'fire', 'citrus'
@@ -107,6 +107,7 @@
                 'glass' => 'bg-white/80 backdrop-blur-xl shadow-lg ring-1 ring-white/30 border border-blue-100/50',
                 'gradient' => 'bg-gradient-to-r from-blue-50/40 via-white to-orange-50/40 shadow-lg ring-1 ring-blue-200/30',
                 'minimal' => 'bg-transparent shadow-none ring-0',
+                'full' => 'w-full bg-white/90 shadow-lg ring-1 ring-blue-100/60 border border-blue-100/40',
             ],
             'gradient_text' => 'bg-gradient-to-r from-blue-600 to-orange-600 bg-clip-text text-transparent',
         ],
@@ -127,6 +128,7 @@
                 'glass' => 'bg-white/80 backdrop-blur-xl shadow-lg ring-1 ring-white/30 border border-sky-100/50',
                 'gradient' => 'bg-gradient-to-r from-sky-50/40 via-white to-orange-50/40 shadow-lg ring-1 ring-sky-200/30',
                 'minimal' => 'bg-transparent shadow-none ring-0',
+                'full' => 'w-full bg-white/90 shadow-lg ring-1 ring-sky-100/60 border border-sky-100/50',
             ],
             'gradient_text' => 'bg-gradient-to-r from-sky-600 to-orange-500 bg-clip-text text-transparent',
         ],
@@ -147,6 +149,7 @@
                 'glass' => 'bg-white/90 backdrop-blur-xl shadow-lg ring-1 ring-white/40 border border-orange-100/50',
                 'gradient' => 'bg-gradient-to-r from-blue-100/50 via-white to-orange-100/50 shadow-xl ring-1 ring-orange-200/50',
                 'minimal' => 'bg-transparent shadow-none ring-0',
+                'full' => 'w-full bg-white/90 shadow-lg ring-1 ring-orange-100/60 border border-orange-100/50',
             ],
             'gradient_text' => 'bg-gradient-to-r from-blue-700 to-orange-700 bg-clip-text text-transparent',
         ],
@@ -167,6 +170,7 @@
                 'glass' => 'bg-white/85 backdrop-blur-xl shadow-lg ring-1 ring-white/30 border border-amber-100/50',
                 'gradient' => 'bg-gradient-to-r from-blue-50/30 via-white to-amber-50/50 shadow-lg ring-1 ring-amber-200/30',
                 'minimal' => 'bg-transparent shadow-none ring-0',
+                'full' => 'w-full bg-white/90 shadow-lg ring-1 ring-amber-100/60 border border-amber-100/50',
             ],
             'gradient_text' => 'bg-gradient-to-r from-blue-500 to-amber-500 bg-clip-text text-transparent',
         ],
@@ -188,7 +192,7 @@
 @endphp
 
 @if($trailItems->isNotEmpty())
-<nav aria-label="Breadcrumb" class="w-full p">
+<nav aria-label="Breadcrumb" class="w-full">
     <ul
         class="flex flex-wrap items-center gap-2 rounded-2xl px-5 py-3.5 my-4
                text-sm font-medium uppercase tracking-[0.15em] 
