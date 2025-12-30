@@ -4,8 +4,10 @@
 
 @php
     use Illuminate\Support\Facades\Route;
+    use Illuminate\Support\Facades\Storage;
 
     $user = Auth::user();
+    $avatarUrl = $user->avatar_path ? asset('storage/' . $user->avatar_path) : null;
 
     $groups = [
         'main' => [
@@ -169,6 +171,26 @@
                     'icon' => 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2',
                     'permission' => 'manage tenders',
                     'patterns' => ['admin.tenders.*'],
+                ],
+            ],
+        ],
+        'partnerships' => [
+            'label' => __('ui.partnerships'),
+            'collapsible' => true,
+            'items' => [
+                [
+                    'label' => __('ui.partners'),
+                    'route' => 'admin.partners.index',
+                    'icon' => 'M12 11c1.657 0 3-1.567 3-3.5S13.657 4 12 4s-3 1.567-3 3.5S10.343 11 12 11zm0 2c-2.21 0-4 1.343-4 3v2h8v-2c0-1.657-1.79-3-4-3z',
+                    'permission' => null,
+                    'patterns' => ['admin.partners.*'],
+                ],
+                [
+                    'label' => __('ui.mous'),
+                    'route' => 'admin.mous.index',
+                    'icon' => 'M3 7h18M3 12h18M3 17h18',
+                    'permission' => null,
+                    'patterns' => ['admin.mous.*'],
                 ],
             ],
         ],
@@ -426,9 +448,17 @@
         <!-- Fixed Footer -->
         <div class="flex-shrink-0 border-t border-gray-700 bg-gray-900/50 backdrop-blur-sm px-6 py-4">
             <div class="flex items-center gap-3 mb-4">
-                <div class="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold shadow-lg">
-                    {{ strtoupper(substr($user->name, 0, 1)) }}
-                </div>
+                @if($avatarUrl)
+                    <img
+                        src="{{ $avatarUrl }}"
+                        alt="{{ $user->name }} avatar"
+                        class="w-10 h-10 rounded-full object-cover border border-white/40 shadow-lg"
+                    >
+                @else
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold shadow-lg">
+                        {{ strtoupper(substr($user->name, 0, 1)) }}
+                    </div>
+                @endif
                 <div class="flex-1">
                     <div class="font-medium text-white truncate">{{ $user->name }}</div>
                     <div class="text-xs text-gray-400 truncate">{{ $user->email }}</div>

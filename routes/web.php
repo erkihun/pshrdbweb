@@ -35,6 +35,8 @@ use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PublicPostController;
+use App\Http\Controllers\Public\MouController as PublicMouController;
+use App\Http\Controllers\Public\OrganizationContactController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\ServiceController;
@@ -60,6 +62,8 @@ use App\Http\Controllers\Admin\OrgStatController;
 use App\Http\Controllers\Admin\OrgStatSnapshotController;
 use App\Http\Controllers\PublicServantsController;
 use App\Http\Controllers\PublicServantDashboardController;
+use App\Http\Controllers\Admin\PartnerController;
+use App\Http\Controllers\Admin\MouController as AdminMouController;
 
 Route::get('/', HomepageController::class);
 Route::get('official-message', [OfficialMessageController::class, 'edit'])
@@ -72,7 +76,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/profile', fn () => redirect()->route('admin.profile'));
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
@@ -81,7 +85,10 @@ Route::middleware(['auth', 'verified'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
-         Route::resource('home-slides', HomeSlideController::class)->except(['show']);
+        Route::resource('home-slides', HomeSlideController::class)->except(['show']);
+        Route::get('profile', [ProfileController::class, 'overview'])->name('profile');
+        Route::get('profile/update', [ProfileController::class, 'adminEdit'])->name('profile.update.form');
+        Route::get('profile/password', [ProfileController::class, 'passwordForm'])->name('profile.password.form');
         Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
         Route::resource('posts', PostController::class)->middleware('permission:manage posts');
         Route::post('editor/upload', [EditorUploadController::class, 'store'])->name('editor.upload');
@@ -134,6 +141,8 @@ Route::middleware(['auth', 'verified'])
         Route::get('alerts', [AlertController::class, 'index'])->name('alerts.index');
         Route::resource('tenders', TenderController::class)->except(['show'])->middleware('permission:manage tenders');
         Route::resource('organizations', OrganizationController::class);
+        Route::resource('partners', PartnerController::class);
+        Route::resource('mous', AdminMouController::class);
         Route::get('organizations/{organization}/stats', [OrgStatController::class, 'index'])->name('organizations.stats.index');
         Route::post('organizations/{organization}/stats', [OrgStatController::class, 'store'])->name('organizations.stats.store');
         Route::get('organizations/{organization}/stats/{stat}/edit', [OrgStatController::class, 'edit'])->name('organizations.stats.edit');
@@ -171,6 +180,8 @@ Route::get('/news', [PublicPostController::class, 'newsIndex'])->name('news.inde
 Route::get('/news/{slug}', [PublicPostController::class, 'newsShow'])->name('news.show');
 Route::get('/announcements', [PublicPostController::class, 'announcementsIndex'])->name('announcements.index');
 Route::get('/announcements/{slug}', [PublicPostController::class, 'announcementsShow'])->name('announcements.show');
+Route::get('/mous', [PublicMouController::class, 'index'])->name('public.mous.index');
+Route::get('/mous/{identifier}', [PublicMouController::class, 'show'])->name('public.mous.show');
 Route::get('/tenders', [PublicTenderController::class, 'index'])->name('tenders.index');
 Route::get('/tenders/{tender:slug}', [PublicTenderController::class, 'show'])->name('tenders.show');
 Route::get('/about', [PageController::class, 'show'])->defaults('key', 'about')->name('pages.about');
@@ -178,6 +189,7 @@ Route::get('/organization/mission-vision-values', [PageController::class, 'show'
 Route::get('/organization/leadership', [PageController::class, 'show'])->defaults('key', 'leadership')->name('pages.leadership');
 Route::get('/organization/structure', [PageController::class, 'show'])->defaults('key', 'structure')->name('pages.structure');
 Route::get('/organization/history', [PageController::class, 'show'])->defaults('key', 'history')->name('pages.history');
+Route::get('/organization/contact', [OrganizationContactController::class, 'index'])->name('organization.contact');
 Route::get('/pages/{key}', [PageController::class, 'show'])->name('pages.show');
 Route::get('/leadership', [\App\Http\Controllers\StaffController::class, 'leadership'])->name('staff.leadership');
 Route::get('/staff', [\App\Http\Controllers\StaffController::class, 'index'])->name('staff.index');

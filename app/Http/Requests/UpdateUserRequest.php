@@ -21,7 +21,7 @@ class UpdateUserRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', "unique:users,email,{$userId}"],
             'phone' => ['nullable', 'string', 'max:32'],
-            'national_id' => ['nullable', 'string', 'max:64'],
+            'national_id' => ['nullable', 'digits:16'],
             'gender' => ['nullable', 'string', 'in:male,female,other'],
             'department_id' => ['nullable', 'exists:departments,id'],
             'avatar' => ['nullable', 'image', 'max:2048'],
@@ -29,5 +29,16 @@ class UpdateUserRequest extends FormRequest
             'roles' => ['nullable', 'array'],
             'roles.*' => ['string', 'exists:roles,name'],
         ];
+    }
+
+    protected function prepareForValidation(): void
+    {
+        if (! $this->filled('national_id')) {
+            return;
+        }
+
+        $this->merge([
+            'national_id' => preg_replace('/\D/', '', $this->input('national_id')),
+        ]);
     }
 }

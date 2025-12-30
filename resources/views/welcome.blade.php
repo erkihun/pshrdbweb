@@ -73,7 +73,7 @@
 
 {{-- ================= HERO SLIDER (TITLE/SUBTITLE BOTTOM) ================= --}}
 <section id="hero" class="scroll-section is-visible relative w-full bg-gray-900 overflow-hidden">
-    <div id="heroSlider" class="relative w-full min-h-[45vh] h-[55vh] overflow-hidden" style="perspective: 1600px;">
+    <div id="heroSlider" class="relative w-full min-h-[45vh] h-[55vh] overflow-hidden" >
         @forelse ($slides as $index => $slide)
             @php
                 $transitionStyle = \Illuminate\Support\Str::of($slide->transition_style ?? 'wave')->kebab()->toString();

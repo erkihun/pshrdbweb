@@ -11,6 +11,7 @@
 
 @php
     use Illuminate\Support\Str;
+    use Illuminate\Database\Eloquent\Model;
 
     $itemCollection = collect($items ?? []);
 
@@ -64,6 +65,69 @@
         'track' => 'Track',
     ];
 
+    $routeParameters = request()->route()?->parameters() ?? [];
+
+    $buildModelLabel = function (Model $parameter) use ($routeParameters) {
+        $displayName = $parameter->display_name
+            ?? $parameter->title
+            ?? $parameter->name
+            ?? Str::headline(class_basename($parameter));
+
+        $createdAt = $parameter->getAttribute('created_at');
+
+        if (empty($createdAt)) {
+            return $displayName;
+        }
+
+        try {
+            $position = $parameter::query()
+                ->where('created_at', '<=', $createdAt)
+                ->count();
+        } catch (\Throwable) {
+            return $displayName;
+        }
+
+        return $position > 0 ? "{$displayName} #{$position}" : $displayName;
+    };
+
+    $slugResolvers = [
+        'news.show' => fn ($slug) => \App\Models\Post::query()
+            ->where('type', 'news')
+            ->where('slug', $slug)
+            ->first(),
+        'announcements.show' => fn ($slug) => \App\Models\Post::query()
+            ->where('type', 'announcement')
+            ->where('slug', $slug)
+            ->first(),
+    ];
+
+    $friendlyModelLabel = function (string $segment) use ($routeParameters, $buildModelLabel, $slugResolvers) {
+        foreach ($routeParameters as $parameter) {
+            if (!($parameter instanceof Model)) {
+                continue;
+            }
+
+            if (Str::lower((string) $parameter->getRouteKey()) !== Str::lower($segment)) {
+                continue;
+            }
+
+            return $buildModelLabel($parameter);
+        }
+
+        foreach ($slugResolvers as $routeName => $resolver) {
+            if (!request()->routeIs($routeName)) {
+                continue;
+            }
+
+            $resolved = $resolver($segment);
+            if ($resolved instanceof Model) {
+                return $buildModelLabel($resolved);
+            }
+        }
+
+        return null;
+    };
+
     foreach (request()->segments() as $segment) {
         $normalized = Str::of($segment)->lower()->toString();
 
@@ -77,6 +141,11 @@
         $label = $labelOverrides[$labelKey]
             ?? Str::headline(Str::of($segment)->replace(['-', '_'], ' ')->toString());
 
+        $friendlyLabel = $friendlyModelLabel($segment);
+        if ($friendlyLabel) {
+            $label = $friendlyLabel;
+        }
+
         $autoItems->push([
             'label' => $label,
             'url' => url(implode('/', $accumulated)),
@@ -84,6 +153,13 @@
     }
 
     $trailItems = $itemCollection->isNotEmpty() ? $itemCollection : $autoItems;
+
+    if (request()->routeIs('admin.home-slides.edit')) {
+        $trailItems = collect([
+            ['label' => __('ui.home_slides'), 'url' => route('admin.home-slides.index')],
+            ['label' => __('ui.edit_slide'), 'url' => url()->current()],
+        ]);
+    }
 
     $breadcrumbs = collect([['label' => $homeLabel, 'url' => $homeUrl]])
         ->concat($trailItems);
@@ -192,7 +268,8 @@
 @endphp
 
 @if($trailItems->isNotEmpty())
-<nav aria-label="Breadcrumb" class="w-full">
+<div class="relative mx-auto w-full max-w-full lg:max-w-screen-2xl px-4 sm:px-6 lg:px-10">
+    <nav aria-label="Breadcrumb" class="w-full">
     <ul
         class="flex flex-wrap items-center gap-2 rounded-2xl px-5 py-3.5 my-4
                text-sm font-medium uppercase tracking-[0.15em] 
@@ -248,7 +325,8 @@
                     </span>
                     
                     @if($loop->last)
-                        <span
+                        <a
+                            href="{{ $item['url'] }}"
                             class="whitespace-nowrap {{ $theme['current'] }} px-3.5 py-2 rounded-lg {{ $theme['bg_current'] }} 
                                    shadow-sm relative overflow-hidden group"
                             aria-current="page"
@@ -260,7 +338,7 @@
                                 {{ $item['label'] }}
                             </span>
                             <span class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></span>
-                        </span>
+                        </a>
                     @else
                         <a
                             href="{{ $item['url'] }}"
@@ -290,7 +368,8 @@
         </li>
         @endif
     </ul>
-</nav>
+    </nav>
+</div>
 @endif
 
 @push('styles')

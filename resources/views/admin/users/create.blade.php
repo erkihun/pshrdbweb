@@ -1,12 +1,15 @@
 @extends('admin.layouts.app')
 
 @section('content')
+@php
+    $nationalIdDisplay = trim(chunk_split(old('national_id', ''), 4, ' '));
+@endphp
     <div class="space-y-6">
         <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
             <div class="flex flex-col gap-1">
-                <p class="text-xs uppercase tracking-wide text-brand-muted">Users</p>
-                <h1 class="text-2xl font-semibold text-brand-ink">Create new user</h1>
-                <p class="text-sm text-slate-500">Provide the user's contact info and assign the appropriate department and role.</p>
+                <p class="text-xs uppercase tracking-wide text-brand-muted">{{ __('admin.users.section_label') }}</p>
+                <h1 class="text-2xl font-semibold text-brand-ink">{{ __('admin.users.create_title') }}</h1>
+                <p class="text-sm text-slate-500">{{ __('admin.users.create_description') }}</p>
             </div>
         </div>
 
@@ -20,7 +23,7 @@
 
             <div class="grid gap-4 lg:grid-cols-2">
                 <div>
-                    <label class="text-sm font-semibold text-slate-900" for="name">Full name</label>
+                    <label class="text-sm font-semibold text-slate-900" for="name">{{ __('admin.users.full_name') }}</label>
                     <input
                         id="name"
                         name="name"
@@ -34,7 +37,7 @@
                     @enderror
                 </div>
                 <div>
-                    <label class="text-sm font-semibold text-slate-900" for="email">Email address</label>
+                    <label class="text-sm font-semibold text-slate-900" for="email">{{ __('admin.users.email_address') }}</label>
                     <input
                         id="email"
                         name="email"
@@ -51,7 +54,7 @@
 
             <div class="grid gap-4 lg:grid-cols-2">
                 <div>
-                    <label class="text-sm font-semibold text-slate-900" for="phone">Phone</label>
+                    <label class="text-sm font-semibold text-slate-900" for="phone">{{ __('admin.users.phone') }}</label>
                     <input
                         id="phone"
                         name="phone"
@@ -64,13 +67,16 @@
                     @enderror
                 </div>
                 <div>
-                    <label class="text-sm font-semibold text-slate-900" for="national_id">National ID</label>
+                    <label class="text-sm font-semibold text-slate-900" for="national_id">{{ __('admin.users.national_id') }}</label>
                     <input
                         id="national_id"
                         name="national_id"
                         type="text"
-                        value="{{ old('national_id') }}"
-                        class="mt-1 w-full rounded-2xl border border-slate-200 px-4 py-2 text-sm text-slate-800 focus:border-brand-blue focus:outline-none"
+                        value="{{ $nationalIdDisplay }}"
+                        class="mt-1 w-full rounded-2xl border border-slate-200 px-4 py-2 text-sm text-slate-800 focus:border-brand-blue focus:outline-none national-id-field"
+                        inputmode="numeric"
+                        maxlength="19"
+                        pattern="[0-9 ]*"
                     >
                     @error('national_id')
                         <p class="mt-1 text-xs text-rose-600">{{ $message }}</p>
@@ -80,29 +86,29 @@
 
             <div class="grid gap-4 lg:grid-cols-3">
                 <div>
-                    <label class="text-sm font-semibold text-slate-900" for="gender">Gender</label>
+                    <label class="text-sm font-semibold text-slate-900" for="gender">{{ __('admin.users.gender') }}</label>
                     <select
                         id="gender"
                         name="gender"
                         class="mt-1 w-full rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-800 focus:border-brand-blue focus:outline-none"
                     >
-                        <option value="">Select gender</option>
-                        <option value="male" {{ old('gender') === 'male' ? 'selected' : '' }}>Male</option>
-                        <option value="female" {{ old('gender') === 'female' ? 'selected' : '' }}>Female</option>
-                        <option value="other" {{ old('gender') === 'other' ? 'selected' : '' }}>Other</option>
+                        <option value="">{{ __('admin.users.select_gender') }}</option>
+                        <option value="male" {{ old('gender') === 'male' ? 'selected' : '' }}>{{ __('admin.gender_options.male') }}</option>
+                        <option value="female" {{ old('gender') === 'female' ? 'selected' : '' }}>{{ __('admin.gender_options.female') }}</option>
+                        <option value="other" {{ old('gender') === 'other' ? 'selected' : '' }}>{{ __('admin.gender_options.other') }}</option>
                     </select>
                     @error('gender')
                         <p class="mt-1 text-xs text-rose-600">{{ $message }}</p>
                     @enderror
                 </div>
                 <div>
-                    <label class="text-sm font-semibold text-slate-900" for="department_id">Department</label>
+                    <label class="text-sm font-semibold text-slate-900" for="department_id">{{ __('admin.users.department') }}</label>
                     <select
                         id="department_id"
                         name="department_id"
                         class="mt-1 w-full rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-800 focus:border-brand-blue focus:outline-none"
                     >
-                        <option value="">Select department</option>
+                        <option value="">{{ __('admin.users.select_department') }}</option>
                         @foreach($departments as $department)
                             <option value="{{ $department->id }}" {{ old('department_id') == $department->id ? 'selected' : '' }}>
                                 {{ $department->name_en }}
@@ -114,7 +120,7 @@
                     @enderror
                 </div>
                 <div>
-                    <label class="text-sm font-semibold text-slate-900" for="avatar">Avatar</label>
+                    <label class="text-sm font-semibold text-slate-900" for="avatar">{{ __('admin.users.avatar') }}</label>
                     <input
                         id="avatar"
                         name="avatar"
@@ -129,7 +135,7 @@
 
             <div class="grid gap-4 lg:grid-cols-2">
                 <div>
-                    <label class="text-sm font-semibold text-slate-900" for="password">Password</label>
+                    <label class="text-sm font-semibold text-slate-900" for="password">{{ __('admin.users.password') }}</label>
                     <input
                         id="password"
                         name="password"
@@ -142,7 +148,7 @@
                     @enderror
                 </div>
                 <div>
-                    <label class="text-sm font-semibold text-slate-900" for="password_confirmation">Confirm password</label>
+                    <label class="text-sm font-semibold text-slate-900" for="password_confirmation">{{ __('admin.users.confirm_password') }}</label>
                     <input
                         id="password_confirmation"
                         name="password_confirmation"
@@ -154,8 +160,8 @@
             </div>
 
             <div>
-                <h2 class="text-sm font-semibold text-slate-900">Roles</h2>
-                <p class="text-xs text-slate-500">Assign predefined role(s) to define permissions.</p>
+                <h2 class="text-sm font-semibold text-slate-900">{{ __('admin.users.roles_title') }}</h2>
+                <p class="text-xs text-slate-500">{{ __('admin.users.roles_description') }}</p>
                 <div class="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                     @foreach($roles as $role)
                         <label class="flex cursor-pointer items-center gap-3 rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-800 transition hover:border-brand-blue hover:bg-brand-blue/5">
@@ -176,12 +182,12 @@
             </div>
 
             <div class="flex items-center justify-between">
-                <a href="{{ route('admin.users.index') }}" class="text-sm font-semibold text-brand-blue hover:text-brand-blue/80">Cancel</a>
+                <a href="{{ route('admin.users.index') }}" class="text-sm font-semibold text-brand-blue hover:text-brand-blue/80">{{ __('admin.users.cancel') }}</a>
                 <button
                     type="submit"
                     class="inline-flex items-center gap-2 rounded-2xl bg-brand-blue px-5 py-2 text-sm font-semibold text-white transition hover:bg-brand-blue/80"
                 >
-                    Save user
+                    {{ __('admin.users.save') }}
                 </button>
             </div>
         </form>

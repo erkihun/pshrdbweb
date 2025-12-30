@@ -33,6 +33,7 @@ return [
     'news_announcements' => 'News & Announcements',
     'pages' => 'Pages',
     'home_slides' => 'Home Slides',
+    'edit_slide' => 'Edit Slide',
     'higher_official_message' => 'Higher Official Message',
     'media_gallery' => 'Media Gallery',
     'tickets_complaints' => 'Tickets & Complaints',
@@ -55,4 +56,7 @@ return [
     'analysis' => 'Analysis',
     'citizen_charter' => 'Citizen Charter',
     'charter_services' => 'Charter Services',
+    'partnerships' => 'Partnerships',
+    'partners' => 'Partners',
+    'mous' => 'MoUs',
 ];

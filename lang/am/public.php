@@ -9,6 +9,7 @@ return [
         'downloads' => 'ህግ/ደንብ',
         'contact' => 'ያግኙን',
         'citizen_charter' => 'ቻርተር',
+        'partnerships' => 'Partnerships',
         'services' => 'አገልግሎት',
         'request_service' => 'አገልግሎት ይጠይቁ',
         'appointments' => 'ቀጠሮ',

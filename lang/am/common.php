@@ -94,7 +94,9 @@ return [
 
     ],
     'labels' => [
+        'not_available' => 'አልተገኘም',
         'all' => 'ሁሉም',
+        'key' => 'ቁልፍ',
         'type' => 'አይነት',
         'author_name' => 'ደራሲ',
         'posted_date' => 'የታወቀበት ቀን',
@@ -359,6 +361,7 @@ return [
     ],
     'messages' => [
         'pages_defined' => 'የቀደሙት የገጾች ሁሉም ተቀናጅተዋል።',
+        'current_cover_image' => 'ያሁን፡ :path',
         'no_documents' => 'ሰነዶች አልተገኙም።',
         'no_services' => 'አሁን ምንም አገልግሎት የለም።',
         'no_posts' => 'አሁን ምንም ዜና ወይም ማስታወቂያ የለም።',

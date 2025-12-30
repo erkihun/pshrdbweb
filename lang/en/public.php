@@ -9,6 +9,7 @@ return [
         'downloads' => 'Downloads',
         'contact' => 'Contact',
         'citizen_charter' => 'Charter',
+        'partnerships' => 'Partnerships',
         'services' => 'Services',
         'request_service' => 'Request Service',
         'appointments' => 'Appointments',

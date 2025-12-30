@@ -1,6 +1,8 @@
 ﻿@php
     $locale = app()->getLocale();
     $role = Auth::user()->getRoleNames()->first();
+    $user = Auth::user();
+    $avatarUrl = $user->avatar_path ? asset('storage/' . $user->avatar_path) : null;
 @endphp
 
 <header class="fixed top-0 left-72 right-0 z-50 border-b border-slate-200/80 bg-white/95 backdrop-blur-lg supports-[backdrop-filter]:bg-white/80">
@@ -74,12 +76,16 @@
                     data-dropdown-trigger="profile"
                     aria-expanded="false"
                 >
-                    <div class="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-brand-blue to-blue-600 font-semibold uppercase text-white shadow-sm">
-                        {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
-                    </div>
+                    @if($avatarUrl)
+                        <img src="{{ $avatarUrl }}" alt="{{ $user->name }} avatar" class="h-9 w-9 rounded-full object-cover shadow-sm ring-1 ring-slate-200">
+                    @else
+                        <div class="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-brand-blue to-blue-600 font-semibold uppercase text-white shadow-sm">
+                            {{ strtoupper(substr($user->name, 0, 1)) }}
+                        </div>
+                    @endif
                     <div class="hidden text-left leading-tight sm:block">
                         <p class="text-[10px] font-medium text-slate-400">{{ __('ui.profile') }}</p>
-                        <p class="text-sm font-semibold text-slate-900 truncate max-w-[120px]">{{ Auth::user()->name }}</p>
+                        <p class="text-sm font-semibold text-slate-900 truncate max-w-[120px]">{{ $user->name }}</p>
                     </div>
                     <svg xmlns="http://www.w3.org/2000/svg" class="hidden h-3.5 w-3.5 text-slate-400 sm:block" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.939l3.71-3.71a.75.75 0 011.08 1.04l-4.25 4.25a.75.75 0 01-1.08 0L5.25 8.27a.75.75 0 01-.02-1.06z" clip-rule="evenodd" />
@@ -93,7 +99,7 @@
                     class="hidden absolute right-0 z-20 mt-3 w-56 rounded-2xl border border-slate-200 bg-white p-4 shadow-lg"
                 >
                     <p class="text-[10px] text-slate-400">{{ __('ui.profile') }}</p>
-                    <a href="{{ route('profile.edit') }}" class="mt-2 block rounded-xl px-3 py-2 font-semibold text-slate-600 hover:bg-slate-50">{{ __('ui.profile') }}</a>
+                    <a href="{{ route('admin.profile') }}" class="mt-2 block rounded-xl px-3 py-2 font-semibold text-slate-600 hover:bg-slate-50">{{ __('ui.profile') }}</a>
                     @if($role)
                         <p class="mt-1 text-[10px] text-slate-500">{{ $role }}</p>
                     @endif

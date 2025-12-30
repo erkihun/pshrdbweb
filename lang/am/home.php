@@ -21,8 +21,8 @@ return [
         'mobile_button' => 'ሁሉንም ዜናዎች እና ማስታወቂያዎች ይመልከቱ',
     ],
     'leaders' => [
-        'title' => 'የእኛን :highlight ያግኙ',
-        'highlight' => 'መሪዎች',
+        'title' => ':highlight',
+        'highlight' => 'ከፍተኛ አመራሮች',
         'description' => 'ለሕዝብ አገልግሎታችን አመራር እና አቅጣጫ የሚሰጠውን ቁርጠኛ ቡድን ያግኙ።',
         'previous' => 'የቀድሞ',
         'next' => 'የሚቀጥሉ ',

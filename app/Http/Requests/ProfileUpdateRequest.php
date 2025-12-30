@@ -25,6 +25,22 @@ class ProfileUpdateRequest extends FormRequest
                 'max:255',
                 Rule::unique(User::class)->ignore($this->user()->id),
             ],
+            'phone' => ['nullable', 'string', 'max:32'],
+            'national_id' => ['nullable', 'digits:16'],
+            'gender' => ['nullable', 'string', 'in:male,female,other'],
+            'department_id' => ['nullable', 'exists:departments,id'],
+            'avatar' => ['nullable', 'image', 'max:2048'],
         ];
+    }
+
+    protected function prepareForValidation(): void
+    {
+        if (! $this->filled('national_id')) {
+            return;
+        }
+
+        $this->merge([
+            'national_id' => preg_replace('/\D/', '', $this->input('national_id')),
+        ]);
     }
 }

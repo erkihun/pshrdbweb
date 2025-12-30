@@ -3,10 +3,10 @@
 @section('content')
     <div class="space-y-8 p-6">
         <div class="flex flex-wrap items-center justify-between gap-4">
-            <div>
-                <h1 class="text-3xl font-bold tracking-tight text-slate-900">{{ __('common.labels.pages') }}</h1>
-                <p class="mt-2 text-sm text-slate-500">{{ __('common.nav.organization') }}</p>
-            </div>
+                <div>
+                    <h1 class="text-3xl font-bold tracking-tight text-slate-900">{{ __('common.labels.pages') }}</h1>
+                    <p class="mt-2 text-sm text-slate-500">{{ __('common.nav.organization') }}</p>
+                </div>
             @if(!empty($missingKeys) && $missingKeys->isNotEmpty())
                 <a
                     href="{{ route('admin.pages.create') }}"
@@ -28,7 +28,7 @@
             <table class="w-full text-left text-sm">
                 <thead class="bg-slate-50/50 text-xs font-semibold uppercase tracking-wider text-slate-600 border-b border-slate-100">
                     <tr>
-                        <th class="px-8 py-5">Key</th>
+                        <th class="px-8 py-5">{{ __('common.labels.key') }}</th>
                         <th class="px-8 py-5">{{ __('common.labels.title') }}</th>
                         <th class="px-8 py-5">{{ __('common.labels.status') }}</th>
                         <th class="px-8 py-5 text-right">{{ __('common.actions.edit') }}</th>
@@ -44,7 +44,7 @@
                             </td>
                             <td class="px-8 py-5">
                                 <span class="font-semibold text-slate-900">
-                                    {{ $item['page']?->display_title ?? '—' }}
+                                    {{ $item['page']?->display_title ?? __('common.labels.not_available') }}
                                 </span>
                             </td>
                             <td class="px-8 py-5">

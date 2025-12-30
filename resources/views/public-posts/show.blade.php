@@ -156,7 +156,7 @@
                     @endif
 
                     <div class="mt-6 border-t border-gray-100 pt-6">
-                        <x-rich-content>
+                        <x-rich-content class="prose prose-slate text-justify">
                             {!! $post->display_body !!}
                         </x-rich-content>
                     </div>
@@ -164,7 +164,7 @@
                     <div class="mt-8 print-hidden">
                         <a
                             href="{{ $type === 'news' ? route('news.index') : route('announcements.index') }}"
-                            class="btn-secondary"
+                            class="btn-primary"
                         >
                             {{ __('common.actions.back') }}
                         </a>

@@ -52,11 +52,26 @@
             {{-- DESKTOP NAV --}}
             <div class="hidden lg:flex lg:items-center lg:gap-1 lg:ml-6 lg:mr-4 lg:flex-nowrap">
                 @php
+                    $contactDropdown = [
+                        [
+                            'label' => __('public.navigation.contact_us') ?? 'Contact Us',
+                            'href' => route('contact'),
+                            'active' => request()->routeIs('contact'),
+                        ],
+                        [
+                            'label' => __('public.navigation.contact_org') ?? 'Contact Org',
+                            'href' => route('organization.contact'),
+                            'active' => request()->routeIs('organization.contact'),
+                        ],
+                    ];
+
                     $navLinks = [
                         ['label' => __('public.navigation.downloads'), 'href' => route('downloads.index'), 'active' => request()->routeIs('downloads.*'), 'icon' => 'arrow-down-tray'],
-                        ['label' => __('public.navigation.contact'), 'href' => route('contact'), 'active' => request()->routeIs('contact.*'), 'icon' => 'map-pin'],
                         ['label' => __('public.navigation.citizen_charter'), 'href' => route('citizen-charter.index'), 'active' => request()->routeIs('citizen-charter.*'), 'icon' => 'document-text'],
+                        ['label' => __('public.navigation.partnerships'), 'href' => route('public.mous.index'), 'active' => request()->routeIs('public.mous.*'), 'icon' => 'hand-thumb-up'],
                     ];
+
+                    $isContactActive = collect($contactDropdown)->contains('active', true);
 
                     $announcementDropdown = [];
                     if (Route::has('announcements.index')) {
@@ -286,9 +301,9 @@
                     </div>
                 </div>
                 {{-- Remaining simple links --}}
-                @foreach($navLinks as $item)
-                    <a href="{{ $item['href'] }}"
-                       class="{{ $desktopLinkBase }} {{ $desktopLinkHover }} {{ $item['active'] ? 'text-brand-blue' : 'text-gray-700' }}">
+                    @foreach($navLinks as $item)
+                        <a href="{{ $item['href'] }}"
+                           class="{{ $desktopLinkBase }} {{ $desktopLinkHover }} {{ $item['active'] ? 'text-brand-blue' : 'text-gray-700' }}">
                         @if($item['active'])
                             <div class="absolute -bottom-[9px] left-1/2 -translate-x-1/2 w-8 h-0.5 bg-brand-blue rounded-full"></div>
                         @endif
@@ -303,8 +318,43 @@
                             <span>{{ $item['label'] }}</span>
                         </span>
                     </a>
-                @endforeach
-            </div>
+                        @endforeach
+
+                    {{-- Contact dropdown (desktop) --}}
+                    <div class="relative group">
+                        <button type="button"
+                                aria-haspopup="true"
+                                class="{{ $desktopLinkBase }} {{ $desktopLinkHover }} {{ $isContactActive ? 'text-brand-blue' : 'text-gray-700' }} font-abyssinica">
+                            <span class="inline-flex items-center gap-2">
+                                <x-heroicon-o-phone class="h-4 w-4" aria-hidden="true" />
+                                <span>{{ __('public.navigation.contact') }}</span>
+                            </span>
+                            <x-heroicon-o-chevron-down class="ml-1 h-4 w-4 transition-transform duration-200 group-hover:rotate-180 group-focus-within:rotate-180 text-current" aria-hidden="true" />
+                            @if($isContactActive)
+                                <div class="absolute -bottom-[9px] left-1/2 -translate-x-1/2 w-8 h-0.5 bg-brand-blue rounded-full"></div>
+                            @endif
+                        </button>
+
+                        <div class="absolute left-0 mt-2 w-60 rounded-2xl bg-white border border-gray-100 shadow-xl z-50
+                                opacity-0 translate-y-1 pointer-events-none
+                                group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto
+                                group-focus-within:opacity-100 group-focus-within:translate-y-0 group-focus-within:pointer-events-auto
+                                transition-all duration-150">
+                            <div class="p-2 font-abyssinica">
+                                @foreach($contactDropdown as $item)
+                                    <a href="{{ $item['href'] }}"
+                                       class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm hover:bg-gray-50 transition
+                                              {{ $item['active'] ? 'text-brand-blue font-semibold' : 'text-gray-700' }}">
+                                        <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-gray-50 text-gray-700">
+                                            <x-heroicon-o-phone class="h-4 w-4" aria-hidden="true" />
+                                        </span>
+                                        <span>{{ $item['label'] }}</span>
+                                    </a>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             {{-- RIGHT ACTIONS --}}
             <div class="flex items-center gap-2 lg:ml-auto">
@@ -462,9 +512,9 @@
                     </div>
 
                 {{-- Remaining links --}}
-                @foreach($navLinks as $item)
-                    <a href="{{ $item['href'] }}" @click="open = false"
-                       class="{{ $mobileLinkBase }} {{ $mobileLinkHover }} flex items-center gap-3 {{ $item['active'] ? 'text-brand-blue bg-gray-50' : 'text-gray-700' }}">
+                    @foreach($navLinks as $item)
+                        <a href="{{ $item['href'] }}" @click="open = false"
+                           class="{{ $mobileLinkBase }} {{ $mobileLinkHover }} flex items-center gap-3 {{ $item['active'] ? 'text-brand-blue bg-gray-50' : 'text-gray-700' }}">
                         <span class="inline-flex items-center">
                             <x-dynamic-component
                                 :component="'heroicon-o-'.$item['icon']"
@@ -474,7 +524,24 @@
                         </span>
                         <span>{{ $item['label'] }}</span>
                     </a>
-                @endforeach
+                    @endforeach
+
+                    {{-- Contact dropdown (mobile) --}}
+                    <div class="rounded-2xl border border-gray-100 bg-gray-50/60 p-3 font-abyssinica">
+                        <div class="flex items-center gap-2 px-1 pb-2 text-sm font-semibold text-gray-900">
+                            <x-heroicon-o-phone class="h-4 w-4" aria-hidden="true" />
+                            <span>{{ __('public.navigation.contact') }}</span>
+                        </div>
+                        <div class="space-y-1">
+                            @foreach($contactDropdown as $item)
+                                <a href="{{ $item['href'] }}" @click="open = false"
+                                   class="flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-gray-700 hover:bg-white hover:text-orange-600 transition {{ $item['active'] ? 'text-brand-blue' : '' }}">
+                                    <x-heroicon-o-phone class="h-4 w-4" aria-hidden="true" />
+                                    <span>{{ $item['label'] }}</span>
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
 
                     {{-- Language buttons (mobile) --}}
                     <div class="flex gap-2 pt-3">

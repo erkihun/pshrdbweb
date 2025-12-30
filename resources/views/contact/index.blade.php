@@ -5,6 +5,7 @@
         </h2>
     </x-slot>
 
+
     <div class="py-12">
         <div class="mx-auto max-w-6xl space-y-8 px-4 sm:px-6 lg:px-8">
             @if($contactInfo)
@@ -27,20 +28,21 @@
                             @endif
                         </div>
 
+
                         <div class="mt-6 grid gap-6 md:grid-cols-2">
                             <div>
                                 <p class="text-sm font-semibold text-slate-500">Address</p>
                                 <p class="mt-2 text-sm text-slate-700 whitespace-pre-line">
                                     {{ $contactInfo->physical_address }}<br>
                                     {{ $contactInfo->city }}{{ $contactInfo->region ? ', '.$contactInfo->region : '' }}<br>
-                                    {{ $contactInfo->country }}{{ $contactInfo->postal_code ? ' Aú '.$contactInfo->postal_code : '' }}
+                                    {{ $contactInfo->country }}{{ $contactInfo->postal_code ? ' Aï¿½ '.$contactInfo->postal_code : '' }}
                                 </p>
                             </div>
                             <div>
                                 <p class="text-sm font-semibold text-slate-500">Office hours</p>
                                 <p class="text-xs font-semibold uppercase tracking-wide text-slate-400">Schedules &amp; brief</p>
                                 <div class="mt-2 space-y-2 text-sm text-slate-700">
-                                    {!! $contactInfo->sanitized_office_hours ?: '<p>Weekdays Aú 08:00 ƒ?" 17:00</p>' !!}
+                                    {!! $contactInfo->sanitized_office_hours ?: '<p>Weekdays Aï¿½ 08:00 ï¿½?" 17:00</p>' !!}
                                 </div>
                             </div>
                         </div>
@@ -73,6 +75,7 @@
                             </div>
                         </div>
 
+
                         <div class="mt-6 space-y-2">
                             <p class="text-sm font-semibold text-slate-500">Connect with us</p>
                             <div class="flex flex-wrap gap-3 text-sm">
@@ -91,6 +94,7 @@
                             </div>
                         </div>
                     </div>
+
 
                     <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
                         <div class="flex items-center justify-between">
@@ -126,6 +130,7 @@
                 </div>
             @endif
 
+
             <div class="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm">
                 <div class="flex items-center justify-between">
                     <div>
@@ -140,6 +145,7 @@
                 @endif
                 <form method="POST" action="{{ route('contact.store') }}" class="mt-6 space-y-6">
                     @csrf
+
 
                     <div>
                         <label class="text-sm font-semibold text-gray-700" for="name">{{ __('common.labels.full_name') }}</label>
@@ -156,6 +162,7 @@
                         @enderror
                     </div>
 
+
                     <div>
                         <label class="text-sm font-semibold text-gray-700" for="email">{{ __('common.labels.email') }}</label>
                         <input
@@ -170,6 +177,7 @@
                             <p class="mt-2 text-xs text-rose-600">{{ $message }}</p>
                         @enderror
                     </div>
+
 
                     <div>
                         <label class="text-sm font-semibold text-gray-700" for="subject">{{ __('common.labels.subject') }}</label>
@@ -186,6 +194,7 @@
                         @enderror
                     </div>
 
+
                     <div>
                         <label class="text-sm font-semibold text-gray-700" for="message">{{ __('common.labels.message') }}</label>
                         <textarea
@@ -200,6 +209,7 @@
                         @enderror
                     </div>
 
+
                     <div class="flex justify-end">
                         <button
                             type="submit"
@@ -213,5 +223,12 @@
         </div>
     </div>
 </x-app-layout>
+
+
+
+
+
+
+
 
 

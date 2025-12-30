@@ -53,4 +53,7 @@ return [
     'subscriptions' => 'አባላነቶች',
     'analytics' => 'ትንተናዎች',
     'analysis' => 'ትንተና',
+      'partnerships' => 'አጋሮች',
+    'partners' => 'አጋሮች',
+    'mous' => 'የመግባቢያ ሰነዶች',
 ];

@@ -21,6 +21,7 @@
             rel="stylesheet"
         >
 
+
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         @stack('styles')
         @stack('meta')
@@ -34,18 +35,27 @@
         </a>
         @include('layouts.public-navbar')
 
+
         <main id="main-content" class="min-h-screen">
             <div class="w-full px-4 sm:px-6 lg:px-8">
-                <x-breadcrumbs variant="full" class="mb-6" />
+                @php
+                    $breadcrumbItems = $breadcrumbItems ?? null;
+                @endphp
+                <x-breadcrumbs :items="$breadcrumbItems" variant="full" class="mb-6" />
             </div>
             @yield('content')
         </main>
+
 
         @include('layouts.public-footer')
         @php
             $officeHoursService = app(\App\Services\OfficeHoursService::class);
         @endphp
         @stack('scripts')
-  
+ 
     </body>
 </html>
+
+
+
+
