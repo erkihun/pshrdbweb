@@ -125,9 +125,9 @@
                     class="mt-2 w-full rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-300"
                 >
                     <option value="">{{ __('common.actions.choose') }}</option>
-                    <option value="left" @selected(old('side', $department->side ?? '') === 'left')>Left</option>
-                    <option value="right" @selected(old('side', $department->side ?? '') === 'right')>Right</option>
-                    <option value="center" @selected(old('side', $department->side ?? '') === 'center')>Center</option>
+                    <option value="left" @selected(old('side', $department->side ?? '') === 'left')>{{ __('common.sides.left') }}</option>
+                    <option value="right" @selected(old('side', $department->side ?? '') === 'right')>{{ __('common.sides.right') }}</option>
+                    <option value="center" @selected(old('side', $department->side ?? '') === 'center')>{{ __('common.sides.center') }}</option>
                 </select>
                 @error('side')
                     <p class="mt-2 text-xs text-rose-600">{{ $message }}</p>
@@ -151,31 +151,31 @@
         </div>
         <div class="grid gap-6 md:grid-cols-2">
             <div>
-                <label class="text-sm font-semibold text-slate-700" for="department_address_note_am">
-                    {{ __('common.citizen_charter.admin.form.address_note_am') }}
-                </label>
-                <textarea
-                    id="department_address_note_am"
-                    name="department_address_note_am"
-                    rows="3"
-                    data-editor="tinymce"
-                    class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-300"
-                >{{ old('department_address_note_am', $department->department_address_note_am ?? '') }}</textarea>
+            <label class="text-sm font-semibold text-slate-700" for="department_address_note_am">
+                {{ __('common.citizen_charter.admin.form.address_note_am') }}
+            </label>
+            <input
+                id="department_address_note_am"
+                name="department_address_note_am"
+                type="text"
+                value="{{ old('department_address_note_am', $department->department_address_note_am ?? '') }}"
+                class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-300"
+            >
                 @error('department_address_note_am')
                     <p class="mt-2 text-xs text-rose-600">{{ $message }}</p>
                 @enderror
             </div>
             <div>
-                <label class="text-sm font-semibold text-slate-700" for="department_address_note_en">
-                    {{ __('common.citizen_charter.admin.form.address_note_en') }}
-                </label>
-                <textarea
-                    id="department_address_note_en"
-                    name="department_address_note_en"
-                    rows="3"
-                    data-editor="tinymce"
-                    class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-300"
-                >{{ old('department_address_note_en', $department->department_address_note_en ?? '') }}</textarea>
+            <label class="text-sm font-semibold text-slate-700" for="department_address_note_en">
+                {{ __('common.citizen_charter.admin.form.address_note_en') }}
+            </label>
+            <input
+                id="department_address_note_en"
+                name="department_address_note_en"
+                type="text"
+                value="{{ old('department_address_note_en', $department->department_address_note_en ?? '') }}"
+                class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-300"
+            >
                 @error('department_address_note_en')
                     <p class="mt-2 text-xs text-rose-600">{{ $message }}</p>
                 @enderror

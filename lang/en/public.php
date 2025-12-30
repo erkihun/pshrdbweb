@@ -17,6 +17,8 @@ return [
         'staff' => 'Staff',
         'public_servant_dashboard' => 'Public Servant Dashboard',
         'navigation_toggle' => 'Toggle navigation',
+        'contact_us' => 'Contact us',
+        'contact_org' => 'Organization address',
     ],
 
     'buttons' => [

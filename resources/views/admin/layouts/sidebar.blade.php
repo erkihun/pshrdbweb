@@ -8,6 +8,15 @@
 
     $user = Auth::user();
     $avatarUrl = $user->avatar_path ? asset('storage/' . $user->avatar_path) : null;
+    $siteSettings = $site_settings ?? [];
+    $branding = $siteSettings['site.branding'] ?? [];
+    $brandName = $branding['site_name_' . app()->getLocale()]
+        ?? config('app.name', 'Laravel');
+    $logo = $branding['logo_path']
+        ?? $branding['logo']
+        ?? $branding['logo_light']
+        ?? $branding['logo_' . app()->getLocale()]
+        ?? null;
 
     $groups = [
         'main' => [
@@ -341,10 +350,21 @@
     <div class="flex h-full flex-col">
         <!-- Fixed Header -->
         <div class="flex-shrink-0 px-6 py-4 border-b border-gray-700 bg-gray-900/50 backdrop-blur-sm">
-            <div class="flex items-center justify-between">
-                <div>
-                    <div class="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">{{ __('ui.language') }}</div>
-                    <div class="text-xl font-bold text-white">{{ config('app.name', 'Laravel') }}</div>
+            <div class="flex items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="flex h-30  items-center justify-center">
+                        @if($logo)
+                            <img
+                                src="{{ asset('storage/' . ltrim($logo, '/')) }}"
+                                alt="{{ $brandName }}"
+                                class="object-contain"
+                                loading="eager"
+                            >
+                        @else
+                            <x-application-logo class="h-10 w-10 text-white" aria-hidden="true" />
+                        @endif
+                    </div>
+                 
                 </div>
                 @if($mobile)
                     <button

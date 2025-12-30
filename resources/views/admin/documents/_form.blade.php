@@ -87,9 +87,9 @@
         >
             <option value="">{{ __('common.labels.category') }}</option>
             @foreach ($categories as $category)
-                <option value="{{ $category->id }}" @selected(old('document_category_id', $document->document_category_id ?? '') === $category->id)>
-                    {{ $category->name }}
-                </option>
+                    <option value="{{ $category->id }}" @selected(old('document_category_id', $document->document_category_id ?? '') === $category->id)>
+                        {{ $category->display_name }}
+                    </option>
             @endforeach
         </select>
         @error('document_category_id')

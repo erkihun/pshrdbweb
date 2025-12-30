@@ -13,9 +13,11 @@ class DocumentCategoryFactory extends Factory
     public function definition(): array
     {
         $name = $this->faker->words(2, true);
+        $nameAm = $this->faker->words(2, true);
 
         return [
             'name' => Str::title($name),
+            'name_am' => Str::title($nameAm),
             'slug' => Str::slug($name) . '-' . Str::lower(Str::random(4)),
             'sort_order' => $this->faker->numberBetween(1, 20),
             'is_active' => true,

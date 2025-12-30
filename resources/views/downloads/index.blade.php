@@ -29,9 +29,9 @@
                         >
                             <option value="">{{ __('common.labels.all') }}</option>
                             @foreach ($categories as $category)
-                                <option value="{{ $category->slug }}" @selected(optional($selectedCategory)->id === $category->id)>
-                                    {{ $category->name }}
-                                </option>
+                            <option value="{{ $category->slug }}" @selected(optional($selectedCategory)->id === $category->id)>
+                                {{ $category->display_name }}
+                            </option>
                             @endforeach
                         </select>
                     </div>
@@ -69,7 +69,7 @@
                                     @endif
                                 </span>
                                 <span>
-                                    {{ $document->category?->name ?? __('common.labels.category') }}
+                                    {{ $document->category?->display_name ?? __('common.labels.category') }}
                                 </span>
                             </div>
                             <h3 class="mt-3 text-lg font-semibold text-gray-900">{{ $document->display_title }}</h3>

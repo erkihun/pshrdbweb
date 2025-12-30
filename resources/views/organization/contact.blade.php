@@ -26,7 +26,7 @@
                     @foreach($organizations as $index => $organization)
                         <button
                             type="button"
-                            class="org-tab flex w-full items-center justify-between gap-2 rounded-xl border border-gray-200 bg-white/80 px-4 py-3 text-left text-sm font-semibold text-gray-700 transition hover:border-blue-400 hover:bg-blue-50"
+                            class="org-tab flex w-full items-center justify-between gap-2 rounded-xl border border-gray-200 bg-white/80 px-4 py-3 text-left text-sm font-semibold text-gray-700 transition hover:border-blue-400 hover:bg-blue-50 {{ $index === 0 ? 'border-blue-500 bg-blue-50' : '' }}"
                             data-target="org-{{ $index }}"
                         >
                             <span>{{ $organization->name }}</span>
@@ -45,12 +45,15 @@
                             $organization->phone_primary,
                             $organization->phone_secondary,
                         ]);
+
                         $emails = array_filter([
                             $organization->email_primary,
                             $organization->email_secondary,
                         ]);
-                        $mapEmbedUrl = $organization->map_embed_url;
-                        $canEmbedMap = $mapEmbedUrl && Str::startsWith($mapEmbedUrl, 'https://www.google.com/maps/embed');
+
+                        $mapEmbedUrl = trim((string) ($organization->map_embed_url ?? ''));
+                        $canEmbedMap = $mapEmbedUrl !== '' && Str::startsWith($mapEmbedUrl, 'https://www.google.com/maps/embed');
+
                         $mapQuery = $mapQueryTemplate($organization);
                         $mapLink = !$canEmbedMap && $mapQuery
                             ? 'https://www.google.com/maps/search/?api=1&query=' . urlencode($mapQuery)
@@ -191,34 +194,34 @@
             </div>
         </div>
     </div>
-
-    @push('scripts')
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const tabs = document.querySelectorAll('.org-tab');
-                const details = document.querySelectorAll('.org-detail');
-
-                if (!tabs.length || !details.length) {
-                    return;
-                }
-
-                tabs.forEach(tab => {
-                    tab.addEventListener('click', function () {
-                        const targetId = this.dataset.target;
-
-                        details.forEach(detail => {
-                            detail.hidden = detail.id !== targetId;
-                        });
-
-                        tabs.forEach(item => {
-                            item.classList.remove('border-blue-500', 'bg-blue-50');
-                        });
-
-                        this.classList.add('border-blue-500', 'bg-blue-50');
-                    });
-                });
-            });
-        </script>
-    @endpush
 </section>
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const tabs = document.querySelectorAll('.org-tab');
+        const details = document.querySelectorAll('.org-detail');
+
+        if (!tabs.length || !details.length) {
+            return;
+        }
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function () {
+                const targetId = this.dataset.target;
+
+                details.forEach(detail => {
+                    detail.hidden = detail.id !== targetId;
+                });
+
+                tabs.forEach(item => {
+                    item.classList.remove('border-blue-500', 'bg-blue-50');
+                });
+
+                this.classList.add('border-blue-500', 'bg-blue-50');
+            });
+        });
+    });
+</script>
+@endpush
 @endsection

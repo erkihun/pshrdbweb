@@ -23,6 +23,7 @@ class DocumentCategoriesSeeder extends Seeder
                 ['slug' => Str::slug($name)],
                 [
                     'name' => $name,
+                    'name_am' => $name,
                     'sort_order' => $index + 1,
                     'is_active' => true,
                 ]

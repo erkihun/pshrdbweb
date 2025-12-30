@@ -28,7 +28,7 @@
                 <div>
                     <dt class="text-xs uppercase tracking-wide text-slate-400">{{ __('common.labels.category') }}</dt>
                     <dd class="mt-1 font-medium text-slate-800">
-                        {{ $document->category?->name ?? __('common.labels.category') }}
+                        {{ $document->category?->display_name ?? __('common.labels.category') }}
                     </dd>
                 </div>
                 <div>

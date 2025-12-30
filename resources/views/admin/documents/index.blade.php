@@ -164,7 +164,7 @@
                                 <td class="px-6 py-4">
                                     @if($document->category)
                                         <span class="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-700">
-                                            {{ $document->category->name }}
+                                            {{ $document->category?->display_name ?? __('common.labels.category') }}
                                         </span>
                                     @else
                                         <span class="text-sm text-slate-400">—</span>

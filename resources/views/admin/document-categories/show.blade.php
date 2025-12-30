@@ -4,9 +4,12 @@
     <div class="flex flex-col gap-6">
         <div class="flex flex-wrap items-start justify-between gap-4">
             <div>
-                <h1 class="text-2xl font-semibold text-slate-900">{{ $category->name }}</h1>
-                <p class="text-sm text-slate-500">{{ $category->slug }}</p>
-            </div>
+            <h1 class="text-2xl font-semibold text-slate-900">{{ $category->name }}</h1>
+            <p class="text-sm text-slate-500">{{ $category->slug }}</p>
+            @if($category->name_am && $category->name_am !== $category->name)
+                <p class="text-sm text-slate-500">{{ $category->name_am }}</p>
+            @endif
+        </div>
             <div class="flex items-center gap-3">
                 <a
                     href="{{ route('admin.document-categories.edit', $category) }}"

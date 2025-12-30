@@ -1,6 +1,6 @@
 <div class="space-y-6">
     <div>
-        <label class="text-sm font-semibold text-slate-700" for="name">{{ __('common.labels.title') }}</label>
+        <label class="text-sm font-semibold text-slate-700" for="name">{{ __('common.labels.title') }} ({{ __('common.tabs.en') }})</label>
         <input
             id="name"
             name="name"
@@ -10,6 +10,21 @@
             required
         >
         @error('name')
+            <p class="mt-2 text-xs text-rose-600">{{ $message }}</p>
+        @enderror
+    </div>
+
+    <div>
+        <label class="text-sm font-semibold text-slate-700" for="name_am">{{ __('common.labels.title') }} ({{ __('common.tabs.am') }})</label>
+        <input
+            id="name_am"
+            name="name_am"
+            type="text"
+            value="{{ old('name_am', $category->name_am ?? '') }}"
+            class="mt-2 w-full rounded-lg border border-slate-200 px-4 py-2 text-sm focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-300"
+            required
+        >
+        @error('name_am')
             <p class="mt-2 text-xs text-rose-600">{{ $message }}</p>
         @enderror
     </div>

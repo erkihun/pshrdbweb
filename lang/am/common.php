@@ -47,6 +47,7 @@ return [
         'submit' => 'አስገባ',
         'actions' => 'ተግባራት', // Translated
         'subscribe' => 'ሰብስክራይብ', // Fixed typo
+        'choose' => 'ይምረጡ',
       'book' => 'ያዝ',
 
         'open' => 'ክፈት',
@@ -230,8 +231,13 @@ return [
         'queued' => 'በተራ ላይ ያለ',
         'other_documents' => 'ሌሎች ሰነዶች',
         'learn_more' => 'ተጨማሪ ለማወቅ',
+     
     ],
-
+   'sides' => [
+            'left' => 'ግራ',
+            'right' => 'ቀኝ',
+            'center' => 'መሀከል',
+        ],
     'settings' => [
         'branding' => 'ብራንዲንግ',
         'branding_hint' => 'የጣቢያውን ብራንዲንግ ዝርዝሮች ያዘምኑ።',
@@ -304,8 +310,8 @@ return [
             'form' => [
                 'address_details' => 'የአድራሻ ዝርዝሮች',
                 'building' => 'ሕንጻ',
-                'floor' => 'ደረጃ',
-                'side' => 'ጎን',
+                'floor' => 'ወለል ቁጥር',
+                'side' => 'አቅጣጫ',
                 'office_room' => 'ቢሮ / ክፍል',
                 'address_note_am' => 'የአድራሻ ማስታወሻ (አማርኛ)',
                 'address_note_en' => 'የአድራሻ ማስታወሻ (እንግሊዝኛ)',
@@ -330,8 +336,8 @@ return [
                 'service_place' => 'የአገልግሎቱ ቦታ',
                 'department_address' => 'የክፍሉ አድራሻ',
                 'building' => 'ሕንጻ',
-                'floor' => 'ደረጃ',
-                'side' => 'ጎን',
+                'floor' => 'ወለል',
+                'side' => 'አቅጣጫ',
                 'office_room' => 'ቢሮ / ክፍል',
                 'prerequisites' => 'የመጀመሪያ መስፈርቶች',
                 'other_info' => 'ተጨማሪ መረጃ',
@@ -630,7 +636,7 @@ return [
         'terms_service' => 'የአገልግሎት ውሎች',
         'accessibility' => 'ተደራሽነት',
         'sitemap' => 'የጣቢያ ካርታ',      
-          'visitor_count' => 'Visitors: :count',
+          'visitor_count' => 'ጎብኝዎች: :count',
 
 
     ],

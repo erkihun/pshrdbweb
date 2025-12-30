@@ -43,7 +43,7 @@
                                         </div>
                                         <span class="text-xs font-semibold uppercase tracking-wide text-slate-500">{{ strtoupper($other->file_type) }}</span>
                                     </div>
-                                    <p class="mt-1 text-xs text-slate-500 line-clamp-2">{{ $other->category?->name }}</p>
+                                    <p class="mt-1 text-xs text-slate-500 line-clamp-2">{{ $other->category?->display_name }}</p>
                                     @if($other->display_description)
                                         <p class="mt-3 text-xs text-slate-500 line-clamp-3">{{ Str::limit($other->display_description, 80) }}</p>
                                     @endif

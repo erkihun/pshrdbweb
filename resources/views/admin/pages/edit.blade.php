@@ -4,7 +4,13 @@
     <div class="flex flex-col gap-6">
         <div>
             <h1 class="text-2xl font-semibold text-slate-900">{{ __('common.actions.edit') }}</h1>
-            <p class="text-sm text-slate-500">{{ $key }}</p>
+            @php
+                $translationKey = 'pages.sections.' . $key;
+                $pageLabel = \Illuminate\Support\Facades\Lang::has($translationKey)
+                    ? __($translationKey)
+                    : ucfirst(str_replace('_', ' ', $key));
+            @endphp
+            <p class="text-sm text-slate-500">{{ $pageLabel }}</p>
         </div>
 
         <form

@@ -8,7 +8,7 @@
                         {{ $department->display_name }}
                     </a>
                     <h1 class="text-3xl font-semibold text-slate-900">{{ $service->display_name }}</h1>
-                    <p class="text-sm text-slate-600">{{ __('public.citizen_charter.service.subtitle') }}</p>
+                    
                 </div>
 
             <div class="grid gap-6 lg:grid-cols-3">

@@ -23,6 +23,7 @@ class UpdateDocumentCategoryRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
+            'name_am' => ['required', 'string', 'max:255'],
             'sort_order' => ['nullable', 'integer', 'min:0'],
             'is_active' => ['sometimes', 'boolean'],
         ];

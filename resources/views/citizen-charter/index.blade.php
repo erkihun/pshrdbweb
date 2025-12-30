@@ -6,15 +6,11 @@
             <div class="grid gap-10 lg:grid-cols-[320px_1fr]">
                 <aside class="space-y-6 overflow-y-auto max-h-[70vh] pr-2 lg:pr-0">
                     <div class="rounded-2xl bg-white p-6 shadow-sm">
-                        <p class="text-xs font-semibold uppercase tracking-[0.4em] text-blue-600">
-                            {{ __('home.services.tagline') }}
-                        </p>
+                
                         <h2 class="mt-3 text-xl font-semibold text-gray-900">
                             {{ __('home.services.title') }}
                         </h2>
-                        <p class="mt-2 text-sm text-gray-600">
-                            {{ __('home.services.description') }}
-                        </p>
+                     
                     </div>
 
                     <div class="space-y-4">
@@ -39,18 +35,11 @@
 
                 <div class="space-y-10">
                     <section class="space-y-4 text-center lg:text-left">
-                        <p class="text-sm font-semibold uppercase tracking-[0.3em] text-blue-600">
-                            {{ __('public.citizen_charter.overview.label') }}
-                        </p>
+                    
                         <h1 class="text-3xl font-semibold leading-tight text-slate-900 sm:text-4xl">
                             {{ __('public.citizen_charter.overview.heading') }}
                         </h1>
-                        <p class="mx-auto max-w-3xl text-base text-slate-600 lg:mx-0">
-                            {{ __('public.citizen_charter.overview.description') }}
-                        </p>
-                        <p class="text-sm text-slate-500">
-                            {{ __('public.citizen_charter.overview.note') }}
-                        </p>
+                       
                     </section>
 
                     <section class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -60,12 +49,13 @@
                                 class="flex flex-col justify-between rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:border-slate-300 hover:shadow-lg"
                             >
                                 <div>
-                                    <p class="text-xs uppercase tracking-wide text-slate-500">
-                                        {{ __('public.citizen_charter.index.department') }}
-                                    </p>
-                                    <h2 class="mt-2 text-lg font-semibold text-slate-900">
+                                   
+                                    <h2 class=" text-lg font-semibold text-slate-900">
                                         {{ $department->display_name }}
                                     </h2>
+                                     <p class="text-xs mt-2 uppercase tracking-wide text-slate-500">
+                                        {{ __('public.citizen_charter.index.department') }}
+                                    </p>
                                 </div>
                                 <div class="mt-6 flex items-center justify-between text-sm text-slate-500">
                                     <span class="font-semibold text-slate-900">

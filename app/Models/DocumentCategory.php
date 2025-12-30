@@ -18,6 +18,7 @@ class DocumentCategory extends Model
 
     protected $fillable = [
         'name',
+        'name_am',
         'slug',
         'sort_order',
         'is_active',
@@ -30,5 +31,12 @@ class DocumentCategory extends Model
     public function documents(): HasMany
     {
         return $this->hasMany(Document::class);
+    }
+
+    public function getDisplayNameAttribute(): string
+    {
+        return app()->getLocale() === 'am'
+            ? ($this->name_am ?: $this->name)
+            : ($this->name ?: $this->name_am);
     }
 }

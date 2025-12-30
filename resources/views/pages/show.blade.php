@@ -52,7 +52,13 @@
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $tabData['icon'] }}" />
                                 </svg>
-                                {{ ucfirst(str_replace('_', ' ', $tabKey)) }}
+                                @php
+                                    $translationKey = 'pages.sections.' . $tabKey;
+                                    $tabLabel = \Illuminate\Support\Facades\Lang::has($translationKey)
+                                        ? __($translationKey)
+                                        : ucfirst(str_replace('_', ' ', $tabKey));
+                                @endphp
+                                {{ $tabLabel }}
                             </a>
                         </li>
                     @endforeach

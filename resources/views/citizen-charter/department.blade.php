@@ -11,9 +11,7 @@
                         <h1 class="mt-2 text-3xl font-semibold text-slate-900">
                             {{ $department->display_name }}
                         </h1>
-                        <p class="mt-2 max-w-2xl text-sm text-slate-600">
-                            {{ __('public.citizen_charter.department.description') }}
-                        </p>
+                       
                     </div>
                     <div class="flex items-center gap-2">
                     <a

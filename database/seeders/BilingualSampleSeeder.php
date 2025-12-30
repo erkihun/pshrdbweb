@@ -83,6 +83,7 @@ class BilingualSampleSeeder extends Seeder
             ['slug' => 'public-forms'],
             [
                 'name' => 'Public Forms',
+                'name_am' => 'Public Forms',
                 'sort_order' => 1,
                 'is_active' => true,
             ]

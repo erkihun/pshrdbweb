@@ -25,8 +25,14 @@
                     required
                 >
                     @foreach($availableKeys as $availableKey)
+                        @php
+                            $translationKey = 'pages.sections.' . $availableKey;
+                            $keyLabel = \Illuminate\Support\Facades\Lang::has($translationKey)
+                                ? __($translationKey)
+                                : ucfirst(str_replace('_', ' ', $availableKey));
+                        @endphp
                         <option value="{{ $availableKey }}" {{ old('key') === $availableKey ? 'selected' : '' }}>
-                            {{ ucfirst(str_replace('_', ' ', $availableKey)) }}
+                            {{ $keyLabel }}
                         </option>
                     @endforeach
                 </select>

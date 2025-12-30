@@ -55,6 +55,7 @@ return [
         'subscribe' => 'Subscribe',
         'back_home' => 'Back home',
         'update_profile' => 'Update profile',
+        'choose' => 'Choose',
     ],
     'status' => [
         'published' => 'Published',
@@ -230,7 +231,13 @@ return [
         'queued' => 'Queued',
         'other_documents' => 'Other Document',
         'learn_more' => 'Learn More',
+      
     ],
+      'sides' => [
+            'left' => 'Left',
+            'right' => 'Right',
+            'center' => 'Center',
+        ],
     'settings' => [
         'branding' => 'Branding',
         'branding_hint' => 'Update site name, logo, and favicon.',
