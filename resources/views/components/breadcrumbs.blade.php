@@ -272,7 +272,7 @@
     <nav aria-label="Breadcrumb" class="w-full">
     <ul
         class="flex flex-wrap items-center gap-2 rounded-2xl px-5 py-3.5 my-4
-               text-sm font-medium uppercase tracking-[0.15em] 
+               text-sm  uppercase  
                transition-all duration-300 ease-out
                sm:gap-3 sm:text-sm
                {{ $containerClass }}"
@@ -302,7 +302,7 @@
                                     <path d="M3 10.5L12 4l9 6.5v9a1 1 0 01-1 1h-6v-6h-4v6H4a1 1 0 01-1-1v-9z" />
                                 </svg>
                             </span>
-                            <span class="sr-only sm:not-sr-only {{ $theme['home'] }} transition-all duration-300 group-hover:underline group-hover:tracking-wider">
+                            <span class="sr-only sm:not-sr-only {{ $theme['home'] }} transition-all duration-300 group-hover:underline group-hover:-wider">
                                 {{ $item['label'] }}
                             </span>
                             <span class="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-current to-transparent opacity-0 group-hover:opacity-30 transition-opacity duration-300"></span>
@@ -361,7 +361,7 @@
             <div class="h-6 w-px bg-gradient-to-b from-transparent via-current/30 to-transparent"></div>
             <div class="flex items-center gap-1.5">
                 <div class="h-2 w-2 rounded-full {{ $theme['gradient_text'] }} bg-clip-border"></div>
-                <span class="text-xs {{ $theme['item'] }} font-normal normal-case tracking-normal">
+                <span class="text-xs {{ $theme['item'] }} font-normal normal-case -normal">
                     {{ count($breadcrumbs) - 1 }} {{ Str::plural('level', count($breadcrumbs) - 1) }}
                 </span>
             </div>

@@ -15,17 +15,17 @@
         <div class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm space-y-6">
             <div class="grid gap-6 md:grid-cols-2">
                 <div>
-                    <p class="text-xs uppercase tracking-[0.3em] text-slate-500">{{ __('partners.show.fields.type') }}</p>
+                    <p class="text-xs uppercase  text-slate-500">{{ __('partners.show.fields.type') }}</p>
                     <p class="text-lg font-semibold text-slate-900">{{ __('partners.types.' . $partner->type) }}</p>
                 </div>
                 <div>
-                    <p class="text-xs uppercase tracking-[0.3em] text-slate-500">{{ __('partners.show.fields.status') }}</p>
+                    <p class="text-xs uppercase  text-slate-500">{{ __('partners.show.fields.status') }}</p>
                     <p class="text-lg font-semibold text-slate-900">{{ __('partners.statuses.' . ($partner->is_active ? 'active' : 'inactive')) }}</p>
                 </div>
             </div>
 
             <div>
-                <p class="text-xs uppercase tracking-[0.3em] text-slate-500">{{ __('partners.show.fields.contact') }}</p>
+                <p class="text-xs uppercase  text-slate-500">{{ __('partners.show.fields.contact') }}</p>
                 <div class="mt-2 text-sm text-slate-700 space-y-1">
                     @if($partner->phone)
                         <div>{{ __('partners.show.contact.phone') }}: {{ $partner->phone }}</div>
@@ -40,7 +40,7 @@
             </div>
 
             <div>
-                <p class="text-xs uppercase tracking-[0.3em] text-slate-500">{{ __('partners.show.fields.address') }}</p>
+                <p class="text-xs uppercase  text-slate-500">{{ __('partners.show.fields.address') }}</p>
                 <p class="mt-2 text-sm text-slate-700">
                     {{ $partner->address ?? '—' }}<br>
                     {{ $partner->city ?? '—' }}, {{ $partner->country ?? '—' }}
@@ -49,7 +49,7 @@
 
             @if($partner->logo_path)
                 <div>
-                    <p class="text-xs uppercase tracking-[0.3em] text-slate-500">{{ __('partners.show.fields.logo') }}</p>
+                    <p class="text-xs uppercase  text-slate-500">{{ __('partners.show.fields.logo') }}</p>
                     <img src="{{ asset('storage/' . $partner->logo_path) }}" alt="{{ $partner->name_am }}" class="mt-3 h-24 max-w-full object-contain">
                 </div>
             @endif

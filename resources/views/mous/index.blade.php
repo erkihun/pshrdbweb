@@ -67,7 +67,7 @@
                 @endphp
                 <article class="group rounded-3xl border border-slate-100 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-slate-200 hover:shadow-lg">
                     <div class="flex items-center justify-between gap-3">
-                        <p class="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">
+                        <p class="text-xs font-semibold uppercase  text-slate-400">
                             {{ $mou->partner->display_name }}
                         </p>
                         <span class="inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold {{ $statusClass }}">

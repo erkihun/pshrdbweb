@@ -12,24 +12,30 @@
         ?? $branding['logo_light']
         ?? $branding['logo_' . app()->getLocale()]
         ?? null;
+    
+    $localeMeta = [
+        'am' => ['label' => __('public.language.short.am'), 'title' => __('public.language.full.am')],
+        'en' => ['label' => __('public.language.short.en'), 'title' => __('public.language.full.en')],
+    ];
 @endphp
 
 <nav x-data="{ open: false, scrolled: false }"
      @scroll.window="scrolled = window.scrollY > 20"
      @click.away="open = false"
      :class="{
-        'bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80 shadow-sm border-b border-gray-200': scrolled,
+        'bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80 shadow-lg border-b border-gray-600': scrolled,
         'bg-white border-b border-gray-100': !scrolled
      }"
-     class="bg-white sticky top-0 z-50 transition-all duration-300 public-navbar">
+     class=" sticky top-0 z-50 transition-all duration-300 public-navbar">
 
     <div class="relative mx-auto max-w-full lg:max-w-screen-2xl w-full px-4 sm:px-6 lg:px-10">
-        <div class="flex h-20 items-center justify-between">
+        <div class="flex flex-col gap-3">
+            <div class="flex h-20 items-center justify-between px-4 rounded-2xl shadow-sm">
 
             {{-- BRAND --}}
             <div class="flex items-center gap-3">
                 <a href="{{ url('/') }}"
-                   class="group inline-flex items-center gap-3 rounded-xl px-2 py-1 hover:bg-gray-50 transition">
+                   class="group inline-flex items-center gap-3 rounded-xl px-2 py-1 transition">
                     @if($logo)
                         <img
                             src="{{ asset('storage/'.ltrim($logo, '/')) }}"
@@ -48,6 +54,36 @@
                     @endif
                 </a>
             </div>
+
+            <div class="flex items-center gap-2">
+                <div class="hidden lg:flex items-center rounded-xl border border-gray-200 bg-white p-1 shadow-sm">
+                    @foreach(['am', 'en'] as $locale)
+                        <form method="POST" action="{{ route('locale.switch', $locale) }}">
+                            @csrf
+                            <button type="submit"
+                                    title="{{ $localeMeta[$locale]['title'] }}"
+                                    class="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-semibold transition
+                                    {{ app()->getLocale() === $locale
+                                        ? 'bg-brand-blue text-white shadow-sm'
+                                        : 'text-gray-700 hover:bg-gray-50 hover:text-orange-600' }}">
+                                <x-heroicon-o-flag class="h-4 w-4" aria-hidden="true" />
+                                <span>{{ $localeMeta[$locale]['label'] }}</span>
+                            </button>
+                        </form>
+                    @endforeach
+                </div>
+
+                <button type="button"
+                        class="lg:hidden inline-flex items-center justify-center rounded-xl border border-gray-200 bg-white p-2.5 text-gray-700 shadow-sm hover:bg-gray-50 hover:text-orange-600 transition relative z-50"
+                        @click="open = !open"
+                        :aria-expanded="open"
+                        aria-label="{{ __('public.navigation.navigation_toggle') }}">
+                    <x-heroicon-o-bars-3 x-show="!open" class="h-5 w-5" aria-hidden="true" />
+                    <x-heroicon-o-x-mark x-show="open" x-cloak class="h-5 w-5" aria-hidden="true" />
+                </button>
+            </div>
+
+        </div>
 
             {{-- DESKTOP NAV --}}
             <div class="hidden lg:flex lg:items-center lg:gap-1 lg:ml-6 lg:mr-4 lg:flex-nowrap">
@@ -356,44 +392,6 @@
                     </div>
                 </div>
 
-            {{-- RIGHT ACTIONS --}}
-            <div class="flex items-center gap-2 lg:ml-auto">
-
-                {{-- LANGUAGE SWITCHER (DESKTOP) --}}
-                <div class="hidden lg:flex items-center rounded-xl border border-gray-200 bg-white p-1 shadow-sm">
-                    @php
-                        $localeMeta = [
-                            'am' => ['label' => __('public.language.short.am'), 'title' => __('public.language.full.am')],
-                            'en' => ['label' => __('public.language.short.en'), 'title' => __('public.language.full.en')],
-                        ];
-                    @endphp
-
-                    @foreach(['am', 'en'] as $locale)
-                        <form method="POST" action="{{ route('locale.switch', $locale) }}">
-                            @csrf
-                            <button type="submit"
-                                    title="{{ $localeMeta[$locale]['title'] }}"
-                                    class="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-semibold transition
-                                    {{ app()->getLocale() === $locale
-                                        ? 'bg-brand-blue text-white shadow-sm'
-                                        : 'text-gray-700 hover:bg-gray-50 hover:text-orange-600' }}">
-                                <x-heroicon-o-flag class="h-4 w-4" aria-hidden="true" />
-                                <span>{{ $localeMeta[$locale]['label'] }}</span>
-                            </button>
-                        </form>
-                    @endforeach
-                </div>
-
-                {{-- MOBILE TOGGLE --}}
-                <button type="button"
-                        class="lg:hidden inline-flex items-center justify-center rounded-xl border border-gray-200 bg-white p-2.5 text-gray-700 shadow-sm hover:bg-gray-50 hover:text-orange-600 transition relative z-50"
-                        @click="open = !open"
-                        :aria-expanded="open"
-                        aria-label="{{ __('public.navigation.navigation_toggle') }}">
-                    <x-heroicon-o-bars-3 x-show="!open" class="h-5 w-5" aria-hidden="true" />
-                    <x-heroicon-o-x-mark x-show="open" x-cloak class="h-5 w-5" aria-hidden="true" />
-                </button>
-            </div>
         </div>
     </div>
 
@@ -545,13 +543,6 @@
 
                     {{-- Language buttons (mobile) --}}
                     <div class="flex gap-2 pt-3">
-                        @php
-                            $localeMeta = [
-                            'am' => ['label' => __('public.language.short.am'), 'title' => __('public.language.full.am')],
-                            'en' => ['label' => __('public.language.short.en'), 'title' => __('public.language.full.en')],
-                            ];
-                        @endphp
-
                         @foreach(['am', 'en'] as $locale)
                             <form method="POST" action="{{ route('locale.switch', $locale) }}" class="flex-1">
                                 @csrf
