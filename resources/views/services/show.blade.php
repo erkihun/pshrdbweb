@@ -8,20 +8,14 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="grid gap-8 lg:grid-cols-[3fr,9fr] lg:items-start lg:gap-10">
-                <aside class="space-y-5 overflow-y-auto max-h-[calc(100vh-8rem)] rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+                <aside class="space-y-5 overflow-y-auto max-h-[calc(100vh-8rem)] rounded-2xl border border-gray-200 bg-white p-6 shadow-sm lg:sticky lg:top-24">
                     <div class="flex items-start justify-between gap-6 border-b border-gray-100 pb-4">
                         <div>
-                            <p class="text-xs font-semibold uppercase tracking-[0.4em] text-blue-600">
-                                {{ __('home.services.tagline') }}
-                            </p>
+                          
                             <h3 class="text-lg font-semibold">{{ __('home.services.highlight') }}</h3>
-                            <p class="text-xs text-slate-500">
-                                {{ __('home.services.aside_intro') }}
-                            </p>
+                       
                         </div>
-                        <a href="{{ route('services.index') }}" class="text-sm text-blue-600 hover:text-blue-800 underline">
-                            {{ __('home.news.view_all') }}
-                        </a>
+                     
                     </div>
 
                     <div class="space-y-3">
