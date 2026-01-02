@@ -666,9 +666,7 @@
                       
 
                         <h3 class="text-2xl font-bold text-gray-900 mb-4">{{ $service->display_title }}</h3>
-                        <x-rich-content class="text-gray-600 mb-6 line-clamp-3 text-justify"> 
-                            {!! $service->display_description ?: __('common.labels.service_intro') !!} 
-                        </x-rich-content> 
+             
 
 
                         <div class="mt-auto pt-6 border-t border-gray-100">
