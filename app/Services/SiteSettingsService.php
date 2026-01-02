@@ -98,7 +98,8 @@ class SiteSettingsService
                 }
             }
 
-            throw $e;
+            // If we couldn't talk to the database (e.g. during package discovery), assume the settings table is missing.
+            return false;
         }
     }
 }
