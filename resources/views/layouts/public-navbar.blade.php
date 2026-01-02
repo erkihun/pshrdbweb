@@ -48,7 +48,7 @@
                             <x-heroicon-o-building-office-2 class="h-6 w-6" aria-hidden="true" />
                         </div>
                     @endif
-                    <span class="text-lg font-semibold tracking-tight text-gray-900">
+                    <span class="text-lg font-semibold tracking-tight text-brand-blue">
                         {{ $brandName }}
                     </span>
                 </a>
