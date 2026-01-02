@@ -14,8 +14,17 @@ return new class extends Migration
         return array_values(array_unique(array_map(fn ($index) => $index->Key_name, $results)));
     }
 
+    private function usesMysql(): bool
+    {
+        return DB::connection()->getDriverName() === 'mysql';
+    }
+
     public function up(): void
     {
+        if (! $this->usesMysql()) {
+            return;
+        }
+
         $postsIndexes = $this->indexNames('posts');
         $servicesIndexes = $this->indexNames('services');
         $charterIndexes = $this->indexNames('charter_services');
@@ -57,6 +66,10 @@ return new class extends Migration
 
     public function down(): void
     {
+        if (! $this->usesMysql()) {
+            return;
+        }
+
         $postsIndexes = $this->indexNames('posts');
         $servicesIndexes = $this->indexNames('services');
         $charterIndexes = $this->indexNames('charter_services');
