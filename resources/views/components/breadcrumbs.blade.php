@@ -268,7 +268,7 @@
 @endphp
 
 @if($trailItems->isNotEmpty())
-<div class="relative mx-auto w-full max-w-full lg:max-w-screen-2xl px-4 sm:px-6 lg:px-10">
+<div {{ $attributes->merge(['class' => "relative mx-auto w-full max-w-full lg:max-w-screen-2xl px-4 sm:px-6 lg:px-10"]) }}>
     <nav aria-label="Breadcrumb" class="w-full">
     <ul
         class="flex flex-wrap items-center gap-2 rounded-2xl px-4 py-2 my-3
