@@ -43,6 +43,18 @@ return [
         ],
     ],
 
+
+  'employee_statistics' => [
+        'title' => 'የመንግስት ሰራተኞች ስታቲስቲክስ',
+        'subtitle' => 'የመንግስት ሰራተኞች ብዛት',
+        'description' => 'በአዲስ አበባ ከተማ ስር ያሉ የመንግስት ሰራተኞች መረጃ በፆታ የተከፋፈለ',
+        'total_servants' => 'ጠቅላላ ሰራተኞች',
+        'male' => 'ወንድ',
+        'female' => 'ሴት',
+        'total' => 'ድምር',
+        'code' => 'መለያ ኮድ',
+  ],
+
     'citizen_charter' => [
         'overview' => [
             'label' => 'ቻርተር',

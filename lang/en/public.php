@@ -43,6 +43,17 @@ return [
         ],
     ],
 
+'employee_statistics' => [
+        'title' => 'Government Employee Statistics',
+        'subtitle' => 'Number of Government Employees',
+        'description' => 'Data of government employees under the Addis Ababa City Administration, categorized by gender',
+        'total_servants' => 'Total Employees',
+        'male' => 'Male',
+        'female' => 'Female',
+        'total' => 'Total',
+        'code' => 'Identification Code',
+    ],
+
     'citizen_charter' => [
         'overview' => [
             'label' => 'Citizen Charter',
