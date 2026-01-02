@@ -38,7 +38,9 @@ return new class extends Migration
                 ->update(['slug' => $slug]);
         });
 
-        DB::statement('ALTER TABLE tenders MODIFY slug VARCHAR(255) NOT NULL');
+        if (Schema::getConnection()->getDriverName() !== 'sqlite') {
+            DB::statement('ALTER TABLE tenders MODIFY slug VARCHAR(255) NOT NULL');
+        }
 
         Schema::table('tenders', function (Blueprint $table) {
             $table->unique('slug');

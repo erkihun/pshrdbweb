@@ -11,7 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        DB::statement("UPDATE posts SET title = TRIM(REGEXP_REPLACE(title, '<[^>]*>', ''))");
+        DB::table('posts')->orderBy('id')->cursor()
+            ->each(fn ($post) => DB::table('posts')
+                ->where('id', $post->id)
+                ->update(['title' => trim(strip_tags($post->title ?? ''))]));
     }
 
     /**
