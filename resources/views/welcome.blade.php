@@ -527,10 +527,10 @@
                                 <div class="space-y-1">
                                     <h4 class="text-xl text-center font-semibold text-slate-900 py-2">{{ $staff->display_name }}</h4>
                                     @if($leaderTitle)
-                                        <h3 class="text-xl  text-blue-600 ">
+                                        <h3 class="text-xl justify-items-center text-center    text-blue-600 ">
                                             {{ $leaderTitle }}
                                         </h3>
-                                    @endif
+                                    @endif 
                                 </div>
 
                             </div>
