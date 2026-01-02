@@ -271,7 +271,7 @@
 <div {{ $attributes->merge(['class' => "relative mx-auto w-full max-w-full lg:max-w-screen-2xl px-4 sm:px-6 lg:px-10"]) }}>
     <nav aria-label="Breadcrumb" class="w-full">
     <ul
-        class="flex flex-wrap items-center gap-2 rounded-2xl px-4 py-2 my-3
+        class="flex flex-wrap items-center gap-2 rounded-2xl px-4 py-2 mt-6 mb-3
                text-[11px] uppercase ]
                transition-all duration-300 ease-out
                sm:gap-3 sm:text-[11px]
