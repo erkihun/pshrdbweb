@@ -1,3 +1,12 @@
+@php
+    $seoMeta = [
+        'title' => 'Leadership | Staff Directory',
+        'description' => 'Meet the leadership team and senior staff at Addis Ababa public service.',
+        'url' => route('staff.leadership'),
+        'canonical' => route('staff.leadership'),
+    ];
+@endphp
+
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -18,6 +27,7 @@
                                 src="{{ asset('storage/' . $member->photo_path) }}"
                                 alt="{{ $member->display_name }}"
                                 class="h-40 w-full rounded-xl object-cover"
+                                loading="lazy"
                             >
                         @endif
                         <h3 class="mt-4 text-lg font-semibold text-gray-900">{{ $member->display_name }}</h3>

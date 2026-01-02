@@ -11,6 +11,12 @@
         ?? ($heroSettings['logo_' . app()->getLocale()] ?? null);
     $heroSignatureName = $heroSettings['site_name_' . app()->getLocale()] ?? config('app.name');
     $heroSignatureTag = __('common.hero.signature', ['site' => $heroSignatureName]);
+    $homeDescription = $site_settings['site.seo']['description_' . app()->getLocale()] ?? 'Official Addis Ababa public service portal for news, announcements, and services.';
+    $seoMeta = [
+        'title' => $heroSignatureName,
+        'description' => $homeDescription,
+        'url' => url('/'),
+    ];
 @endphp
 <div class="font-noto-ethiopic">
 @php
@@ -174,16 +180,17 @@
                 </div>
         @endif
 
-        @if($heroSignatureLogo)
-            <div class="pointer-events-none absolute right-6 bottom-6 z-20">
-                <img
-                    src="{{ asset('storage/' . ltrim($heroSignatureLogo, '/')) }}"
-                    alt="{{ $heroSignatureName }} logo"
-                    class="h-10   object-cover shadow-2xl opacity-80 "
-                >
-            
-            </div>
-        @endif
+                @if($heroSignatureLogo)
+                    <div class="pointer-events-none absolute right-6 bottom-6 z-20">
+                        <img
+                            src="{{ asset('storage/' . ltrim($heroSignatureLogo, '/')) }}"
+                            alt="{{ $heroSignatureName }} logo"
+                            class="h-10   object-cover shadow-2xl opacity-80 "
+                            loading="lazy"
+                        >
+                    
+                    </div>
+                @endif
     </div>
 </section>
 

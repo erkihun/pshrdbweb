@@ -2,6 +2,16 @@
     use Illuminate\Support\Str;
 @endphp
 
+@php
+    $documentDescription = $document->display_description ?? 'Download this official document from Addis Ababa public service.';
+    $seoMeta = [
+        'title' => $document->display_title,
+        'description' => $documentDescription,
+        'url' => route('downloads.show', $document->slug),
+        'canonical' => route('downloads.show', $document->slug),
+    ];
+@endphp
+
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">

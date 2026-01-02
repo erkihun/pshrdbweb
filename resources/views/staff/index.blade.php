@@ -1,3 +1,13 @@
+@php
+    $staffTitle = __('common.nav.staff');
+    $seoMeta = [
+        'title' => $staffTitle,
+        'description' => 'Explore our staff directory and leadership at Addis Ababa public service.',
+        'url' => route('staff.index'),
+        'canonical' => route('staff.index'),
+    ];
+@endphp
+
 <x-app-layout>
     <x-slot name="header">
         <div class="flex items-center justify-between">

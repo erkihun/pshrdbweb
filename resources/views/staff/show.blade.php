@@ -1,3 +1,12 @@
+@php
+    $seoMeta = [
+        'title' => $staff->display_name,
+        'description' => $staff->display_bio ?? $staff->display_title,
+        'url' => route('staff.show', $staff),
+        'canonical' => route('staff.show', $staff),
+    ];
+@endphp
+
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -15,6 +24,7 @@
                                 src="{{ asset('storage/' . $staff->photo_path) }}"
                                 alt="{{ $staff->display_name }}"
                                 class="h-48 w-full rounded-2xl object-cover"
+                                loading="lazy"
                             >
                         @else
                             <div class="h-48 w-full rounded-2xl bg-gray-100"></div>

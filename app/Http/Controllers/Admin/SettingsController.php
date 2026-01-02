@@ -23,6 +23,7 @@ final class SettingsController extends Controller
             'notifications' => $context['site.notifications'] ?? [],
             'analytics' => $context['site.analytics'] ?? [],
             'footer' => $context['site.footer'] ?? [],
+            'seo' => $context['site.seo'] ?? [],
         ]);
     }
 
@@ -95,6 +96,12 @@ final class SettingsController extends Controller
         Setting::updateOrCreate(['key' => 'site.notifications'], ['value' => $notifications]);
         Setting::updateOrCreate(['key' => 'site.analytics'], ['value' => $analytics]);
         Setting::updateOrCreate(['key' => 'site.footer'], ['value' => $footer]);
+        Setting::updateOrCreate(['key' => 'site.seo'], ['value' => [
+            'description_am' => $validated['description_am'] ?? null,
+            'description_en' => $validated['description_en'] ?? null,
+            'google_verification' => $validated['google_verification'] ?? null,
+            'bing_verification' => $validated['bing_verification'] ?? null,
+        ]]);
 
         $settings->clearCache();
 

@@ -35,6 +35,12 @@ class SiteSettingsService
         'site.analytics' => [
             'enabled' => false,
         ],
+        'site.seo' => [
+            'description_am' => 'Addis Ababa Public Service portal for news, announcements, and services.',
+            'description_en' => 'Digital gateway for Addis Ababa public service news, announcements, and citizen services.',
+            'google_verification' => null,
+            'bing_verification' => null,
+        ],
         'site.footer' => [
             'quick_links' => [],
             'social_links' => [],

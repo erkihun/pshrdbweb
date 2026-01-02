@@ -396,6 +396,118 @@
                 </div>
             </div>
 
+            @php
+                $seoValues = $seo ?? [];
+            @endphp
+
+            <!-- SEO & Meta Section -->
+            <div class="rounded-xl border border-slate-200 bg-white shadow-lg overflow-hidden">
+                <div class="border-b border-slate-200 bg-gradient-to-r from-slate-50 to-white px-6 py-4">
+                    <div class="flex items-center gap-3">
+                        <div class="rounded-lg bg-orange-100 p-2">
+                            <svg class="h-5 w-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6M4 4h16v16H4z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="text-lg font-semibold text-slate-900">SEO & Meta defaults</h2>
+                            <p class="text-sm text-slate-500">Control common meta tags and verification values for public visitors.</p>
+                        </div>
+                        <span class="rounded-full bg-amber-100 px-3 py-1 text-xs font-medium text-amber-700">Optional</span>
+                    </div>
+                </div>
+
+                <div class="p-6 space-y-6">
+                    <div class="grid gap-6 md:grid-cols-2">
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-slate-700" for="description_am">
+                                Meta description (AM)
+                            </label>
+                            <textarea
+                                id="description_am"
+                                name="description_am"
+                                rows="3"
+                                class="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-slate-700 placeholder-slate-400 transition-all focus:border-orange-500 focus:ring-2 focus:ring-orange-200 focus:ring-opacity-50"
+                            >{{ old('description_am', $seoValues['description_am'] ?? '') }}</textarea>
+                            @error('description_am')
+                                <p class="text-sm text-rose-600 flex items-center gap-1">
+                                    <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    {{ $message }}
+                                </p>
+                            @enderror
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-slate-700" for="description_en">
+                                Meta description (EN)
+                            </label>
+                            <textarea
+                                id="description_en"
+                                name="description_en"
+                                rows="3"
+                                class="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-slate-700 placeholder-slate-400 transition-all focus:border-orange-500 focus:ring-2 focus:ring-orange-200 focus:ring-opacity-50"
+                            >{{ old('description_en', $seoValues['description_en'] ?? '') }}</textarea>
+                            @error('description_en')
+                                <p class="text-sm text-rose-600 flex items-center gap-1">
+                                    <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    {{ $message }}
+                                </p>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="grid gap-6 md:grid-cols-2">
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-slate-700" for="google_verification">
+                                Google verification code
+                            </label>
+                            <input
+                                type="text"
+                                id="google_verification"
+                                name="google_verification"
+                                value="{{ old('google_verification', $seoValues['google_verification'] ?? '') }}"
+                                class="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-slate-700 placeholder-slate-400 transition-all focus:border-orange-500 focus:ring-2 focus:ring-orange-200 focus:ring-opacity-50"
+                                placeholder="google-site-verification token"
+                            >
+                            <p class="text-xs text-slate-500">Paste only the content value provided by Google Search Console.</p>
+                            @error('google_verification')
+                                <p class="text-sm text-rose-600 flex items-center gap-1">
+                                    <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    {{ $message }}
+                                </p>
+                            @enderror
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-slate-700" for="bing_verification">
+                                Bing verification code
+                            </label>
+                            <input
+                                type="text"
+                                id="bing_verification"
+                                name="bing_verification"
+                                value="{{ old('bing_verification', $seoValues['bing_verification'] ?? '') }}"
+                                class="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-slate-700 placeholder-slate-400 transition-all focus:border-orange-500 focus:ring-2 focus:ring-orange-200 focus:ring-opacity-50"
+                                placeholder="Bing verification token"
+                            >
+                            <p class="text-xs text-slate-500">Paste only the content value provided by Bing Webmaster Tools.</p>
+                            @error('bing_verification')
+                                <p class="text-sm text-rose-600 flex items-center gap-1">
+                                    <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    {{ $message }}
+                                </p>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Notifications Section -->
             <div class="rounded-xl border border-slate-200 bg-white shadow-lg overflow-hidden">
                 <div class="border-b border-slate-200 bg-gradient-to-r from-slate-50 to-white px-6 py-4">

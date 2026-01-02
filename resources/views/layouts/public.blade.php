@@ -1,17 +1,38 @@
 ﻿<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ app()->getLocale() }}">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <title>{{ $site_settings['site.branding']['site_name_' . app()->getLocale()] ?? config('app.name', 'Laravel') }}</title>
         @php
+            $seoMeta = $seoMeta ?? [];
             $branding = $site_settings['site.branding'] ?? [];
+            $seoSettings = $site_settings['site.seo'] ?? [];
+            $defaultTitle = $branding['site_name_' . app()->getLocale()] ?? config('app.name', 'Laravel');
+            $defaultDescription = $seoSettings['description_' . app()->getLocale()] ?? '';
+            $googleVerification = $seoSettings['google_verification'] ?? env('GOOGLE_SITE_VERIFICATION');
+            $bingVerification = $seoSettings['bing_verification'] ?? env('BING_WEBMASTER_VERIFICATION');
             $faviconPath = $branding['favicon_path'] ?? null;
             $faviconUrl = $faviconPath
                 ? asset('storage/' . ltrim($faviconPath, '/'))
                 : asset('favicon.ico');
         @endphp
+        <x-seo.meta
+            :title="$seoMeta['title'] ?? $defaultTitle"
+            :description="$seoMeta['description'] ?? $defaultDescription"
+            :image="$seoMeta['image'] ?? null"
+            :url="$seoMeta['url'] ?? url()->current()"
+            :canonical="$seoMeta['canonical'] ?? null"
+            :type="$seoMeta['type'] ?? 'website'"
+            :locale="$seoMeta['locale'] ?? app()->getLocale()"
+            :robots="$seoMeta['robots'] ?? 'index, follow'"
+        />
+        @if($googleVerification)
+            <meta name="google-site-verification" content="{{ $googleVerification }}">
+        @endif
+        @if($bingVerification)
+            <meta name="msvalidate.01" content="{{ $bingVerification }}">
+        @endif
         <link rel="icon" href="{{ $faviconUrl }}" type="image/x-icon">
         <link rel="shortcut icon" href="{{ $faviconUrl }}" type="image/x-icon">
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -55,7 +76,5 @@
  
     </body>
 </html>
-
-
 
 

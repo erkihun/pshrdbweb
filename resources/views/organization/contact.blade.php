@@ -4,6 +4,23 @@
 @php
     use Illuminate\Support\Str;
 
+    $primaryOrg = $organizations->first();
+    $addressParts = array_filter([
+        $primaryOrg->physical_address ?? null,
+        $primaryOrg->city ?? null,
+        $primaryOrg->region ?? null,
+        $primaryOrg->country ?? null,
+    ]);
+    $formattedAddress = $addressParts ? implode(', ', $addressParts) : 'Addis Ababa, Ethiopia';
+    $seoMeta = [
+        'title' => __('common.nav.contact'),
+        'description' => $primaryOrg
+            ? "Contact {$primaryOrg->name} at {$formattedAddress}."
+            : 'Organization contact details for Addis Ababa public service.',
+        'url' => route('organization.contact'),
+        'canonical' => route('organization.contact'),
+    ];
+
     $mapQueryTemplate = fn ($organization) => trim(
         ($organization->physical_address ?? '') . ' ' .
         ($organization->city ?? '') . ' ' .

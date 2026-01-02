@@ -1,6 +1,15 @@
 @extends('layouts.public')
 
 @section('content')
+    @php
+        $seoMeta = [
+            'title' => $service->display_name . ' | ' . $department->display_name,
+            'description' => strip_tags($service->localized('other_info') ?? $service->localized('prerequisites') ?? 'Learn how to access this service.'),
+            'url' => route('citizen-charter.service', [$department, $service]),
+            'canonical' => route('citizen-charter.service', [$department, $service]),
+            'type' => 'article',
+        ];
+    @endphp
     <div class="bg-slate-50 py-16">
         <div class="mx-auto max-w-5xl space-y-10 px-4 sm:px-6 lg:px-10">
                 <div class="space-y-3">

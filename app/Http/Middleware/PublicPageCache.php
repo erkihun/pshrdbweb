@@ -9,30 +9,13 @@ use Symfony\Component\HttpFoundation\Response;
 
 class PublicPageCache
 {
-    /**
-     * Routes that should receive long-lived cache headers.
-     *
-     * @var string[]
-     */
-    private array $routes = [
-        'home',
-        'pages.about',
-        'staff.index',
-        'citizen-charter.index',
-        'organization.contact',
-    ];
-
-    /**
-     * Paths that should receive rapid cache headers even when route names are missing.
-     *
-     * @var string[]
-     */
-    private array $paths = [
-        '/',
-        'about',
-        'staff',
-        'citizen-charter',
-        'organization/contact',
+    private array $excludedRoutePatterns = [
+        'admin.*',
+        'login',
+        'logout',
+        'service-requests.*',
+        'appointments.*',
+        'locale.switch',
     ];
 
     public function handle(Request $request, Closure $next): Response
@@ -45,8 +28,9 @@ class PublicPageCache
 
         $response->setPublic();
         $response->setMaxAge(300);
-        $response->setSharedMaxAge(600);
-        $response->headers->set('Cache-Control', 'public, max-age=300, s-maxage=600');
+        $response->setSharedMaxAge(300);
+        $response->headers->set('Cache-Control', 'public, max-age=300, s-maxage=300');
+        $response->setLastModified(now());
 
         if ($etag = $this->generateEtag($response)) {
             $response->headers->set('ETag', $etag);
@@ -71,14 +55,24 @@ class PublicPageCache
         }
 
         $routeName = optional($request->route())->getName();
-        if ($routeName && in_array($routeName, $this->routes, true)) {
-            return true;
+
+        if ($this->isExcludedRoute($routeName)) {
+            return false;
         }
 
-        $path = trim($request->path(), '/');
-        $path = $path === '' ? '/' : $path;
-        if (in_array($path, $this->paths, true)) {
-            return true;
+        return true;
+    }
+
+    private function isExcludedRoute(?string $routeName): bool
+    {
+        if (! $routeName) {
+            return false;
+        }
+
+        foreach ($this->excludedRoutePatterns as $pattern) {
+            if (Str::is($pattern, $routeName)) {
+                return true;
+            }
         }
 
         return false;

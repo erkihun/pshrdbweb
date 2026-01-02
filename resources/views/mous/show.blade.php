@@ -28,12 +28,13 @@
                     <p class="text-sm text-slate-500">{{ $mou->partner->display_name }}</p>
                 </div>
                 <div class="flex items-center gap-3">
-                    @if($mou->partner->logo_path)
-                        <img
-                            src="{{ asset('storage/' . $mou->partner->logo_path) }}"
-                            alt="{{ $mou->partner->display_name }} logo"
-                            class="h-16 w-16 rounded-2xl object-cover"
-                        >
+                        @if($mou->partner->logo_path)
+                            <img
+                                src="{{ asset('storage/' . $mou->partner->logo_path) }}"
+                                alt="{{ $mou->partner->display_name }} logo"
+                                class="h-16 w-16 rounded-2xl object-cover"
+                                loading="lazy"
+                            >
                     @else
                         <div class="flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-100 text-slate-500">
                             <x-heroicon-o-briefcase class="h-8 w-8" aria-hidden="true" />

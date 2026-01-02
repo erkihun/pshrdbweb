@@ -22,18 +22,16 @@
     $weatherInfo = $weatherInfo ?? ($siteSettings['site.meta.weather'] ?? 'Addis Ababa weather unavailable');
 @endphp
 
-@push('title')
-    {{ $metaTitle }}
-@endpush
-
-@push('meta')
-    <meta name="description" content="{{ $metaDescription }}">
-    <meta property="og:title" content="{{ $metaTitle }}">
-    <meta property="og:description" content="{{ $metaDescription }}">
-    @if ($ogImage)
-        <meta property="og:image" content="{{ $ogImage }}">
-    @endif
-@endpush
+@php
+    $seoMeta = [
+        'title' => $metaTitle,
+        'description' => $metaDescription,
+        'image' => $ogImage,
+        'url' => $type === 'news' ? route('news.show', $post->slug) : route('announcements.show', $post->slug),
+        'canonical' => $type === 'news' ? route('news.show', $post->slug) : route('announcements.show', $post->slug),
+        'type' => 'article',
+    ];
+@endphp
 
 <x-app-layout>
     <x-slot name="header">
@@ -148,6 +146,7 @@
                             src="{{ asset('storage/' . $post->cover_image_path) }}"
                             alt="{{ $post->display_title }}"
                             class="mt-6 h-64 w-full rounded-2xl object-cover"
+                            loading="lazy"
                         >
                     @endif
 

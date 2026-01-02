@@ -1,6 +1,14 @@
 @extends('layouts.public')
 
 @section('content')
+    @php
+        $seoMeta = [
+            'title' => $department->display_name . ' | Citizen Charter',
+            'description' => 'Services offered by ' . $department->display_name . ' within the citizen charter.',
+            'url' => route('citizen-charter.department', $department),
+            'canonical' => route('citizen-charter.department', $department),
+        ];
+    @endphp
     <div class="bg-white py-16">
         <div class="mx-auto max-w-6xl space-y-10 px-4 sm:px-6 lg:px-10">
             <div class="flex flex-wrap items-center justify-between gap-4">

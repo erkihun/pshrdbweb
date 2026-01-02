@@ -21,3 +21,11 @@
 - Ensure `storage/` and `bootstrap/cache/` are writable (`chmod -R 775 storage bootstrap/cache`)
 - Restart queue workers and schedulers if active
 - Monitor `storage/logs/laravel.log` for errors after deployment
+
+## Asset delivery & compression
+- The templates rely on [`@vite`] bundles. Run `npm run build` and verify the `public/build` manifest is synced with the deployed files.
+- Enable gzip and/or brotli compression on the web server (Nginx `gzip on; gzip_static on; brotli on;`) so compiled CSS/JS and SVGs download faster even on mobile.
+
+## Config caching notes
+- Re-run `php artisan config:cache` whenever `.env` or any config file changes to keep cached settings synchronized with the runtime.
+- Always `php artisan config:clear` before editing config files locally or when troubleshooting stale configuration.

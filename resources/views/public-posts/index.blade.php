@@ -1,3 +1,17 @@
+@php
+    $listingTitle = $type === 'news' ? __('common.nav.news') : __('common.nav.announcements');
+    $listingDescription = $type === 'news'
+        ? 'Latest news updates from the Addis Ababa public service.'
+        : 'Important announcements and official notices from the administration.';
+    $listingUrl = $type === 'news' ? route('news.index') : route('announcements.index');
+    $seoMeta = [
+        'title' => $listingTitle,
+        'description' => $listingDescription,
+        'url' => $listingUrl,
+        'canonical' => $listingUrl,
+    ];
+@endphp
+
 <x-app-layout>
     <x-slot name="header">
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">

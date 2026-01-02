@@ -39,6 +39,11 @@ final class UpdateSettingsRequest extends FormRequest
             // Analytics
             'analytics_enabled' => ['nullable', 'boolean'],
 
+            'description_am' => ['nullable', 'string', 'max:500'],
+            'description_en' => ['nullable', 'string', 'max:500'],
+            'google_verification' => ['nullable', 'string', 'max:255'],
+            'bing_verification' => ['nullable', 'string', 'max:255'],
+
             // Footer links
             'quick_links' => ['nullable', 'array'],
             'quick_links.*.label_am' => ['nullable', 'string', 'max:255'],

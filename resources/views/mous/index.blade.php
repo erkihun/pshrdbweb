@@ -85,6 +85,7 @@
                                     src="{{ asset('storage/' . ltrim($ourLogoPath, '/')) }}"
                                     alt="{{ $branding['site_name_en'] ?? 'Logo' }}"
                                     class="h-12 w-auto object-contain"
+                                    loading="lazy"
                                 >
                             @else
                                 <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-slate-100 text-slate-500">
@@ -100,6 +101,7 @@
                                     src="{{ asset('storage/' . $mou->partner->logo_path) }}"
                                     alt="{{ $mou->partner->display_name }} logo"
                                     class="h-12 w-auto object-contain"
+                                    loading="lazy"
                                 >
                             @else
                                 <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-slate-100 text-slate-500">

@@ -1,3 +1,13 @@
+@php
+    $downloadsTitle = __('common.nav.downloads');
+    $seoMeta = [
+        'title' => $downloadsTitle,
+        'description' => 'Official downloads, documents, and forms for Addis Ababa public service.',
+        'url' => route('downloads.index'),
+        'canonical' => route('downloads.index'),
+    ];
+@endphp
+
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
