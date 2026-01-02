@@ -33,6 +33,7 @@ return [
         'title' => 'Roles & Responsibilities',
         'highlight' => 'Services',
         'description' => 'Access official services, submit requests, and stay informed through our secure digital platform.',
+        'aside_intro' => 'Switch between services and instantly jump to the one you need, updated for your language.',
     ],
     'cta' => [
         'label' => 'Serving The Public',

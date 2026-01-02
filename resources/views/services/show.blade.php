@@ -7,10 +7,35 @@
 
     <div class="py-12">
         <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
-            <div class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_320px]">
+            <div class="grid gap-10 lg:grid-cols-[320px_minmax(0,1fr)]">
+                <aside class="space-y-4 overflow-y-auto max-h-[70vh] rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <div>
+                           
+                            <h3 class="text-lg font-semibold">{{ __('home.services.highlight') }}</h3>
+                         
+                        </div>
+                      
+                    </div>
+
+                    <div class="space-y-3">
+                        @foreach ($services as $item)
+                            <a
+                                href="{{ route('services.show', $item->slug) }}"
+                                class="flex items-center gap-3 rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-700 transition hover:bg-blue-50"
+                            >
+                                <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white">
+                                    <x-heroicon-o-light-bulb class="h-4 w-4" aria-hidden="true" />
+                                </span>
+                                <span class="flex-1">{{ $item->display_title }}</span>
+                            </a>
+                        @endforeach
+                    </div>
+                </aside>
+
                 <div class="space-y-8">
                     <div class="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm">
-                        <div class="text-sm text-gray-500">aapublicservice</div>
+           
                         <p class="mt-2 text-xs font-semibold uppercase tracking-wide text-gray-400">
                             {{ __('common.labels.last_updated') }}: {{ $service->updated_at ? ethiopian_date($service->updated_at, 'dd MMMM yyyy') : '' }}
                         </p>
@@ -25,7 +50,7 @@
                         @endif
                         <div class="mt-4">
                             <x-rich-content>
-                                {!! $service->description !!}
+                                {!! $service->display_description !!}
                             </x-rich-content>
                         </div>
 
@@ -34,7 +59,7 @@
                                 <h3 class="text-sm font-semibold text-gray-900">{{ __('common.labels.requirements') }}</h3>
                                 <div class="mt-2">
                                     <x-rich-content class="text-sm">
-                                        {!! $service->requirements !!}
+                                        {!! $service->display_requirements !!}
                                     </x-rich-content>
                                 </div>
                             </div>
@@ -54,7 +79,7 @@
                 <aside class="space-y-4 overflow-y-auto max-h-[70vh] rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-xs font-semibold uppercase tracking-[0.4em] text-blue-600">
+                            <p class="text-xs font-semibold uppercase  text-blue-600">
                                 {{ __('home.services.tagline') }}
                             </p>
                             <h3 class="text-lg font-semibold">{{ __('home.services.highlight') }}</h3>
