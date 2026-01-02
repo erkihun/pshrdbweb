@@ -68,10 +68,14 @@ class SiteSettingsService
 
     private function load(): array
     {
-        $stored = Setting::whereIn('key', array_keys($this->defaults))
-            ->get()
-            ->mapWithKeys(fn ($setting) => [$setting->key => $setting->value])
-            ->toArray();
+        try {
+            $stored = Setting::whereIn('key', array_keys($this->defaults))
+                ->get()
+                ->mapWithKeys(fn ($setting) => [$setting->key => $setting->value])
+                ->toArray();
+        } catch (QueryException $e) {
+            return $this->defaults;
+        }
 
         $result = [];
 
