@@ -1,3 +1,2 @@
+# Keep cache directory in repo while ignoring runtime files.
 *
-!data/
-!.gitignore

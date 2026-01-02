@@ -91,11 +91,10 @@
                 <h2 class="text-sm font-semibold text-slate-900">{{ __('common.labels.body') }}</h2>
                 <div class="mt-4">
                     <x-rich-content>
-                        {!! $post->body !!}
+                        {!! $post->display_body !!}
                     </x-rich-content>
                 </div>
             </div>
         </div>
     </div>
 @endsection
-

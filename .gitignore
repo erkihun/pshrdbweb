@@ -1,28 +1,45 @@
-*.log
-.DS_Store
-.env
-.env.backup
-.env.production
-.phpactor.json
-.phpunit.result.cache
-/.fleet
-/.idea
-/.nova
-/.phpunit.cache
-/.vscode
-/.zed
-/auth.json
-/node_modules
-/public/build
-/public/hot
-/public/vendor/tinymce/plugins/fontfamily
-/public/vendor/tinymce/plugins/fontsize
-/public/storage
-/storage/*.key
-/storage/pail
+# Laravel / Node runtime
 /vendor
-Homestead.json
-Homestead.yaml
+/node_modules
+
+# Storage / cache
+/public/storage
+storage/*.key
+storage/app/private
+storage/app/public/*
+!storage/app/public/.gitignore
+storage/framework/cache/*
+!storage/framework/cache/.gitignore
+storage/framework/sessions/*
+!storage/framework/sessions/.gitignore
+storage/framework/views/*
+!storage/framework/views/.gitignore
+storage/logs/*
+!storage/logs/.gitignore
+bootstrap/cache/*
+!bootstrap/cache/.gitignore
+
+# Environment
+.env
+.env.*
+.env.example
+
+# Logs / OS
+.DS_Store
 Thumbs.db
-tmp_*.py
-temp_*.py
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDEs
+.idea/
+.vscode/
+
+# Coverage / tests
+coverage/
+.phpunit.result.cache
+
+# Vite / build outputs
+public/hot
+public/build

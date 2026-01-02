@@ -59,4 +59,7 @@ return [
     'partnerships' => 'Partnerships',
     'partners' => 'Partners',
     'mous' => 'MoUs',
+    'signage' => 'Signage',
+    'signage_templates' => 'Templates',
+    'signage_displays' => 'Displays',
 ];

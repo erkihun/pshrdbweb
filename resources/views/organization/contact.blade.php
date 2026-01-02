@@ -58,6 +58,10 @@
                         $mapLink = !$canEmbedMap && $mapQuery
                             ? 'https://www.google.com/maps/search/?api=1&query=' . urlencode($mapQuery)
                             : null;
+
+                        $mapSearchEmbedUrl = $mapQuery
+                            ? 'https://www.google.com/maps?q=' . urlencode($mapQuery) . '&output=embed'
+                            : null;
                     @endphp
 
                     <article
@@ -146,18 +150,32 @@
                                                 allowfullscreen
                                             ></iframe>
                                         </div>
-                                    @elseif($mapLink)
-                                        <a
-                                            href="{{ $mapLink }}"
-                                            target="_blank"
-                                            rel="nofollow noopener"
-                                            class="inline-flex items-center gap-2 rounded-2xl border border-blue-500 bg-blue-50 px-4 py-3 text-sm font-semibold text-blue-700 transition hover:bg-blue-100"
-                                        >
-                                            View location on Google Maps
-                                        </a>
+                                    @elseif($mapSearchEmbedUrl)
+                                        <div class="h-64 w-full overflow-hidden rounded-2xl border border-gray-200">
+                                            <iframe
+                                                class="h-full w-full border-0"
+                                                loading="lazy"
+                                                src="{{ $mapSearchEmbedUrl }}"
+                                                title="{{ $organization->name }} location preview"
+                                                allowfullscreen
+                                            ></iframe>
+                                        </div>
+                                        @if($mapLink)
+                                            <p class="mt-3 text-sm text-gray-500">
+                                                <span>Preview based on the organization's address.</span>
+                                                <a
+                                                    href="{{ $mapLink }}"
+                                                    target="_blank"
+                                                    rel="nofollow noopener"
+                                                    class="font-semibold text-blue-600 hover:underline"
+                                                >
+                                                    Open in Google Maps
+                                                </a>
+                                            </p>
+                                        @endif
                                     @else
                                         <div class="flex h-64 items-center justify-center text-sm text-gray-400">
-                                            Map not available.
+                                            Map preview not available.
                                         </div>
                                     @endif
                                 </div>

@@ -29,7 +29,7 @@
                 <tbody class="divide-y divide-slate-100">
                     @forelse ($categories as $category)
                         <tr>
-                            <td class="px-6 py-4 font-medium text-slate-900">{{ $category->name }}</td>
+                            <td class="px-6 py-4 font-medium text-slate-900">{{ $category->display_name }}</td>
                             <td class="px-6 py-4 text-slate-500">{{ $category->slug }}</td>
                             <td class="px-6 py-4 text-slate-500">{{ $category->sort_order }}</td>
                             <td class="px-6 py-4">

@@ -30,6 +30,8 @@ use App\Http\Controllers\Admin\TenderController;
 use App\Http\Controllers\Admin\ChatController as AdminChatController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\CharterServiceController;
+use App\Http\Controllers\Admin\SignageDisplayController;
+use App\Http\Controllers\Admin\SignageTemplateController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\HomepageController;
@@ -52,6 +54,7 @@ use App\Http\Controllers\DocumentRequestController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\Public\ContactController as PublicContactController;
 use App\Http\Controllers\Public\CitizenCharterController;
+use App\Http\Controllers\Public\SignageController;
 use App\Http\Controllers\Public\TenderController as PublicTenderController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
@@ -65,7 +68,9 @@ use App\Http\Controllers\PublicServantDashboardController;
 use App\Http\Controllers\Admin\PartnerController;
 use App\Http\Controllers\Admin\MouController as AdminMouController;
 
-Route::get('/', HomepageController::class);
+Route::get('/', HomepageController::class)
+    ->name('home')
+    ->middleware('public.cache');
 Route::get('official-message', [OfficialMessageController::class, 'edit'])
     ->name('admin.official-message.edit');
 
@@ -156,6 +161,13 @@ Route::middleware(['auth', 'verified'])
             ->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])
             ->middleware('permission:manage settings');
         Route::resource('charter-services', CharterServiceController::class)->middleware('permission:manage services');
+        Route::middleware('ensure.manage.signage')
+            ->prefix('signage')
+            ->name('signage.')
+            ->group(function () {
+                Route::resource('templates', SignageTemplateController::class);
+                Route::resource('displays', SignageDisplayController::class);
+            });
         Route::get('analysis', [AnalysisController::class, 'index'])->name('analysis.index');
         Route::get('search', [AdminSearchController::class, 'index'])->name('search');
     });
@@ -184,15 +196,22 @@ Route::get('/mous', [PublicMouController::class, 'index'])->name('public.mous.in
 Route::get('/mous/{identifier}', [PublicMouController::class, 'show'])->name('public.mous.show');
 Route::get('/tenders', [PublicTenderController::class, 'index'])->name('tenders.index');
 Route::get('/tenders/{tender:slug}', [PublicTenderController::class, 'show'])->name('tenders.show');
-Route::get('/about', [PageController::class, 'show'])->defaults('key', 'about')->name('pages.about');
+Route::get('/about', [PageController::class, 'show'])
+    ->defaults('key', 'about')
+    ->name('pages.about')
+    ->middleware('public.cache');
 Route::get('/organization/mission-vision-values', [PageController::class, 'show'])->defaults('key', 'mission_vision_values')->name('pages.mission');
 Route::get('/organization/leadership', [PageController::class, 'show'])->defaults('key', 'leadership')->name('pages.leadership');
 Route::get('/organization/structure', [PageController::class, 'show'])->defaults('key', 'structure')->name('pages.structure');
 Route::get('/organization/history', [PageController::class, 'show'])->defaults('key', 'history')->name('pages.history');
-Route::get('/organization/contact', [OrganizationContactController::class, 'index'])->name('organization.contact');
+Route::get('/organization/contact', [OrganizationContactController::class, 'index'])
+    ->name('organization.contact')
+    ->middleware('public.cache');
 Route::get('/pages/{key}', [PageController::class, 'show'])->name('pages.show');
 Route::get('/leadership', [\App\Http\Controllers\StaffController::class, 'leadership'])->name('staff.leadership');
-Route::get('/staff', [\App\Http\Controllers\StaffController::class, 'index'])->name('staff.index');
+Route::get('/staff', [\App\Http\Controllers\StaffController::class, 'index'])
+    ->name('staff.index')
+    ->middleware('public.cache');
 Route::get('/staff/{staff}', [\App\Http\Controllers\StaffController::class, 'show'])->name('staff.show');
 Route::get('/contact', [PublicContactController::class, 'index'])->name('contact');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store')->middleware('throttle:contact');
@@ -209,9 +228,12 @@ Route::post('/appointments/{appointmentService}/book', [AppointmentController::c
 Route::post('/appointments/{reference}/cancel', [AppointmentController::class, 'cancel'])->name('appointments.cancel')->middleware('throttle:appointment_cancel');
 Route::get('/public-servants', [PublicServantsController::class, 'index'])->name('public-servants.index');
 Route::get('/public-servants-dashboard', [PublicServantDashboardController::class, 'index'])->name('public-servants.dashboard');
-Route::get('/citizen-charter', [CitizenCharterController::class, 'index'])->name('citizen-charter.index');
+Route::get('/citizen-charter', [CitizenCharterController::class, 'index'])
+    ->name('citizen-charter.index')
+    ->middleware('public.cache');
 Route::get('/citizen-charter/{department:slug}', [CitizenCharterController::class, 'department'])->name('citizen-charter.department');
 Route::get('/citizen-charter/{department:slug}/{service:slug}', [CitizenCharterController::class, 'service'])->name('citizen-charter.service');
+Route::get('/signage/{signage_display:slug}', [SignageController::class, 'show'])->name('signage.show');
 Route::get('/health', function () {
     try {
         DB::connection()->getPdo()->query('select 1');

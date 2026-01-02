@@ -8,6 +8,7 @@ Set these in `.env` on the server:
 
 - `APP_ENV=production`
 - `APP_DEBUG=false`
+- `LOG_LEVEL=warning`
 - `APP_URL=https://your-domain.tld`
 - `APP_KEY=base64:...` (generate if missing)
 - `DB_CONNECTION=mysql`
@@ -69,6 +70,82 @@ php artisan config:cache
 php artisan route:cache
 php artisan view:cache
 ```
+
+## Production cache workflow
+
+Wrap releases in the following commands so cached configuration, routes, and views are refreshed:
+
+```bash
+php artisan down --secret="maintenance-access"
+php artisan optimize:clear
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+php artisan event:cache
+php artisan optimize
+php artisan up
+```
+
+Include the same sequence in automated deployments or release playbooks so the application boots with the cached files every time.
+
+## PHP tuning for production
+
+Update `php.ini` (or the equivalent pool configuration) with these recommended values:
+
+```
+opcache.enable=1
+opcache.enable_cli=1
+opcache.memory_consumption=256
+opcache.interned_strings_buffer=16
+opcache.max_accelerated_files=20000
+opcache.validate_timestamps=0
+realpath_cache_size=4096K
+realpath_cache_ttl=600
+```
+
+An OPCache-aware deployment reduces the first-request penalty and the realpath cache improves autoload lookup time for large applications.
+
+## Asset build
+
+Ensure the production asset bundle is created from the `/public` document root:
+
+```bash
+npm ci
+npm run build
+```
+
+Double-check that every Blade template uses `@vite()` for styles/scripts and that no pages load the development server assets (`http://localhost:5173`). The build already copies TinyMCE to `public/vendor/tinymce`, and the admin layouts now load it only when a rich-text editor is present.
+
+## Image delivery & helper
+
+- Set `Last-Modified`/`Cache-Control` headers via your web server for `/storage`, `/css`, `/js`, and `/images`.
+- Convert large JPEG/PNG assets to WEBP before uploading, and keep a consistent max dimension (e.g. 1200 px) to prevent oversized downloads.
+- All `<img>` tags should include `loading="lazy"` (except hero visuals), plus either `width`/`height` or an explicit aspect ratio, to avoid layout shifts.
+- For new templates use the `x-optimized-image` helper component, which adds `object-cover`, `max-height`, `lazy` loading, and optional WEBP sources.
+
+## HTTP caching for public pages
+
+The routing bootstrap now provides a `public.cache` middleware that sets `Cache-Control: public, max-age=300, s-maxage=600` and an `ETag` header for these non-authenticated GET endpoints:
+
+- `/` (home)
+- `/about`
+- `/staff`
+- `/citizen-charter`
+- `/organization/contact`
+
+Attach `->middleware('public.cache')` to those routes so browsers and CDNs can keep them hot for 5 minutes without serving stale private content.
+
+## Final checks
+
+Before pushing or deploying:
+
+```bash
+php artisan route:list
+php artisan config:cache
+php artisan optimize
+```
+
+Verify there are no new errors in `storage/logs/laravel.log`, confirm the maintenance secret is stored somewhere safe, and fully test the pages listed above to ensure they render correctly with the new headers and cached assets.
 
 ## Queue + Scheduler
 

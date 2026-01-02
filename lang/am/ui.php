@@ -56,4 +56,7 @@ return [
       'partnerships' => 'አጋሮች',
     'partners' => 'አጋሮች',
     'mous' => 'የመግባቢያ ሰነዶች',
+    'signage' => 'Signage',
+    'signage_templates' => 'Templates',
+    'signage_displays' => 'Displays',
 ];

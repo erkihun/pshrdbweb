@@ -183,6 +183,26 @@
                 ],
             ],
         ],
+        'signage' => [
+            'label' => __('ui.signage'),
+            'collapsible' => true,
+            'items' => [
+                [
+                    'label' => __('ui.signage_templates'),
+                    'route' => 'admin.signage.templates.index',
+                    'icon' => 'M4 6h16M4 10h16M4 14h16M4 18h16',
+                    'permission' => 'manage signage',
+                    'patterns' => ['admin.signage.templates.*'],
+                ],
+                [
+                    'label' => __('ui.signage_displays'),
+                    'route' => 'admin.signage.displays.index',
+                    'icon' => 'M4 4h16v4H4V4zm0 8h8v4H4v-4z',
+                    'permission' => 'manage signage',
+                    'patterns' => ['admin.signage.displays.*'],
+                ],
+            ],
+        ],
         'partnerships' => [
             'label' => __('ui.partnerships'),
             'collapsible' => true,

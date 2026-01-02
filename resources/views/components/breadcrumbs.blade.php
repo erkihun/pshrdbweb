@@ -62,7 +62,7 @@
         'request-service' => __('common.nav.request_service'),
         'search' => __('ui.search'),
         'news-and-announcements' => __('ui.news_announcements'),
-        'track' => 'Track',
+        'track' => __('common.nav.track'),
     ];
 
     $routeParameters = request()->route()?->parameters() ?? [];

@@ -147,4 +147,5 @@
         </form>
 
     </div>
+    @include('admin.components.editor-scripts')
 @endsection

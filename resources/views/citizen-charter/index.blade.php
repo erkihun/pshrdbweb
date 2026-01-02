@@ -3,37 +3,7 @@
 @section('content')
     <div class="bg-slate-50 py-16">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
-            <div class="grid gap-10 lg:grid-cols-[320px_1fr]">
-                <aside class="space-y-6 overflow-y-auto max-h-[70vh] pr-2 lg:pr-0">
-                    <div class="rounded-2xl bg-white p-6 shadow-sm">
-                
-                        <h2 class="mt-3 text-xl font-semibold text-gray-900">
-                            {{ __('home.services.title') }}
-                        </h2>
-                     
-                    </div>
-
-                    <div class="space-y-4">
-                        @forelse($services as $service)
-                            <a href="{{ route('services.show', $service->slug) }}"
-                               class="flex items-center gap-3 rounded-2xl border border-gray-200 bg-white p-4 text-sm text-gray-700 transition hover:bg-blue-50 hover:border-blue-100"
-                            >
-                                <span class="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-500 text-white shadow">
-                                    <x-heroicon-o-document-text class="h-5 w-5" aria-hidden="true" />
-                                </span>
-                                <span class="flex-1 font-semibold">
-                                    {{ $service->display_title }}
-                                </span>
-                            </a>
-                        @empty
-                            <div class="rounded-2xl border border-dashed border-gray-200 bg-white/60 p-4 text-sm text-gray-500">
-                                {{ __('common.messages.no_services') }}
-                            </div>
-                        @endforelse
-                    </div>
-                </aside>
-
-                <div class="space-y-10">
+            <div class="space-y-10">
                     <section class="space-y-4 text-center lg:text-left">
                     
                         <h1 class="text-3xl font-semibold leading-tight text-slate-900 sm:text-4xl">
@@ -49,11 +19,15 @@
                                 class="flex flex-col justify-between rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:border-slate-300 hover:shadow-lg"
                             >
                                 <div>
-                                   
-                                    <h2 class=" text-lg font-semibold text-slate-900">
+                                    <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+                                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21h18M4 21V4a1 1 0 011-1h14a1 1 0 011 1v17M9 21V7h6v14M9 3h6M7 7h2M15 7h2M7 11h2M15 11h2" />
+                                        </svg>
+                                    </span>
+                                    <h2 class="mt-4 text-lg font-semibold text-slate-900">
                                         {{ $department->display_name }}
                                     </h2>
-                                     <p class="text-xs mt-2 uppercase tracking-wide text-slate-500">
+                                    <p class="text-xs mt-2 uppercase tracking-wide text-slate-500">
                                         {{ __('public.citizen_charter.index.department') }}
                                     </p>
                                 </div>

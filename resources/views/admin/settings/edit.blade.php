@@ -560,14 +560,14 @@
                                 <p class="text-sm text-slate-500">{{ __('common.settings.footer_hint') }}</p>
                             </div>
                         </div>
-                        <span class="rounded-full bg-indigo-100 px-3 py-1 text-xs font-medium text-indigo-700">3 Links Max</span>
+                        <span class="rounded-full bg-indigo-100 px-3 py-1 text-xs font-medium text-indigo-700">5 Links Max</span>
                     </div>
                 </div>
 
                 <div class="p-6 space-y-4">
                     @php
                         $footerLinks = $footer['quick_links'] ?? [];
-                        $footerLinksCount = max(3, count($footerLinks));
+                        $footerLinksCount = 5;
                     @endphp
 
                     @for ($i = 0; $i < $footerLinksCount; $i++)
@@ -636,23 +636,26 @@
             <!-- Social Links Section -->
             <div class="rounded-xl border border-slate-200 bg-white shadow-lg overflow-hidden">
                 <div class="border-b border-slate-200 bg-gradient-to-r from-slate-50 to-white px-6 py-4">
-                    <div class="flex items-center gap-3">
-                        <div class="rounded-lg bg-pink-100 p-2">
-                            <svg class="h-5 w-5 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path>
-                            </svg>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="rounded-lg bg-pink-100 p-2">
+                                <svg class="h-5 w-5 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h2 class="text-lg font-semibold text-slate-900">{{ __('common.settings.social_links') }}</h2>
+                                <p class="text-sm text-slate-500">Social media links for the footer</p>
+                            </div>
                         </div>
-                        <div>
-                            <h2 class="text-lg font-semibold text-slate-900">{{ __('common.settings.social_links') }}</h2>
-                            <p class="text-sm text-slate-500">Social media links for the footer</p>
-                        </div>
+                        <span class="rounded-full bg-pink-100 px-3 py-1 text-xs font-medium text-pink-700">5 Links Max</span>
                     </div>
                 </div>
 
                 <div class="p-6 space-y-4">
                     @php
                         $socialLinks = $footer['social_links'] ?? [];
-                        $socialLinksCount = max(3, count($socialLinks));
+                        $socialLinksCount = 5;
                     @endphp
 
                     @for ($i = 0; $i < $socialLinksCount; $i++)

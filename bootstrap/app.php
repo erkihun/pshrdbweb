@@ -28,6 +28,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
             'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
             'api_permission' => \App\Http\Middleware\ApiPermission::class,
+            'public.cache' => \App\Http\Middleware\PublicPageCache::class,
+            'ensure.manage.signage' => \App\Http\Middleware\EnsureCanManageSignage::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

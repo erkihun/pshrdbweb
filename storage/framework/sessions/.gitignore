@@ -1,2 +1,2 @@
+# Keep sessions directory structure while ignoring contents.
 *
-!.gitignore

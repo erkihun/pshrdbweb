@@ -31,8 +31,9 @@ final class SettingsController extends Controller
         $validated = $request->validated();
 
         // Current stored paths (from cache/db)
-        $currentLogoPath = $settings->get('site.branding.logo_path');
-        $currentFaviconPath = $settings->get('site.branding.favicon_path');
+        $currentBranding = $settings->get('site.branding', []);
+        $currentLogoPath = $currentBranding['logo_path'] ?? null;
+        $currentFaviconPath = $currentBranding['favicon_path'] ?? null;
 
         // Upload first (so we can persist new paths)
         $newLogoPath = $currentLogoPath;
@@ -52,12 +53,18 @@ final class SettingsController extends Controller
             );
         }
 
-        $branding = [
+        $branding = array_merge($currentBranding, [
             'site_name_am' => $validated['site_name_am'] ?? null,
             'site_name_en' => $validated['site_name_en'] ?? null,
-            'logo_path' => $newLogoPath ?? $currentLogoPath,
-            'favicon_path' => $newFaviconPath ?? $currentFaviconPath,
-        ];
+        ]);
+
+        if ($newLogoPath !== null) {
+            $branding['logo_path'] = $newLogoPath;
+        }
+
+        if ($newFaviconPath !== null) {
+            $branding['favicon_path'] = $newFaviconPath;
+        }
 
         $contact = [
             'address_am' => $validated['address_am'] ?? null,

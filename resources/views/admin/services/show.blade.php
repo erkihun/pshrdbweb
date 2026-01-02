@@ -41,13 +41,17 @@
 
             <div class="mt-6 border-t border-slate-100 pt-6 text-sm text-slate-700">
                 <h2 class="text-sm font-semibold text-slate-900">{{ __('common.labels.description') }}</h2>
-                <p class="mt-2 whitespace-pre-line">{{ $service->display_description }}</p>
+                <x-rich-content class="mt-2 text-sm text-slate-700">
+                    {!! $service->display_description !!}
+                </x-rich-content>
             </div>
 
             @if ($service->display_requirements)
                 <div class="mt-6 border-t border-slate-100 pt-6 text-sm text-slate-700">
                     <h2 class="text-sm font-semibold text-slate-900">{{ __('common.labels.requirements') }}</h2>
-                    <p class="mt-2 whitespace-pre-line">{{ $service->display_requirements }}</p>
+                    <x-rich-content class="mt-2 text-sm text-slate-700">
+                        {!! $service->display_requirements !!}
+                    </x-rich-content>
                 </div>
             @endif
         </div>

@@ -86,8 +86,7 @@
         </div>
 
         @stack('scripts')
-        <script src="/vendor/tinymce/tinymce.min.js"></script>
-        <script src="{{ asset('js/admin-tinymce.js') }}"></script>
+        @stack('tinymce-scripts')
     </body>
 </html>
 

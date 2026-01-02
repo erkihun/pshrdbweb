@@ -79,6 +79,7 @@ class PermissionsSeeder extends Seeder
             'view subscribers',
             'manage subscribers',
             'view analytics',
+            'manage signage',
         ];
 
         foreach ($permissions as $permission) {

@@ -68,7 +68,7 @@ class PostController extends Controller
         $data['slug'] = $this->uniqueSlug($data['title_en']);
         $data['is_published'] = $request->boolean('is_published');
         if ($data['is_published']) {
-            $data['published_at'] = $data['published_at'] ?: Carbon::now();
+            $data['published_at'] = $data['published_at'] ?? Carbon::now();
         } else {
             $data['published_at'] = null;
         }

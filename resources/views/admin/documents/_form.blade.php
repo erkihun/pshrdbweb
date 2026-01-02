@@ -1,4 +1,9 @@
-<div class="space-y-6" x-data="{ lang: 'am' }">
+@php
+    $defaultDocumentLang = app()->getLocale() === 'en' ? 'en' : 'am';
+    $defaultDocumentLang = in_array($defaultDocumentLang, ['am', 'en'], true) ? $defaultDocumentLang : 'am';
+@endphp
+
+<div class="space-y-6" x-data="{ lang: '{{ $defaultDocumentLang }}' }">
     <div class="flex flex-wrap items-center gap-3">
         <button
             type="button"

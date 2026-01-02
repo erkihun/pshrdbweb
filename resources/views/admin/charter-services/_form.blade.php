@@ -325,3 +325,5 @@
         </label>
     </div>
 </div>
+
+@include('admin.components.editor-scripts')

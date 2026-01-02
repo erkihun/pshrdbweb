@@ -14,9 +14,9 @@
                         class="block rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-gray-300"
                     >
                         <h3 class="text-lg font-semibold text-gray-900">{{ $service->display_title }}</h3>
-                        <p class="mt-2 text-sm text-gray-600 line-clamp-3">
-                            {{ $service->display_description }}
-                        </p>
+                        <div class="mt-2 text-sm text-gray-600 line-clamp-3">
+                            {!! $service->display_description !!}
+                        </div>
                         @if ($service->display_requirements)
                             <p class="mt-4 text-xs font-semibold uppercase tracking-wide text-gray-400">
                                 {{ __('common.labels.requirements') }}

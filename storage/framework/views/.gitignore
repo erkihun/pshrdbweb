@@ -1,2 +1,2 @@
+# Keep views cache dir without tracking runtime data.
 *
-!.gitignore

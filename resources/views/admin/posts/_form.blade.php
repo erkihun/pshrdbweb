@@ -397,3 +397,5 @@
         </div>
     @endif
 </div>
+
+@include('admin.components.editor-scripts')

@@ -39,6 +39,11 @@ class CitizenCharterController extends Controller
             abort(404);
         }
 
-        return view('citizen-charter.service', compact('department', 'service'));
+        $departmentServices = $department->charterServices()
+            ->active()
+            ->orderBy('sort_order')
+            ->get();
+
+        return view('citizen-charter.service', compact('department', 'service', 'departmentServices'));
     }
 }

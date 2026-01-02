@@ -1,2 +1,2 @@
+# Keep bootstrap cache folder while ignoring generated files.
 *
-!.gitignore

@@ -73,7 +73,7 @@
 
 {{-- ================= HERO SLIDER (TITLE/SUBTITLE BOTTOM) ================= --}}
 <section id="hero" class="scroll-section is-visible relative w-full bg-gray-900 overflow-hidden">
-    <div id="heroSlider" class="relative w-full min-h-[45vh] h-[55vh] overflow-hidden" >
+    <div id="heroSlider" class="relative w-full min-h-[65vh] h-[75vh] overflow-hidden" >
         @forelse ($slides as $index => $slide)
             @php
                 $transitionStyle = \Illuminate\Support\Str::of($slide->transition_style ?? 'wave')->kebab()->toString();
@@ -495,58 +495,47 @@
                 class="flex flex-nowrap gap-6 overflow-x-auto scroll-smooth pb-4 -mx-2 px-2 md:mx-0 md:px-0 snap-x snap-mandatory"
             >
                 @foreach($staffMembers as $index => $staff)
-                    <div 
-                        class="leader-card group relative flex-none rounded-2xl border border-gray-200 bg-white shadow-sm hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-500 hover:-translate-y-2 snap-start"
+                    @php
+                        $leaderTitle = app()->getLocale() === 'am'
+                            ? ($staff->title_am ?: $staff->title_en)
+                            : ($staff->title_en ?: $staff->title_am);
+                        $departmentName = $staff->department?->name;
+                        $initials = collect(explode(' ', trim($staff->display_name)))->filter()->take(2)->map(fn($p)=>mb_strtoupper(mb_substr($p,0,1)))->join('');
+                    @endphp
+                    <article
+                        class="leader-card group relative flex-none snap-start w-[360px] rounded-[32px] border border-slate-200 bg-white/90 shadow-xl transition-transform duration-500 hover:-translate-y-1 hover:shadow-2xl"
                     >
-                        <div class="absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-2xl opacity-0 group-hover:opacity-10 blur transition duration-500"></div>
-                        
-                        <div class="relative flex flex-col md:flex-row h-full">
-                            {{-- Photo Container --}}
-                            <div class="relative w-full md:w-40 h-48 md:h-auto overflow-hidden flex-shrink-0">
+                        <div class="absolute inset-0 rounded-[32px] bg-gradient-to-br from-sky-400/10 to-indigo-500/10 opacity-0 transition-opacity group-hover:opacity-100"></div>
+
+                        <div class="relative flex min-h-[200px] overflow-hidden rounded-[32px] bg-white">
+                            <div class="relative h-full w-1/3 bg-slate-100">
                                 @if(!empty($staff->photo_path))
-                                    <img 
-                                        src="{{ asset('storage/' . ltrim($staff->photo_path, '/')) }}" 
-                                        alt="{{ $staff->display_name }}" 
-                                        class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
-                                        loading="lazy"
-                                    >
-                                    <div class="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                                    <x-optimized-image
+                                        src="{{ asset('storage/' . ltrim($staff->photo_path, '/')) }}"
+                                        alt="{{ $staff->display_name }}"
+                                        class="h-full w-full object-cover"
+                                        ratio="3/4"
+                                        maxHeight="100%"
+                                    />
                                 @else
-                                    <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-indigo-50 to-purple-50 group-hover:from-indigo-100 group-hover:to-purple-100 transition-all duration-500">
-                                        @php
-                                            $initials = collect(explode(' ', trim($staff->display_name)))->filter()->take(2)->map(fn($p)=>mb_strtoupper(mb_substr($p,0,1)))->join('');
-                                        @endphp
-                                        <div class="text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent transform group-hover:scale-110 transition-transform duration-500">
-                                            {{ $initials }}
-                                        </div>
+                                    <div class="flex h-full w-full items-center justify-center bg-gradient-to-br from-indigo-50 to-purple-50 text-3xl font-semibold text-indigo-600">
+                                        {{ $initials }}
                                     </div>
                                 @endif
-                                
-                                {{-- Corner accent --}}
-                                <div class="absolute top-0 left-0 w-12 h-12">
-                                    <div class="absolute top-3 left-3 w-6 h-6 border-t-2 border-l-2 border-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                                </div>
                             </div>
-
-                            {{-- Content Container --}}
-                            <div class="p-6 flex-1 flex flex-col">
-                                <div class="flex-1">
-                                    <h3 class="text-xl font-bold text-gray-900 group-hover:text-indigo-700 transition-colors duration-300">
-                                        {{ $staff->display_name }}
-                                    </h3>
-
-                                    @if(!empty($staff->display_bio))
-                                        <p class="mt-4 text-gray-600 text-sm leading-relaxed line-clamp-3">
-                                            {{ strip_tags($staff->display_bio) }}
-                                        </p>
+                            <div class="flex w-2/3 flex-col gap-3 p-5">
+                                <div class="space-y-1">
+                                    <h3 class="text-xl text-center font-semibold text-slate-900 py-5">{{ $staff->display_name }}</h3>
+                                    @if($leaderTitle)
+                                        <h4 class="text-xl text-center    text-blue-600 ">
+                                            {{ $leaderTitle }}
+                                        </h4>
                                     @endif
                                 </div>
+
                             </div>
                         </div>
-                        
-                        {{-- Hover border effect --}}
-                        <div class="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-indigo-200 transition-all duration-500 pointer-events-none"></div>
-                    </div>
+                    </article>
                 @endforeach
             </div>
         </div>
@@ -625,16 +614,16 @@
 </section>
 @endif
 
-<section id="services-section" class="scroll-section bg-gradient-to-b from-white to-gray-50 py-10 overflow-hidden">
+<section id="services-section" class="scroll-section bg-gradient-to-b from-blue-900 to-blue-800 text-white py-10 overflow-hidden">
     <div class="relative mx-auto max-w-full lg:max-w-screen-2xl w-full px-6 sm:px-8 lg:px-12">
         <div class="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between mb-16">
             <div class="flex items-center gap-3">
                 <x-heroicon-o-cube-transparent class="h-6 w-6 text-indigo-600" aria-hidden="true" />
                 <div>
                     @php
-                        $servicesHighlight = '<span class="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">' . __('home.services.highlight') . '</span>';
+                        $servicesHighlight = '<span class="bg-gradient-to-r from-sky-200 to-indigo-200 bg-clip-text text-transparent">' . __('home.services.highlight') . '</span>';
                     @endphp
-                    <h5 class="text-5xl lg:text-3xl font-bold text-gray-900">
+                    <h5 class="text-5xl lg:text-3xl font-bold text-white">
                        {!! __('home.services.title', ['highlight' => $servicesHighlight]) !!}
                     </h5>
                 </div>
@@ -677,9 +666,9 @@
                       
 
                         <h3 class="text-2xl font-bold text-gray-900 mb-4">{{ $service->display_title }}</h3>
-                        <p class="text-gray-600 mb-6 line-clamp-3 text-justify">
-                            {{ $service->display_description ?: __('common.labels.service_intro') }}
-                        </p>
+                        <x-rich-content class="text-gray-600 mb-6 line-clamp-3 text-justify"> 
+                            {!! $service->display_description ?: __('common.labels.service_intro') !!} 
+                        </x-rich-content> 
 
 
                         <div class="mt-auto pt-6 border-t border-gray-100">

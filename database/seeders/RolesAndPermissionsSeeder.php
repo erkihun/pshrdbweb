@@ -21,6 +21,7 @@ class RolesAndPermissionsSeeder extends Seeder
             'manage pages',
             'manage media',
             'manage services',
+            'manage signage',
             'manage documents',
             'manage tenders',
             'manage tickets',

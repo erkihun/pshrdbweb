@@ -1,15 +1,13 @@
 @extends('layouts.public')
 
 @section('content')
-    <div class="mx-auto flex max-w-6xl flex-col gap-6 pb-16 pt-6">
+    <div class="mx-auto flex max-w-7xl flex-col gap-6 pb-16 pt-6">
         <header class="rounded-3xl bg-white p-6 shadow-lg">
-            <p class="text-xs font-semibold uppercase tracking-[0.4em] text-slate-400">
-                {{ __('public.navigation.partnerships') }}
-            </p>
+          
             <div class="mt-3 flex flex-wrap items-center justify-between gap-4">
                 <div>
-                    <h1 class="text-3xl font-semibold text-slate-900">{{ __('mous.public.title') }}</h1>
-                    <p class="mt-2 text-sm text-slate-500">{{ __('mous.public.intro') }}</p>
+                    <h4 class="text-2xl font-semibold text-slate-900">{{ __('mous.public.title') }}</h4>
+              
                 </div>
                 <div class="hidden text-sm text-slate-500 md:flex">
                     {{ $mous->total() }} {{ __('mous.public.stats.total') }}
@@ -53,6 +51,11 @@
             </form>
         </section>
 
+        @php
+            $branding = $site_settings['site.branding'] ?? [];
+            $ourLogoPath = $branding['logo_path'] ?? null;
+        @endphp
+
         <section class="grid gap-6 md:grid-cols-2">
             @forelse($mous as $mou)
                 @php
@@ -75,6 +78,36 @@
                         </span>
                     </div>
                     <h2 class="mt-4 text-lg font-semibold text-slate-900">{{ $title }}</h2>
+                    <div class="mt-5 grid gap-4 border-y border-slate-100 py-5 sm:grid-cols-2 sm:items-center">
+                        <div class="flex items-center justify-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
+                            @if($ourLogoPath)
+                                <img
+                                    src="{{ asset('storage/' . ltrim($ourLogoPath, '/')) }}"
+                                    alt="{{ $branding['site_name_en'] ?? 'Logo' }}"
+                                    class="h-12 w-auto object-contain"
+                                >
+                            @else
+                                <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-slate-100 text-slate-500">
+                                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 21h8M5 21V5a1 1 0 011-1h12a1 1 0 011 1v16M9 21V9h6v12M9 3h6M7 7h2M15 7h2M7 11h2M15 11h2" />
+                                    </svg>
+                                </div>
+                            @endif
+                        </div>
+                        <div class="flex items-center justify-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
+                            @if($mou->partner->logo_path)
+                                <img
+                                    src="{{ asset('storage/' . $mou->partner->logo_path) }}"
+                                    alt="{{ $mou->partner->display_name }} logo"
+                                    class="h-12 w-auto object-contain"
+                                >
+                            @else
+                                <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-slate-100 text-slate-500">
+                                    <x-heroicon-o-briefcase class="h-6 w-6" aria-hidden="true" />
+                                </div>
+                            @endif
+                        </div>
+                    </div>
                     <div class="mt-3 flex items-center justify-between text-sm text-slate-500">
                         <span>{{ __('mous.public.card.signed') }} {{ $signed }}</span>
                         <span>{{ __('mous.public.card.status') }} {{ __('mous.statuses.' . $mou->status) }}</span>
