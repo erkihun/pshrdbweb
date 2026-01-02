@@ -23,7 +23,7 @@
             <div class="grid gap-8 lg:grid-cols-[3fr,9fr]">
                 <aside class="space-y-5">
                     <div class="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
-                        <div class="text-sm font-semibold uppercase tracking-[0.4em] text-slate-500">
+                        <div class="text-sm font-semibold uppercase  text-slate-500">
                             {{ __('common.labels.other_documents') }}
                         </div>
                         <div class="mt-4 max-h-[720px] overflow-y-auto pr-1 space-y-3">
