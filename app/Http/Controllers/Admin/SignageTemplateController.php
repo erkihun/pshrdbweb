@@ -38,33 +38,33 @@ final class SignageTemplateController extends Controller
             ->with('success', 'Signage template created successfully.');
     }
 
-    public function show(SignageTemplate $signage_template)
+    public function show(SignageTemplate $template)
     {
-        $signage_template->load('displays');
+        $template->load('displays');
 
-        return view('admin.signage.templates.show', ['template' => $signage_template]);
+        return view('admin.signage.templates.show', ['template' => $template]);
     }
 
-    public function edit(SignageTemplate $signage_template)
+    public function edit(SignageTemplate $template)
     {
-        return view('admin.signage.templates.edit', ['template' => $signage_template]);
+        return view('admin.signage.templates.edit', ['template' => $template]);
     }
 
     public function update(
         SignageTemplateUpdateRequest $request,
-        SignageTemplate $signage_template,
+        SignageTemplate $template,
         UpdateSignageTemplateAction $action
     ) {
-        $action->execute($signage_template, $request->validated());
+        $action->execute($template, $request->validated());
 
         return redirect()
-            ->route('admin.signage.templates.show', $signage_template)
+            ->route('admin.signage.templates.show', $template)
             ->with('success', 'Signage template updated successfully.');
     }
 
-    public function destroy(SignageTemplate $signage_template, DeleteSignageTemplateAction $action)
+    public function destroy(SignageTemplate $template, DeleteSignageTemplateAction $action)
     {
-        $action->execute($signage_template);
+        $action->execute($template);
 
         return redirect()
             ->route('admin.signage.templates.index')

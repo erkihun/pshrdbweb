@@ -57,6 +57,12 @@
                                 <td class="px-6 py-4 text-right">
                                     <div class="inline-flex items-center gap-2">
                                         <a
+                                            href="{{ route('admin.signage.displays.show', $display) }}"
+                                            class="text-xs font-semibold text-slate-600 hover:text-slate-900"
+                                        >
+                                            View
+                                        </a>
+                                        <a
                                             href="{{ route('admin.signage.displays.edit', $display) }}"
                                             class="text-xs font-semibold text-blue-600 hover:text-blue-800"
                                         >

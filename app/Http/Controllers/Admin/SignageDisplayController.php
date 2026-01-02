@@ -40,38 +40,38 @@ final class SignageDisplayController extends Controller
             ->with('success', 'Signage display created successfully.');
     }
 
-    public function show(SignageDisplay $signage_display)
+    public function show(SignageDisplay $display)
     {
-        $signage_display->load('template');
+        $display->load('template');
 
-        return view('admin.signage.displays.show', ['display' => $signage_display]);
+        return view('admin.signage.displays.show', ['display' => $display]);
     }
 
-    public function edit(SignageDisplay $signage_display)
+    public function edit(SignageDisplay $display)
     {
         $templates = SignageTemplate::orderBy('name_en')->get();
 
         return view('admin.signage.displays.edit', [
-            'display' => $signage_display,
+            'display' => $display,
             'templates' => $templates,
         ]);
     }
 
     public function update(
         SignageDisplayUpdateRequest $request,
-        SignageDisplay $signage_display,
+        SignageDisplay $display,
         UpdateSignageDisplayAction $action
     ) {
-        $action->execute($signage_display, $request->validated());
+        $action->execute($display, $request->validated());
 
         return redirect()
-            ->route('admin.signage.displays.show', $signage_display)
+            ->route('admin.signage.displays.show', $display)
             ->with('success', 'Signage display updated successfully.');
     }
 
-    public function destroy(SignageDisplay $signage_display, DeleteSignageDisplayAction $action)
+    public function destroy(SignageDisplay $display, DeleteSignageDisplayAction $action)
     {
-        $action->execute($signage_display);
+        $action->execute($display);
 
         return redirect()
             ->route('admin.signage.displays.index')

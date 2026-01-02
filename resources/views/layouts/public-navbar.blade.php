@@ -40,36 +40,34 @@
                         <img
                             src="{{ asset('storage/'.ltrim($logo, '/')) }}"
                             alt="{{ $brandName }}"
-                            class="h-12 w-auto max-w-[800px] object-contain lg:h-14"
+                            class="h-16 w-auto max-w-[220px] object-contain transition-all duration-300"
                             loading="eager"
                         >
                     @else
-                    <div class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-brand-blue text-white shadow-sm">
-                        <x-heroicon-o-building-office-2 class="h-5 w-5" aria-hidden="true" />
-                    </div>
-
-                        <span class="text-base font-semibold tracking-tight text-gray-900">
-                            {{ $brandName }}
-                        </span>
+                        <div class="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-blue to-blue-600 text-white shadow-lg">
+                            <x-heroicon-o-building-office-2 class="h-6 w-6" aria-hidden="true" />
+                        </div>
                     @endif
+                    <span class="text-lg font-semibold tracking-tight text-gray-900">
+                        {{ $brandName }}
+                    </span>
                 </a>
             </div>
 
             <div class="flex items-center gap-2">
-                <div class="hidden lg:flex items-center rounded-xl border border-gray-200 bg-white p-1 shadow-sm">
+                <div class="hidden lg:flex items-center gap-1 rounded-full border border-slate-200 bg-white px-2 py-1 text-xs font-medium shadow-sm ring-1 ring-slate-200/50">
                     @foreach(['am', 'en'] as $locale)
-                        <form method="POST" action="{{ route('locale.switch', $locale) }}">
+                        <form method="POST" action="{{ route('locale.switch', $locale) }}" class="leading-none">
                             @csrf
                             <button type="submit"
                                     title="{{ $localeMeta[$locale]['title'] }}"
-                                    class="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-semibold transition
-                                    {{ app()->getLocale() === $locale
-                                        ? 'bg-brand-blue text-white shadow-sm'
-                                        : 'text-gray-700 hover:bg-gray-50 hover:text-orange-600' }}">
-                                <x-heroicon-o-flag class="h-4 w-4" aria-hidden="true" />
-                                <span>{{ $localeMeta[$locale]['label'] }}</span>
+                                    class="rounded-full px-2.5 py-1 text-[11px] font-semibold transition {{ app()->getLocale() === $locale ? 'bg-gradient-to-r from-brand-blue to-blue-600 text-white shadow-sm' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100' }}">
+                                {{ strtoupper($localeMeta[$locale]['label']) }}
                             </button>
                         </form>
+                        @if(!$loop->last)
+                            <span class="text-slate-300">/</span>
+                        @endif
                     @endforeach
                 </div>
 
@@ -146,7 +144,7 @@
 
                 {{-- Shared desktop link UI --}}
                 @php
-                    $desktopLinkBase = 'relative inline-flex items-center gap-2 rounded-xl px-3.5 py-2 text-sm font-semibold transition-all duration-200';
+                    $desktopLinkBase = 'relative inline-flex items-center gap-2 rounded-xl px-3.5 py-2 text-sm font-semibold transition-all duration-200 desktop-link';
                     $desktopLinkHover = 'hover:bg-gray-50 hover:text-orange-600 hover:-translate-y-[1px]';
                 @endphp
 
@@ -403,7 +401,7 @@
                 <div class="px-4 py-4 space-y-2">
 
                     @php
-                        $mobileLinkBase = 'block rounded-xl px-3 py-2.5 text-sm font-semibold transition';
+                        $mobileLinkBase = 'block rounded-xl px-3 py-2.5 text-sm font-semibold transition mobile-link';
                         $mobileLinkHover = 'hover:bg-gray-50 hover:text-orange-600';
                     @endphp
 
@@ -572,6 +570,11 @@
         outline: 2px solid rgba(59, 130, 246, 0.35);
         outline-offset: 2px;
         border-radius: 14px;
+    }
+
+    .public-navbar .desktop-link,
+    .public-navbar .mobile-link {
+        font-size: 0.95rem;
     }
 
     /* Active indicator animation (kept, slightly smoother) */
