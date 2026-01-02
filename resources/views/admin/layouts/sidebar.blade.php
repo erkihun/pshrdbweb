@@ -371,20 +371,25 @@
         <!-- Fixed Header -->
         <div class="flex-shrink-0 px-6 py-4 border-b border-gray-700 bg-gray-900/50 backdrop-blur-sm">
             <div class="flex items-center justify-between gap-4">
-                <div class="flex items-center gap-3">
-                    <div class="flex h-30  items-center justify-center">
+                <div class="flex flex-col items-center gap-2 text-center">
+                    <div class="flex items-center justify-center">
                         @if($logo)
                             <img
                                 src="{{ asset('storage/' . ltrim($logo, '/')) }}"
                                 alt="{{ $brandName }}"
-                                class="object-contain"
+                                class="h-20 w-20 object-contain"
                                 loading="eager"
                             >
                         @else
-                            <x-application-logo class="h-10 w-10 text-white" aria-hidden="true" />
+                            <x-application-logo class="h-20 w-20 text-white" aria-hidden="true" />
                         @endif
                     </div>
-                 
+                    <div>
+                        <span class="block text-sm font-semibold uppercase tracking-wide text-white">
+                            {{ $brandName }}
+                        </span>
+                    
+                    </div>
                 </div>
                 @if($mobile)
                     <button
@@ -483,49 +488,6 @@
                     @endif
                 @endforeach
             </div>
-        </div>
-
-        <!-- Fixed Footer -->
-        <div class="flex-shrink-0 border-t border-gray-700 bg-gray-900/50 backdrop-blur-sm px-6 py-4">
-            <div class="flex items-center gap-3 mb-4">
-                @if($avatarUrl)
-                    <img
-                        src="{{ $avatarUrl }}"
-                        alt="{{ $user->name }} avatar"
-                        class="w-10 h-10 rounded-full object-cover border border-white/40 shadow-lg"
-                    >
-                @else
-                    <div class="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold shadow-lg">
-                        {{ strtoupper(substr($user->name, 0, 1)) }}
-                    </div>
-                @endif
-                <div class="flex-1">
-                    <div class="font-medium text-white truncate">{{ $user->name }}</div>
-                    <div class="text-xs text-gray-400 truncate">{{ $user->email }}</div>
-                </div>
-            </div>
-            
-            @if($user->getRoleNames()->isNotEmpty())
-                <div class="mb-3 inline-flex items-center rounded-full bg-gradient-to-r from-blue-900/30 to-purple-900/30 border border-blue-500/30 px-3 py-1.5 text-xs font-medium text-blue-200">
-                    <div class="w-1.5 h-1.5 rounded-full bg-blue-400 mr-2 animate-pulse"></div>
-                    {{ $user->getRoleNames()->first() }}
-                </div>
-            @endif
-            
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button 
-                    type="submit" 
-                    class="w-full rounded-xl border border-gray-600 bg-gray-800 px-4 py-3 text-sm font-medium text-gray-300 transition-all duration-200 hover:bg-gray-700 hover:text-white hover:border-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-gray-800"
-                >
-                    <div class="flex items-center justify-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                        </svg>
-                        {{ __('ui.logout') }}
-                    </div>
-                </button>
-            </form>
         </div>
 
         <!-- Scroll Indicator -->
