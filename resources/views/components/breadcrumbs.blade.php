@@ -5,7 +5,7 @@
     'skipSegments' => [],
     'variant' => 'default', // 'default', 'glass', 'gradient', 'minimal', 'full'
     'showIcons' => true,
-    'separator' => 'chevron', // 'slash', 'chevron', 'dot', 'arrow'
+    'separator' => 'dot', // 'slash', 'chevron', 'dot', 'arrow'
     'theme' => 'sunrise', // 'sunrise', 'ocean', 'fire', 'citrus'
 ])
 
@@ -166,26 +166,26 @@
 
     // Color themes with blue-orange combinations
     $themes = [
-        'sunrise' => [ // Warm sunrise theme
-            'primary' => '#3b82f6', // Blue 500
-            'secondary' => '#f97316', // Orange 500
-            'accent' => '#f59e0b', // Amber 500
-            'home' => 'text-blue-600 hover:text-orange-600',
-            'item' => 'text-slate-700 hover:text-blue-700',
-            'current' => 'text-orange-700 font-semibold',
-            'separator' => 'text-blue-300',
-            'bg_current' => 'bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200',
-            'bg_hover' => 'bg-blue-50/70 hover:bg-gradient-to-r hover:from-blue-50 hover:to-orange-50',
-            'icon' => 'text-blue-500 group-hover:text-orange-500',
-            'icon_bg' => 'bg-gradient-to-br from-blue-100 to-orange-100',
+        'sunrise' => [ // Clean simple theme
+            'primary' => '#3b82f6',
+            'secondary' => '#2563eb',
+            'accent' => '#1d4ed8',
+            'home' => 'text-slate-500 hover:text-blue-600',
+            'item' => 'text-slate-500 hover:text-slate-900 font-semibold',
+            'current' => 'text-slate-900 font-semibold',
+            'separator' => 'text-slate-300',
+            'bg_current' => 'bg-white border border-slate-200 shadow-sm',
+            'bg_hover' => 'bg-slate-100/60 border border-slate-200',
+            'icon' => 'text-slate-500',
+            'icon_bg' => 'bg-slate-100',
             'container' => [
-                'default' => 'bg-gradient-to-r from-white via-blue-50/20 to-orange-50/10 shadow-md ring-1 ring-blue-100/50',
-                'glass' => 'bg-white/80 backdrop-blur-xl shadow-lg ring-1 ring-white/30 border border-blue-100/50',
-                'gradient' => 'bg-gradient-to-r from-blue-50/40 via-white to-orange-50/40 shadow-lg ring-1 ring-blue-200/30',
-                'minimal' => 'bg-transparent shadow-none ring-0',
-                'full' => 'w-full bg-white/90 shadow-lg ring-1 ring-blue-100/60 border border-blue-100/40',
+                'default' => 'bg-white border border-slate-200 shadow-sm',
+                'glass' => 'bg-white/80 border border-slate-200 shadow-md',
+                'gradient' => 'bg-white border border-slate-200 shadow-md',
+                'minimal' => 'bg-transparent shadow-none border-0',
+                'full' => 'w-full bg-white border border-slate-200 shadow',
             ],
-            'gradient_text' => 'bg-gradient-to-r from-blue-600 to-orange-600 bg-clip-text text-transparent',
+            'gradient_text' => 'text-slate-900',
         ],
         'ocean' => [ // Cool ocean theme
             'primary' => '#0ea5e9', // Sky 500
@@ -271,10 +271,10 @@
 <div class="relative mx-auto w-full max-w-full lg:max-w-screen-2xl px-4 sm:px-6 lg:px-10">
     <nav aria-label="Breadcrumb" class="w-full">
     <ul
-        class="flex flex-wrap items-center gap-2 rounded-2xl px-5 py-3.5 my-4
-               text-sm  uppercase  
+        class="flex flex-wrap items-center gap-2 rounded-2xl px-4 py-2 my-3
+               text-[11px] uppercase ]
                transition-all duration-300 ease-out
-               sm:gap-3 sm:text-sm
+               sm:gap-3 sm:text-[11px]
                {{ $containerClass }}"
         role="list"
     >

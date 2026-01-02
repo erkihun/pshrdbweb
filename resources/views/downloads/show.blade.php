@@ -11,15 +11,7 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-0">
-            <div class="mb-6 rounded-2xl border border-gray-200 bg-white/70 p-4 text-sm text-slate-500 shadow-sm">
-                <nav class="flex flex-wrap items-center gap-1 text-xs uppercase tracking-wide text-slate-400" aria-label="Breadcrumb">
-                    <a href="{{ url('/') }}" class="transition hover:text-slate-800">Home</a>
-                    <span>•</span>
-                    <a href="{{ route('downloads.index') }}" class="transition hover:text-slate-800">Downloads</a>
-                    <span>•</span>
-                    <span class="text-slate-900">{{ $document->display_title }}</span>
-                </nav>
-            </div>
+     
             <div class="grid gap-8 lg:grid-cols-[3fr,9fr]">
                 <aside class="space-y-5">
                     <div class="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
