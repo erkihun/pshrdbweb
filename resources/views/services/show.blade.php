@@ -76,33 +76,7 @@
                     </div>
                 </div>
 
-                <aside class="space-y-4 overflow-y-auto max-h-[70vh] rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-xs font-semibold uppercase  text-blue-600">
-                                {{ __('home.services.tagline') }}
-                            </p>
-                            <h3 class="text-lg font-semibold">{{ __('home.services.highlight') }}</h3>
-                        </div>
-                        <a href="{{ route('services.index') }}" class="text-sm text-blue-600 hover:text-blue-800 underline">
-                            {{ __('home.news.view_all') }}
-                        </a>
-                    </div>
-
-                    <div class="space-y-3">
-                        @foreach ($services as $item)
-                            <a
-                                href="{{ route('services.show', $item->slug) }}"
-                                class="flex items-center gap-3 rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-700 transition hover:bg-blue-50"
-                            >
-                                <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white">
-                                    <x-heroicon-o-light-bulb class="h-4 w-4" aria-hidden="true" />
-                                </span>
-                                <span class="flex-1">{{ $item->display_title }}</span>
-                            </a>
-                        @endforeach
-                    </div>
-                </aside>
+                
             </div>
         </div>
     </div>
