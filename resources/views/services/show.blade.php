@@ -6,14 +6,14 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="grid gap-10 lg:grid-cols-[320px_minmax(0,1fr)]">
                 <aside class="space-y-4 overflow-y-auto max-h-[70vh] rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-                    <div class="flex items-center justify-between">
+                    <div class="flex items-start justify-between gap-6 border-b border-gray-100 pb-4">
                         <div>
                            
                             <h3 class="text-lg font-semibold">{{ __('home.services.highlight') }}</h3>
-                         
+                          
                         </div>
                       
                     </div>
@@ -33,9 +33,9 @@
                     </div>
                 </aside>
 
-                <div class="space-y-8">
+                <section class="space-y-8">
                     <div class="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm">
-           
+                      
                         <p class="mt-2 text-xs font-semibold uppercase tracking-wide text-gray-400">
                             {{ __('common.labels.last_updated') }}: {{ $service->updated_at ? ethiopian_date($service->updated_at, 'dd MMMM yyyy') : '' }}
                         </p>
@@ -74,9 +74,7 @@
                             </a>
                         </div>
                     </div>
-                </div>
-
-                
+                </section>
             </div>
         </div>
     </div>
