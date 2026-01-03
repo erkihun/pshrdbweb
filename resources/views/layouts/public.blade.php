@@ -12,10 +12,6 @@
             $defaultDescription = $seoSettings['description_' . app()->getLocale()] ?? '';
             $googleVerification = $seoSettings['google_verification'] ?? env('GOOGLE_SITE_VERIFICATION');
             $bingVerification = $seoSettings['bing_verification'] ?? env('BING_WEBMASTER_VERIFICATION');
-            $faviconPath = $branding['favicon_path'] ?? null;
-            $faviconUrl = $faviconPath
-                ? asset('storage/' . ltrim($faviconPath, '/'))
-                : asset('favicon.ico');
         @endphp
         <x-seo.meta
             :title="$seoMeta['title'] ?? $defaultTitle"
@@ -33,8 +29,7 @@
         @if($bingVerification)
             <meta name="msvalidate.01" content="{{ $bingVerification }}">
         @endif
-        <link rel="icon" href="{{ $faviconUrl }}" type="image/x-icon">
-        <link rel="shortcut icon" href="{{ $faviconUrl }}" type="image/x-icon">
+        @include('partials.favicon')
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link
@@ -76,5 +71,4 @@
  
     </body>
 </html>
-
 

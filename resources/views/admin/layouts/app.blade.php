@@ -7,12 +7,9 @@
         @php
             $branding = $site_settings['site.branding'] ?? [];
             $siteName = $branding['site_name_' . app()->getLocale()] ?? config('app.name', 'Laravel');
-            $faviconPath = $branding['favicon_path'] ?? null;
-            $faviconUrl = $faviconPath ? asset('storage/' . ltrim($faviconPath, '/')) : asset('favicon.ico');
         @endphp
         <title>{{ $siteName }} · {{ __('ui.dashboard') }}</title>
-        <link rel="icon" href="{{ $faviconUrl }}" type="image/x-icon">
-        <link rel="shortcut icon" href="{{ $faviconUrl }}" type="image/x-icon">
+        @include('partials.favicon')
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
         @vite(['resources/css/app.css', 'resources/js/app.js'])
