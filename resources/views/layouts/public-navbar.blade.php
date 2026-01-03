@@ -394,11 +394,10 @@
     </div>
 
     {{-- MOBILE MENU --}}
-    <template x-if="open">
-        <div class="lg:hidden">
-            <div class="fixed inset-0 z-30 bg-black/30 backdrop-blur-sm" @click="open = false"></div>
-            <div x-show="open" x-transition x-cloak class="relative z-40 border-t border-gray-100 bg-white">
-                <div class="px-4 py-4 space-y-2">
+    <div x-show="open" x-cloak class="lg:hidden">
+        <div class="fixed inset-0 z-30 bg-black/30 backdrop-blur-sm" @click="open = false"></div>
+        <div x-show="open" x-transition x-cloak class="relative z-40 border-t border-gray-100 bg-white">
+            <div class="px-4 py-4 space-y-2">
 
                     @php
                         $mobileLinkBase = 'block rounded-xl px-3 py-2.5 text-sm font-semibold transition mobile-link';
@@ -560,7 +559,7 @@
                 </div>
             </div>
         </div>
-    </template>
+    </div>
 </nav>
 
 <style>
