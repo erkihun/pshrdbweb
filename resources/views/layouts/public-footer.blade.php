@@ -217,12 +217,17 @@
         <div class="mt-12 border-t border-white/10 pt-8">
             <div class="flex flex-col items-center justify-between gap-6 md:flex-row">
                 <div class="text-center md:text-left">
+                      <p class="mt-1 text-xs text-gray-500">
+                        {{ __('public.footer.disclaimer') }}
+                    </p>
                     <p class="text-sm text-gray-400">
                         &copy; {{ date('Y') }} {{ $brandName }}. {{ __('public.footer.rights_reserved') }}
                     </p>
-                    <p class="mt-1 text-xs text-gray-500">
-                        {{ __('public.footer.disclaimer') }}
+                    <p class="text-sm text-gray-400">
+                    Powered By PSHRDB  ICT Directorate.
                     </p>
+
+                  
                 </div>
                 
                 <div class="flex flex-wrap items-center justify-center gap-6 text-sm text-gray-400">
