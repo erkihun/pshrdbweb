@@ -181,7 +181,9 @@ Route::get('/services', [ServiceController::class, 'index'])->name('services.ind
 Route::get('/services/{slug}', [ServiceController::class, 'show'])->name('services.show');
 Route::post('/services/{slug}/feedback', [ServiceFeedbackController::class, 'store'])->name('services.feedback.store')->middleware('throttle:service_feedback');
 Route::get('/downloads', [DownloadController::class, 'index'])->name('downloads.index');
-Route::get('/downloads/{slug}', [DownloadController::class, 'show'])->name('downloads.show');
+Route::get('/downloads/{slug}', [DownloadController::class, 'show'])
+    ->name('downloads.show')
+    ->middleware('track.view:download');
 Route::get('/downloads/{slug}/file', [DownloadController::class, 'file'])->name('downloads.file');
 Route::get('/document-requests', [DocumentRequestController::class, 'index'])->name('document-requests.index');
 Route::get('/document-requests/{slug}', [DocumentRequestController::class, 'show'])->name('document-requests.show');
@@ -194,9 +196,13 @@ Route::get('/appointments/track', [AppointmentController::class, 'trackForm'])->
 Route::post('/appointments/track', [AppointmentController::class, 'trackSubmit'])->name('appointments.track.submit')->middleware('throttle:appointment_track');
 Route::get('/appointments/create', [AppointmentController::class, 'create'])->name('appointments.create');
 Route::get('/news', [PublicPostController::class, 'newsIndex'])->name('news.index');
-Route::get('/news/{slug}', [PublicPostController::class, 'newsShow'])->name('news.show');
+Route::get('/news/{slug}', [PublicPostController::class, 'newsShow'])
+    ->name('news.show')
+    ->middleware('track.view:news');
 Route::get('/announcements', [PublicPostController::class, 'announcementsIndex'])->name('announcements.index');
-Route::get('/announcements/{slug}', [PublicPostController::class, 'announcementsShow'])->name('announcements.show');
+Route::get('/announcements/{slug}', [PublicPostController::class, 'announcementsShow'])
+    ->name('announcements.show')
+    ->middleware('track.view:announcement');
 Route::get('/mous', [PublicMouController::class, 'index'])->name('public.mous.index');
 Route::get('/mous/{identifier}', [PublicMouController::class, 'show'])->name('public.mous.show');
 Route::get('/tenders', [PublicTenderController::class, 'index'])->name('tenders.index');

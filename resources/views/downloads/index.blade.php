@@ -88,6 +88,23 @@
                                     {{ $document->display_description }}
                                 </p>
                             @endif
+                            <div class="mt-4 flex items-center gap-4 text-sm text-gray-500">
+                                <div class="inline-flex items-center gap-1">
+                                    <svg class="h-4 w-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5s8.268 2.943 9.542 7c-1.274 4.057-5.065 7-9.542 7S3.732 16.057 2.458 12z" />
+                                    </svg>
+                                    <span class="font-semibold text-gray-900">Views: {{ number_format($document->views_count ?? 0) }}</span>
+                                </div>
+                                <div class="inline-flex items-center gap-1">
+                                    <svg class="h-4 w-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5 5 5-5" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9V3" />
+                                    </svg>
+                                    <span class="font-semibold text-gray-900">Downloads: {{ number_format($document->downloads_count ?? 0) }}</span>
+                                </div>
+                            </div>
                             <div class="mt-auto pt-4 text-xs font-semibold uppercase tracking-wide text-gray-400">
                                 {{ strtoupper($document->file_type) }} · {{ number_format($document->file_size / 1024, 1) }} KB
                             </div>

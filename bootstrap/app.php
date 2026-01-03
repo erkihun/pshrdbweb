@@ -29,6 +29,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
             'api_permission' => \App\Http\Middleware\ApiPermission::class,
             'public.cache' => \App\Http\Middleware\PublicPageCache::class,
+            'track.view' => \App\Http\Middleware\TrackPublicView::class,
             'ensure.manage.signage' => \App\Http\Middleware\EnsureCanManageSignage::class,
         ]);
     })

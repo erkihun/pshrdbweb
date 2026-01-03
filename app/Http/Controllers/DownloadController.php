@@ -109,6 +109,12 @@ class DownloadController extends Controller
             'file_type' => $document->file_type,
         ]);
 
+        $downloadHitKey = 'download:hit:'.$document->id.':'.now()->format('Y-m-d');
+        if (! session()->has($downloadHitKey)) {
+            $document->increment('downloads_count');
+            session()->put($downloadHitKey, true);
+        }
+
         return Storage::disk('public')->download($document->file_path, $filename);
     }
 }
