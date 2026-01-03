@@ -79,7 +79,22 @@ class CharterService extends Model
             return '';
         }
 
-        return implode(', ', $this->working_days);
+        $labels = array_map(
+            fn ($day) => self::localizedWorkingDay($day),
+            $this->working_days
+        );
+
+        return implode(', ', $labels);
+    }
+
+    protected static function localizedWorkingDay(string $day): string
+    {
+        $key = 'common.citizen_charter.working_days.' . strtolower($day);
+        if (Lang::has($key)) {
+            return Lang::get($key);
+        }
+
+        return ucfirst($day);
     }
 
     public function getWorkingHoursLabelAttribute(): string

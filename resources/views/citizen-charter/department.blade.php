@@ -1,10 +1,10 @@
 @extends('layouts.public')
 
 @section('content')
-    @php
+        @php
         $seoMeta = [
-            'title' => $department->display_name . ' | Citizen Charter',
-            'description' => 'Services offered by ' . $department->display_name . ' within the citizen charter.',
+            'title' => $department->display_name . ' | ' . __('public.citizen_charter.overview.label'),
+            'description' => __('public.citizen_charter.department.description'),
             'url' => route('citizen-charter.department', $department),
             'canonical' => route('citizen-charter.department', $department),
         ];
