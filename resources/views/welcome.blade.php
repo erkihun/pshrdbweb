@@ -382,7 +382,7 @@
         <div class="rounded-3xl border border-gray-200 bg-white p-6 shadow-lg shadow-blue-500/10">
             <div class="grid gap-8 lg:grid-cols-3 items-stretch">
                 <div class="flex flex-col h-full group">
-                    <p class="text-xs font-semibold uppercase tracking-[0.55em] text-blue-600">Community</p>
+                    
                     <div class="relative mt-6 flex-1 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition duration-500 ease-out group-hover:-translate-y-1 group-hover:shadow-[0_20px_45px_rgba(37,99,235,0.4)]">
                         <iframe
                             class="h-full w-full"
@@ -428,7 +428,7 @@
     </div>
 </section>
 
-{{-- ================= MEET OUR LEADERS – HORIZONTAL SLIDER (3 AT ONCE) ================= --}}
+
 @if($staffMembers->count())
 <section id="leaders-section" class="scroll-section bg-gradient-to-b from-white to-gray-50 py-10 overflow-hidden">
     <div class="relative mx-auto max-w-full lg:max-w-screen-2xl w-full px-6 sm:px-8 lg:px-12">
@@ -451,7 +451,7 @@
             <div class="hidden md:flex items-center gap-3">
                 <button
                     type="button"
-                    onclick="scrollLeaders('left')"
+                    onclick="goToLeaderSlide('prev')"
                     class="inline-flex items-center justify-center w-10 h-10 rounded-full border border-gray-200 bg-white text-gray-600 hover:text-indigo-600 hover:border-indigo-200 shadow-sm transition"
                     aria-label="{{ __('home.leaders.previous') }}"
                 >
@@ -461,7 +461,7 @@
                 </button>
                 <button
                     type="button"
-                    onclick="scrollLeaders('right')"
+                    onclick="goToLeaderSlide('next')"
                     class="inline-flex items-center justify-center w-10 h-10 rounded-full border border-gray-200 bg-white text-gray-600 hover:text-indigo-600 hover:border-indigo-200 shadow-sm transition"
                     aria-label="{{ __('home.leaders.next') }}"
                 >
@@ -476,7 +476,7 @@
             {{-- Mobile controls floating on sides --}}
             <button
                 type="button"
-                onclick="scrollLeaders('left')"
+                onclick="goToLeaderSlide('prev')"
                 class="md:hidden absolute left-0 top-1/2 -translate-y-1/2 z-10 inline-flex items-center justify-center w-9 h-9 rounded-full bg-white/90 border border-gray-200 text-gray-700 shadow-sm"
                 aria-label="{{ __('home.leaders.previous') }}"
             >
@@ -487,7 +487,7 @@
 
             <button
                 type="button"
-                onclick="scrollLeaders('right')"
+                onclick="goToLeaderSlide('next')"
                 class="md:hidden absolute right-0 top-1/2 -translate-y-1/2 z-10 inline-flex items-center justify-center w-9 h-9 rounded-full bg-white/90 border border-gray-200 text-gray-700 shadow-sm"
                 aria-label="{{ __('home.leaders.next') }}"
             >
@@ -498,9 +498,12 @@
 
             {{-- Horizontal slider track --}}
             <div
-                id="leadersTrack"
-                class="flex flex-nowrap gap-6 overflow-x-auto scroll-smooth pb-4 -mx-2 px-2 md:mx-0 md:px-0 snap-x snap-mandatory"
+                class="relative overflow-hidden rounded-[32px] border border-gray-200 bg-gradient-to-br from-white/80 to-slate-50 shadow-lg"
             >
+                <div
+                    id="leadersTrack"
+                    class="leaders-track flex transition-transform duration-700 ease-in-out"
+                >
                 @foreach($staffMembers as $index => $staff)
                     @php
                         $leaderTitle = app()->getLocale() === 'am'
@@ -510,7 +513,7 @@
                         $initials = collect(explode(' ', trim($staff->display_name)))->filter()->take(2)->map(fn($p)=>mb_strtoupper(mb_substr($p,0,1)))->join('');
                     @endphp
                     <article
-                        class="leader-card group relative flex-none snap-start w-[360px] rounded-[32px] border border-slate-200 bg-white/90 shadow-xl transition-transform duration-500 hover:-translate-y-1 hover:shadow-2xl"
+                        class="leader-card group relative flex-none rounded-[32px] border border-slate-200 bg-white/95 shadow-xl transition duration-500 hover:-translate-y-1 hover:shadow-2xl"
                     >
                         <div class="absolute inset-0 rounded-[32px] bg-gradient-to-br from-sky-400/10 to-indigo-500/10 opacity-0 transition-opacity group-hover:opacity-100"></div>
 
@@ -825,20 +828,28 @@
 
 {{-- ================= SLIDER & SCROLL SCRIPT ================= --}}
 <script>
-    let currentSlide = 0;
-    let previousSlideIndex = 0;
-    const slides = document.querySelectorAll('.hero-slide');
-    const indicators = document.querySelectorAll('[data-hero-indicator]');
-    const totalSlides = slides.length;
-    const enterAnimations = ['heroWaveIn', 'heroGlideIn', 'heroSwirlIn', 'heroDriftIn', 'heroPulseIn'];
-    const exitAnimations = ['heroWaveOut', 'heroGlideOut', 'heroSwirlOut', 'heroDriftOut', 'heroPulseOut'];
+let currentSlide = 0;
+let previousSlideIndex = 0;
+const slides = document.querySelectorAll('.hero-slide');
+const indicators = document.querySelectorAll('[data-hero-indicator]');
+const totalSlides = slides.length;
+const enterAnimations = ['heroWaveIn', 'heroGlideIn', 'heroSwirlIn', 'heroDriftIn', 'heroPulseIn'];
+const exitAnimations = ['heroWaveOut', 'heroGlideOut', 'heroSwirlOut', 'heroDriftOut', 'heroPulseOut'];
 
-    let leadersAutoScrollInterval = null;
-    let charterMotionFrame = null;
-    let charterMotionDirection = 1;
+let charterMotionFrame = null;
+let charterMotionDirection = 1;
+let leadersTrackElement = null;
+let leaderCards = [];
+let leadersCurrentIndex = 0;
+let leadersRawIndex = 1;
+let leadersOriginalCount = 0;
+let leadersAutoInterval = null;
+let leadersCardWidth = 0;
+let leadersCardGap = 0;
+const leadersAutoDelay = 4500;
 
-    slides.forEach((slide) => {
-        slide.addEventListener('animationend', (event) => {
+    slides.forEach(function (slide) {
+        slide.addEventListener('animationend', function (event) {
             if (enterAnimations.includes(event.animationName)) {
                 slide.classList.remove('slide-enter');
             } else if (exitAnimations.includes(event.animationName)) {
@@ -850,7 +861,7 @@
     function showSlide(index) {
         if (!slides[index]) return;
 
-        slides.forEach((slide) => {
+        slides.forEach(function (slide) {
             slide.classList.remove('opacity-100', 'z-10', 'slide-active');
             slide.classList.add('opacity-0', 'z-0');
         });
@@ -864,12 +875,12 @@
         slides[index].classList.add('opacity-100', 'z-10');
         slides[index].classList.add('slide-active', 'slide-enter');
 
-        document.querySelectorAll('[onclick^="goToSlide"]').forEach((btn, i) => {
+        document.querySelectorAll('[onclick^="goToSlide"]').forEach(function (btn, i) {
             btn.classList.toggle('bg-white', i === index);
             btn.classList.toggle('bg-white/50', i !== index);
         });
 
-        indicators.forEach((btn, i) => {
+        indicators.forEach(function (btn, i) {
             btn.classList.toggle('indicator-active', i === index);
         });
 
@@ -945,62 +956,84 @@
     }
 
     // ========= Scroll reveal + Leaders auto scroll =========
-    document.addEventListener('DOMContentLoaded', () => {
-        const sections = document.querySelectorAll('.scroll-section');
+    function initScrollSections() {
+        var sections = document.querySelectorAll('.scroll-section');
+        var supportsIntersectionObserver = typeof IntersectionObserver !== 'undefined';
+        var observer = null;
 
-        const observer = new IntersectionObserver((entries, obs) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                    obs.unobserve(entry.target);
-                }
+        if (supportsIntersectionObserver) {
+            observer = new IntersectionObserver(function (entries, obs) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        obs.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.2
             });
-        }, {
-            threshold: 0.2
-        });
+        }
 
-        sections.forEach(section => {
-            if (!section.classList.contains('is-visible')) {
+        sections.forEach(function (section) {
+            if (section.classList.contains('is-visible')) {
+                return;
+            }
+            if (observer) {
                 observer.observe(section);
+            } else {
+                section.classList.add('is-visible');
             }
         });
 
-        // Leaders auto scroll
-        const leadersTrack = document.getElementById('leadersTrack');
-        if (leadersTrack) {
-            const startAutoScroll = () => {
-                if (leadersAutoScrollInterval) return;
-                leadersAutoScrollInterval = setInterval(() => {
-                    scrollLeaders('right');
-                }, 8000); // slow auto slide (8s)
-            };
-
-            const stopAutoScroll = () => {
-                if (!leadersAutoScrollInterval) return;
-                clearInterval(leadersAutoScrollInterval);
-                leadersAutoScrollInterval = null;
-            };
-
-            startAutoScroll();
-
-            leadersTrack.addEventListener('mouseenter', stopAutoScroll);
-            leadersTrack.addEventListener('mouseleave', startAutoScroll);
+        // Leaders autoplay slider
+        leadersTrackElement = document.getElementById('leadersTrack');
+        if (leadersTrackElement) {
+            leaderCards = Array.prototype.slice.call(leadersTrackElement.querySelectorAll('.leader-card'));
+            leadersOriginalCount = leaderCards.length;
+            if (leadersOriginalCount > 1) {
+                addLeaderClones();
+            }
+            leaderCards = Array.prototype.slice.call(leadersTrackElement.querySelectorAll('.leader-card'));
+            requestAnimationFrame(function () {
+                updateLeaderSliderLayout();
+                startLeaderAuto();
+            });
+            function pauseLeaders() {
+                stopLeaderAuto();
+            }
+            function resumeLeaders() {
+                startLeaderAuto();
+            }
+            leadersTrackElement.addEventListener('mouseenter', pauseLeaders);
+            leadersTrackElement.addEventListener('mouseleave', resumeLeaders);
+            leadersTrackElement.addEventListener('touchstart', pauseLeaders);
+            leadersTrackElement.addEventListener('touchend', resumeLeaders);
+            leadersTrackElement.addEventListener('focusin', pauseLeaders);
+            leadersTrackElement.addEventListener('focusout', resumeLeaders);
+            leadersTrackElement.addEventListener('transitionend', handleLeaderTransitionEnd);
+            window.addEventListener('resize', function () {
+                updateLeaderSliderLayout();
+            });
         }
 
         const charterTrack = document.getElementById('citizenCharterTrack');
         if (charterTrack) {
-            const startCharterMotion = () => {
-                if (charterMotionFrame) return;
-                animateCharterTrack(charterTrack);
-            };
+        function startCharterMotion() {
+            if (charterMotionFrame) {
+                return;
+            }
+            animateCharterTrack(charterTrack);
+        }
 
-            const stopCharterMotion = () => {
-                if (!charterMotionFrame) return;
-                cancelAnimationFrame(charterMotionFrame);
-                charterMotionFrame = null;
-            };
+        function stopCharterMotion() {
+            if (!charterMotionFrame) {
+                return;
+            }
+            cancelAnimationFrame(charterMotionFrame);
+            charterMotionFrame = null;
+        }
 
-            startCharterMotion();
+        startCharterMotion();
 
             charterTrack.addEventListener('mouseenter', stopCharterMotion);
             charterTrack.addEventListener('mouseleave', startCharterMotion);
@@ -1012,7 +1045,7 @@
         const textEl = document.getElementById('officialMessageText');
         const btnEl = document.getElementById('officialMessageToggle');
         if (textEl && btnEl) {
-            requestAnimationFrame(() => {
+            requestAnimationFrame(function () {
                 const isClipped = textEl.scrollHeight > textEl.clientHeight + 2;
                 if (isClipped) {
                     btnEl.classList.remove('hidden');
@@ -1021,35 +1054,135 @@
                 }
             });
         }
-    });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initScrollSections);
+    } else {
+        initScrollSections();
+    }
+
+    function addLeaderClones() {
+        if (!leadersTrackElement || leaderCards.length <= 1) {
+            return;
+        }
+        var firstCard = leaderCards[0];
+        var lastCard = leaderCards[leaderCards.length - 1];
+        var firstClone = firstCard.cloneNode(true);
+        var lastClone = lastCard.cloneNode(true);
+        leadersTrackElement.appendChild(firstClone);
+        leadersTrackElement.insertBefore(lastClone, leadersTrackElement.firstChild);
+        leadersRawIndex = 1;
+    }
 
     // ========= Horizontal scroll for Leaders (with wrap) =========
-    function scrollLeaders(direction) {
-        const track = document.getElementById('leadersTrack');
-        if (!track) return;
-
-        const card = track.querySelector('.leader-card');
-        if (!card) return;
-
-        const gap = 24; // px, matches gap-6
-        const scrollAmount = card.offsetWidth + gap;
-        const maxScrollLeft = track.scrollWidth - track.clientWidth;
-
-        if (direction === 'right') {
-            if (track.scrollLeft + scrollAmount >= maxScrollLeft - 4) {
-                // Wrap to start
-                track.scrollTo({ left: 0, behavior: 'smooth' });
-            } else {
-                track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-            }
-        } else {
-            if (track.scrollLeft - scrollAmount <= 0) {
-                // Wrap to end
-                track.scrollTo({ left: maxScrollLeft, behavior: 'smooth' });
-            } else {
-                track.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-            }
+    function updateLeaderSliderLayout() {
+        if (!leadersTrackElement || leaderCards.length === 0) {
+            return;
         }
+        var realCard = leaderCards[1] || leaderCards[0];
+        if (!realCard) {
+            return;
+        }
+        var computed = window.getComputedStyle(leadersTrackElement);
+        var gapValue = computed.gap || computed.columnGap || '0px';
+        leadersCardGap = parseFloat(gapValue) || 0;
+        leadersCardWidth = realCard.getBoundingClientRect().width;
+        var totalCards = leaderCards.length;
+        var trackWidth = leadersCardWidth * totalCards + leadersCardGap * (totalCards - 1);
+        leadersTrackElement.style.width = trackWidth + 'px';
+        translateToRawIndex(leadersRawIndex, false);
+    }
+
+    function translateToRawIndex(rawIndex, animate) {
+        if (!leadersTrackElement) {
+            return;
+        }
+        if (animate) {
+            leadersTrackElement.style.transition = 'transform 0.75s ease';
+        } else {
+            leadersTrackElement.style.transition = 'none';
+        }
+        var step = leadersCardWidth + leadersCardGap;
+        var translateX = step * rawIndex;
+        leadersTrackElement.style.transform = 'translateX(-' + translateX + 'px)';
+        leadersRawIndex = rawIndex;
+        updateLeaderActiveState();
+    }
+
+    function updateLeaderActiveState() {
+        if (!leaderCards.length) {
+            return;
+        }
+        leaderCards.forEach(function (card) {
+            card.classList.remove('leader-card-active');
+        });
+        var activeRawIndex = leadersRawIndex;
+        if (activeRawIndex > leadersOriginalCount) {
+            activeRawIndex = 1;
+        } else if (activeRawIndex === 0) {
+            activeRawIndex = leadersOriginalCount;
+        }
+        var activeCard = leaderCards[activeRawIndex];
+        if (activeCard) {
+            activeCard.classList.add('leader-card-active');
+        }
+    }
+
+    function handleLeaderTransitionEnd(event) {
+        if (!leadersTrackElement || event.target !== leadersTrackElement) {
+            return;
+        }
+        if (event.propertyName !== 'transform') {
+            return;
+        }
+        if (leadersRawIndex > leadersOriginalCount) {
+            translateToRawIndex(1, false);
+            leadersCurrentIndex = 0;
+            requestAnimationFrame(function () {
+                leadersTrackElement.style.transition = 'transform 0.75s ease';
+            });
+        } else if (leadersRawIndex === 0) {
+            translateToRawIndex(leadersOriginalCount, false);
+            leadersCurrentIndex = leadersOriginalCount - 1;
+            requestAnimationFrame(function () {
+                leadersTrackElement.style.transition = 'transform 0.75s ease';
+            });
+        }
+    }
+
+    function goToLeaderSlide(direction) {
+        if (!leadersTrackElement || leadersOriginalCount <= 1) {
+            return;
+        }
+        var targetRawIndex = leadersRawIndex;
+        if (direction === 'next') {
+            targetRawIndex = leadersRawIndex + 1;
+            leadersCurrentIndex = (leadersCurrentIndex + 1) % leadersOriginalCount;
+        } else if (direction === 'prev') {
+            targetRawIndex = leadersRawIndex - 1;
+            leadersCurrentIndex = (leadersCurrentIndex - 1 + leadersOriginalCount) % leadersOriginalCount;
+        }
+        translateToRawIndex(targetRawIndex, true);
+        restartLeaderAuto();
+    }
+
+    function startLeaderAuto() {
+        if (leaderCards.length <= 1 || leadersAutoInterval || leadersCardWidth <= 0) return;
+        leadersAutoInterval = setInterval(function () {
+            goToLeaderSlide('next');
+        }, leadersAutoDelay);
+    }
+
+    function stopLeaderAuto() {
+        if (!leadersAutoInterval) return;
+        clearInterval(leadersAutoInterval);
+        leadersAutoInterval = null;
+    }
+
+    function restartLeaderAuto() {
+        stopLeaderAuto();
+        startLeaderAuto();
     }
 
     function animateCharterTrack(track) {
@@ -1072,7 +1205,9 @@
             track.scrollLeft = next;
         }
 
-        charterMotionFrame = requestAnimationFrame(() => animateCharterTrack(track));
+        charterMotionFrame = requestAnimationFrame(function () {
+            animateCharterTrack(track);
+        });
     }
 
     function animateStatCounters() {
@@ -1082,12 +1217,12 @@
         const locale = document.documentElement.lang || 'en';
         const formatter = new Intl.NumberFormat(locale);
 
-        stats.forEach((el) => {
+        stats.forEach(function (el) {
             const target = parseInt(el.dataset.statTarget, 10) || 0;
             const duration = 1600;
             const startTime = performance.now();
 
-            const tick = (now) => {
+            function tick(now) {
                 const progress = Math.min((now - startTime) / duration, 1);
                 const value = Math.round(target * progress);
                 el.textContent = formatter.format(value);
@@ -1097,7 +1232,7 @@
                 } else {
                     el.textContent = formatter.format(target);
                 }
-            };
+            }
 
             el.textContent = formatter.format(0);
             requestAnimationFrame(tick);
@@ -1122,23 +1257,41 @@
         transform: translateY(0);
     }
 
-    /* Leaders section: card sizing (3 at once on desktop) */
+    /* Leaders section slider adjustments */
+    #leadersTrack {
+        display: flex;
+        transition: transform 0.75s ease;
+        gap: 1.5rem;
+        align-items: stretch;
+        padding: 1.25rem 0;
+    }
+
     #leadersTrack .leader-card {
-        flex: 0 0 calc((100% - 3rem) / 3); /* 3 cards, 2 gaps (gap-6 = 1.5rem => 3rem total) */
+        flex: 0 0 auto;
+        width: min(420px, 95vw);
+        min-width: min(420px, 95vw);
     }
 
     @media (max-width: 1024px) {
-        /* Tablet: ~2 cards */
+        #leadersTrack {
+            gap: 1rem;
+        }
+
         #leadersTrack .leader-card {
-            flex: 0 0 60%;
+            width: min(360px, 92vw);
+            min-width: min(360px, 92vw);
         }
     }
 
     @media (max-width: 640px) {
-        /* Mobile: 1 card */
         #leadersTrack .leader-card {
-            flex: 0 0 85%;
+            width: min(320px, 90vw);
+            min-width: min(320px, 90vw);
         }
+    }
+
+    .leaders-track {
+        will-change: transform;
     }
 
     /* Leaders section cards: smooth reveal */
