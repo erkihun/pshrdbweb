@@ -430,9 +430,9 @@
 
 
 @if($staffMembers->count())
-<section id="leaders-section" class="scroll-section bg-gradient-to-b from-white to-gray-50 py-10 overflow-hidden">
+<section id="leaders-section" class="scroll-section bg-transparent py-10 overflow-hidden">
     <div class="relative mx-auto max-w-full lg:max-w-screen-2xl w-full px-6 sm:px-8 lg:px-12">
-        <div class="absolute left-0 top-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-500/5 rounded-full blur-3xl -z-10"></div>
+      
         
         <div class="flex items-center justify-between mb-8 gap-4">
             <div class="flex items-center gap-3">
@@ -498,7 +498,7 @@
 
             {{-- Horizontal slider track --}}
             <div
-                class="relative overflow-hidden rounded-[32px] border border-gray-200 bg-gradient-to-br from-white/80 to-slate-50 shadow-lg"
+                class="relative overflow-hidden "
             >
                 <div
                     id="leadersTrack"
@@ -513,11 +513,10 @@
                         $initials = collect(explode(' ', trim($staff->display_name)))->filter()->take(2)->map(fn($p)=>mb_strtoupper(mb_substr($p,0,1)))->join('');
                     @endphp
                     <article
-                        class="leader-card group relative flex-none rounded-[32px] border border-slate-200 bg-white/95 shadow-xl transition duration-500 hover:-translate-y-1 hover:shadow-2xl"
+                        class="leader-card group relative flex-none rounded-[20px] border border-slate-200 bg-white shadow-xl transition duration-500 hover:-translate-y-1 hover:shadow-2xl"
                     >
-                        <div class="absolute inset-0 rounded-[32px] bg-gradient-to-br from-sky-400/10 to-indigo-500/10 opacity-0 transition-opacity group-hover:opacity-100"></div>
 
-                        <div class="relative flex min-h-[200px] overflow-hidden rounded-[32px] bg-white">
+                        <div class="relative flex min-h-[190px] overflow-hidden rounded-[20px] bg-white">
                             <div class="relative h-full w-1/3 bg-slate-100">
                                 @if(!empty($staff->photo_path))
                                     <x-optimized-image
