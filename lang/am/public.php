@@ -14,7 +14,7 @@ return [
         'request_service' => 'አገልግሎት ይጠይቁ',
         'appointments' => 'ቀጠሮ',
         'about' => 'ስለ እኛ',
-        'staff' => 'ሠራተኞች',
+        'staff' => 'አመራሮች',
         'public_servant_dashboard' => 'የሠራተኛ ',
         'navigation_toggle' => 'አስተዳደር ይንቀሳቀሱ',
         'contact_us' => 'ያግኙን',
