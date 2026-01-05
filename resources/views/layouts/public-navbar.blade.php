@@ -413,35 +413,56 @@
                         </span>
                     </a>
 
-                    {{-- About (mobile) --}}
-                    @if(Route::has('pages.about'))
-                        <a href="{{ route('pages.about') }}" @click="open = false"
-                           class="{{ $mobileLinkBase }} {{ $mobileLinkHover }} text-gray-700">
-                            <span class="inline-flex items-center gap-3">
-                                <x-heroicon-o-information-circle class="h-4 w-4" aria-hidden="true" />
-                                <span>{{ __('public.navigation.about') }}</span>
-                            </span>
-                        </a>
-                    @endif
+                    @php
+                        $hasMobileAboutLinks = Route::has('pages.about') || Route::has('staff.index') || Route::has('public-servants.dashboard');
+                    @endphp
+                    @if($hasMobileAboutLinks)
+                        <div x-data="{ openAbout: false }"
+                             class="rounded-2xl border border-gray-100 bg-gray-50/60 p-3 font-abyssinica">
+                            <button type="button"
+                                    class="flex w-full items-center justify-between gap-2 px-1 pb-2 text-left text-sm font-semibold text-gray-900 transition hover:text-orange-600"
+                                    @click="openAbout = !openAbout"
+                                    :aria-expanded="openAbout.toString()">
+                                <div class="flex items-center gap-2">
+                                    <x-heroicon-o-information-circle class="h-4 w-4" aria-hidden="true" />
+                                    <span>{{ __('public.navigation.about') }}</span>
+                                </div>
+                                <span class="inline-flex h-4 w-4 text-current transition-transform duration-150"
+                                      x-bind:class="openAbout ? 'rotate-180 text-orange-600' : ''">
+                                    <x-heroicon-o-chevron-down aria-hidden="true" />
+                                </span>
+                            </button>
 
-                    @if(Route::has('staff.index'))
-                        <a href="{{ route('staff.index') }}" @click="open = false"
-                           class="{{ $mobileLinkBase }} {{ $mobileLinkHover }} text-gray-700">
-                            <span class="inline-flex items-center gap-3">
-                                <x-heroicon-o-users class="h-4 w-4" aria-hidden="true" />
-                                <span>{{ __('public.navigation.staff') }}</span>
-                            </span>
-                        </a>
-                    @endif
+                            <div x-show="openAbout"
+                                 x-transition
+                                 x-cloak
+                                 class="space-y-1 pt-1"
+                                 @keydown.escape.window="openAbout = false">
+                                @if(Route::has('pages.about'))
+                                    <a href="{{ route('pages.about') }}" @click="open = false"
+                                       class="flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-gray-700 hover:bg-white hover:text-orange-600 transition">
+                                        <x-heroicon-o-information-circle class="h-4 w-4" aria-hidden="true" />
+                                        <span>{{ __('public.navigation.about') }}</span>
+                                    </a>
+                                @endif
 
-                    @if(Route::has('public-servants.dashboard'))
-                        <a href="{{ route('public-servants.dashboard') }}" @click="open = false"
-                           class="{{ $mobileLinkBase }} {{ $mobileLinkHover }} text-gray-700">
-                            <span class="inline-flex items-center gap-3">
-                                <x-heroicon-o-users class="h-4 w-4" aria-hidden="true" />
-                                <span>{{ __('public.navigation.public_servant_dashboard') }}</span>
-                            </span>
-                        </a>
+                                @if(Route::has('staff.index'))
+                                    <a href="{{ route('staff.index') }}" @click="open = false"
+                                       class="flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-gray-700 hover:bg-white hover:text-orange-600 transition">
+                                        <x-heroicon-o-users class="h-4 w-4" aria-hidden="true" />
+                                        <span>{{ __('public.navigation.staff') }}</span>
+                                    </a>
+                                @endif
+
+                                @if(Route::has('public-servants.dashboard'))
+                                    <a href="{{ route('public-servants.dashboard') }}" @click="open = false"
+                                       class="flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-gray-700 hover:bg-white hover:text-orange-600 transition">
+                                        <x-heroicon-o-users class="h-4 w-4" aria-hidden="true" />
+                                        <span>{{ __('public.navigation.public_servant_dashboard') }}</span>
+                                    </a>
+                                @endif
+                            </div>
+                        </div>
                     @endif
 
                     {{-- News (mobile) --}}
@@ -456,12 +477,27 @@
                     @endif
 
                     @if($hasAnnouncementDropdown)
-                        <div class="rounded-2xl border border-gray-100 bg-gray-50/60 p-3 font-abyssinica">
-                            <div class="flex items-center gap-2 px-1 pb-2 text-sm font-semibold text-gray-900">
-                                <x-heroicon-o-speakerphone class="h-4 w-4" aria-hidden="true" />
-                                <span>{{ __('public.navigation.announcements') }}</span>
-                            </div>
-                            <div class="space-y-1">
+                        <div x-data="{ openAnnouncements: false }"
+                             class="rounded-2xl border border-gray-100 bg-gray-50/60 p-3 font-abyssinica">
+                            <button type="button"
+                                    class="flex w-full items-center justify-between gap-2 px-1 pb-2 text-left text-sm font-semibold text-gray-900 transition hover:text-orange-600"
+                                    @click="openAnnouncements = !openAnnouncements"
+                                    :aria-expanded="openAnnouncements.toString()">
+                                <div class="flex items-center gap-2">
+                                    <x-heroicon-o-speakerphone class="h-4 w-4" aria-hidden="true" />
+                                    <span>{{ __('public.navigation.announcements') }}</span>
+                                </div>
+                                <span class="inline-flex h-4 w-4 text-current transition-transform duration-150"
+                                      x-bind:class="openAnnouncements ? 'rotate-180 text-orange-600' : ''">
+                                    <x-heroicon-o-chevron-down aria-hidden="true" />
+                                </span>
+                            </button>
+
+                            <div x-show="openAnnouncements"
+                                 x-transition
+                                 x-cloak
+                                 class="space-y-1 pt-1"
+                                 @keydown.escape.window="openAnnouncements = false">
                                 @foreach($announcementDropdown as $item)
                                     <a href="{{ $item['href'] }}" @click="open = false"
                                        class="flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-gray-700 hover:bg-white hover:text-orange-600 transition">
@@ -478,13 +514,27 @@
                     @endif
 
                     {{-- Services (mobile) --}}
-                    <div class="rounded-2xl border border-gray-100 bg-gray-50/60 p-3 font-abyssinica">
-                        <div class="flex items-center gap-2 px-1 pb-2 text-sm font-semibold text-gray-900">
-                            <x-heroicon-o-briefcase class="h-4 w-4" aria-hidden="true" />
-                            <span>{{ __('public.navigation.services') }}</span>
-                        </div>
+                    <div x-data="{ openServices: false }"
+                         class="rounded-2xl border border-gray-100 bg-gray-50/60 p-3 font-abyssinica">
+                        <button type="button"
+                                class="flex w-full items-center justify-between gap-2 px-1 pb-2 text-left text-sm font-semibold text-gray-900 transition hover:text-orange-600"
+                                @click="openServices = !openServices"
+                                :aria-expanded="openServices.toString()">
+                            <div class="flex items-center gap-2">
+                                <x-heroicon-o-briefcase class="h-4 w-4" aria-hidden="true" />
+                                <span>{{ __('public.navigation.services') }}</span>
+                            </div>
+                            <span class="inline-flex h-4 w-4 text-current transition-transform duration-150"
+                                  x-bind:class="openServices ? 'rotate-180 text-orange-600' : ''">
+                                <x-heroicon-o-chevron-down aria-hidden="true" />
+                            </span>
+                        </button>
 
-                        <div class="space-y-1">
+                        <div x-show="openServices"
+                             x-transition
+                             x-cloak
+                             class="space-y-1 pt-1"
+                             @keydown.escape.window="openServices = false">
                             <a href="{{ url('/services') }}" @click="open = false"
                                class="block rounded-xl px-3 py-2 text-sm font-medium text-gray-700 hover:bg-white hover:text-orange-600 transition">
                                 {{ __('public.navigation.services') }}
@@ -522,12 +572,27 @@
                     @endforeach
 
                     {{-- Contact dropdown (mobile) --}}
-                    <div class="rounded-2xl border border-gray-100 bg-gray-50/60 p-3 font-abyssinica">
-                        <div class="flex items-center gap-2 px-1 pb-2 text-sm font-semibold text-gray-900">
-                            <x-heroicon-o-phone class="h-4 w-4" aria-hidden="true" />
-                            <span>{{ __('public.navigation.contact') }}</span>
-                        </div>
-                        <div class="space-y-1">
+                    <div x-data="{ openContact: false }"
+                         class="rounded-2xl border border-gray-100 bg-gray-50/60 p-3 font-abyssinica">
+                        <button type="button"
+                                class="flex w-full items-center justify-between gap-2 px-1 pb-2 text-left text-sm font-semibold text-gray-900 transition hover:text-orange-600"
+                                @click="openContact = !openContact"
+                                :aria-expanded="openContact.toString()">
+                            <div class="flex items-center gap-2">
+                                <x-heroicon-o-phone class="h-4 w-4" aria-hidden="true" />
+                                <span>{{ __('public.navigation.contact') }}</span>
+                            </div>
+                            <span class="inline-flex h-4 w-4 text-current transition-transform duration-150"
+                                  x-bind:class="openContact ? 'rotate-180 text-orange-600' : ''">
+                                <x-heroicon-o-chevron-down aria-hidden="true" />
+                            </span>
+                        </button>
+
+                        <div x-show="openContact"
+                             x-transition
+                             x-cloak
+                             class="space-y-1 pt-1"
+                             @keydown.escape.window="openContact = false">
                             @foreach($contactDropdown as $item)
                                 <a href="{{ $item['href'] }}" @click="open = false"
                                    class="flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-gray-700 hover:bg-white hover:text-orange-600 transition {{ $item['active'] ? 'text-brand-blue' : '' }}">
