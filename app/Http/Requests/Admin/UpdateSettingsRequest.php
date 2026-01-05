@@ -54,6 +54,11 @@ final class UpdateSettingsRequest extends FormRequest
             'social_links.*.label_am' => ['nullable', 'string', 'max:255'],
             'social_links.*.label_en' => ['nullable', 'string', 'max:255'],
             'social_links.*.url' => ['nullable', 'string', 'max:2048'],
+
+            'privacy_title_am' => ['nullable', 'string', 'max:255'],
+            'privacy_title_en' => ['nullable', 'string', 'max:255'],
+            'privacy_body_am' => ['nullable', 'string'],
+            'privacy_body_en' => ['nullable', 'string'],
         ];
     }
 

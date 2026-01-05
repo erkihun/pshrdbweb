@@ -53,8 +53,10 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\DocumentRequestController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\Public\ContactController as PublicContactController;
-use App\Http\Controllers\Public\CitizenCharterController;
-use App\Http\Controllers\Public\SitemapController;
+  use App\Http\Controllers\Public\CitizenCharterController;
+  use App\Http\Controllers\Public\PrivacyPolicyController;
+  use App\Http\Controllers\Public\SitemapController;
+use App\Http\Controllers\Public\SitemapPageController;
 use App\Http\Controllers\Public\SignageController;
 use App\Http\Controllers\Public\TenderController as PublicTenderController;
 use Illuminate\Support\Facades\Route;
@@ -69,9 +71,11 @@ use App\Http\Controllers\PublicServantDashboardController;
 use App\Http\Controllers\Admin\PartnerController;
 use App\Http\Controllers\Admin\MouController as AdminMouController;
 
-Route::get('/sitemap.xml', [SitemapController::class, 'sitemap'])->name('sitemap.xml');
+Route::get('/privacy', [PrivacyPolicyController::class, 'show'])->name('privacy');
+Route::get('/sitemap.xml', [SitemapController::class, 'sitemap'])->name('sitemap');
 Route::get('/sitemap-index.xml', [SitemapController::class, 'index'])->name('sitemap.index');
 Route::get('/robots.txt', [SitemapController::class, 'robots'])->name('robots.txt');
+Route::get('/sitemap', [SitemapPageController::class, 'index'])->name('sitemap.page');
 
 Route::get('/', HomepageController::class)
     ->name('home')

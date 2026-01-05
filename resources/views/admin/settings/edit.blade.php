@@ -833,6 +833,83 @@
                 </div>
             </div>
 
+            <!-- Privacy Policy Section -->
+            <div class="rounded-xl border border-slate-200 bg-white shadow-lg overflow-hidden">
+                <div class="border-b border-slate-200 bg-gradient-to-r from-slate-50 to-white px-6 py-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="rounded-lg bg-amber-100 p-2">
+                                <svg class="h-5 w-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 10-8 0v4a4 4 0 00-4 4v1h16v-1a4 4 0 00-4-4V7z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h2 class="text-lg font-semibold text-slate-900">Privacy Policy</h2>
+                                <p class="text-sm text-slate-500">Update the page content displayed to the public</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-6 space-y-6">
+                    <div class="grid gap-6 md:grid-cols-2">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700" for="privacy_title_am">
+                                Title (AM)
+                            </label>
+                            <input
+                                type="text"
+                                name="privacy_title_am"
+                                id="privacy_title_am"
+                                class="mt-2 w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-slate-700 focus:border-amber-500 focus:ring-2 focus:ring-amber-200"
+                                value="{{ old('privacy_title_am', $privacyPolicy->title_am ?? '') }}"
+                                placeholder="የግል መረጃ ፖሊሲ"
+                            >
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700" for="privacy_title_en">
+                                Title (EN)
+                            </label>
+                            <input
+                                type="text"
+                                name="privacy_title_en"
+                                id="privacy_title_en"
+                                class="mt-2 w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-slate-700 focus:border-amber-500 focus:ring-2 focus:ring-amber-200"
+                                value="{{ old('privacy_title_en', $privacyPolicy->title_en ?? '') }}"
+                                placeholder="Privacy Policy"
+                            >
+                        </div>
+                    </div>
+
+                        <div class="grid gap-6 md:grid-cols-2">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700" for="privacy_body_am">
+                                    Body (AM)
+                                </label>
+                                <textarea
+                                    id="privacy_body_am"
+                                    name="privacy_body_am"
+                                    rows="6"
+                                    class="mt-2 w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 placeholder-slate-400 focus:border-amber-500 focus:ring-2 focus:ring-amber-200 transition js-editor"
+                                    data-editor="tinymce"
+                                >{{ old('privacy_body_am', $privacyPolicy->body_am ?? '') }}</textarea>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700" for="privacy_body_en">
+                                    Body (EN)
+                                </label>
+                                <textarea
+                                    id="privacy_body_en"
+                                    name="privacy_body_en"
+                                    rows="6"
+                                    class="mt-2 w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 placeholder-slate-400 focus:border-amber-500 focus:ring-2 focus:ring-amber-200 transition js-editor"
+                                    data-editor="tinymce"
+                                >{{ old('privacy_body_en', $privacyPolicy->body_en ?? '') }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             <!-- Save Button -->
             <div class="rounded-xl border border-slate-200 bg-white p-6 shadow-lg">
                 <div class="flex items-center justify-between">
@@ -929,4 +1006,6 @@
             }
         });
     </script>
+@include('admin.components.editor-scripts')
+
 @endsection

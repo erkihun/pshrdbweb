@@ -6,9 +6,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\UpdateSettingsRequest;
+use App\Models\Page;
 use App\Models\Setting;
 use App\Services\SiteSettingsService;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
 final class SettingsController extends Controller
@@ -17,6 +19,8 @@ final class SettingsController extends Controller
     {
         $context = $settings->all();
 
+        $privacyPolicy = Page::where('key', 'privacy_policy')->first();
+
         return view('admin.settings.edit', [
             'branding' => $context['site.branding'] ?? [],
             'contact' => $context['site.contact'] ?? [],
@@ -24,6 +28,7 @@ final class SettingsController extends Controller
             'analytics' => $context['site.analytics'] ?? [],
             'footer' => $context['site.footer'] ?? [],
             'seo' => $context['site.seo'] ?? [],
+            'privacyPolicy' => $privacyPolicy,
         ]);
     }
 
@@ -102,6 +107,19 @@ final class SettingsController extends Controller
             'google_verification' => $validated['google_verification'] ?? null,
             'bing_verification' => $validated['bing_verification'] ?? null,
         ]]);
+
+        $privacyPolicy = Page::where('key', 'privacy_policy')->first();
+        Page::updateOrCreate(
+            ['key' => 'privacy_policy'],
+            [
+                'title_am' => $validated['privacy_title_am'] ?? $privacyPolicy?->title_am ?? __('public.privacy_page.title'),
+                'title_en' => $validated['privacy_title_en'] ?? $privacyPolicy?->title_en ?? __('public.privacy_page.title'),
+                'body_am' => $validated['privacy_body_am'] ?? $privacyPolicy?->body_am ?? implode("\n\n", (array) __('public.privacy_page.body')),
+                'body_en' => $validated['privacy_body_en'] ?? $privacyPolicy?->body_en ?? implode("\n\n", (array) __('public.privacy_page.body')),
+                'is_published' => true,
+            ]
+        );
+        Cache::forget('public.privacy-policy');
 
         $settings->clearCache();
 

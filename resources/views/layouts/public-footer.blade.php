@@ -14,10 +14,9 @@
 
     // Footer meta links (privacy, terms, accessibility, sitemap) - allow multiple fallback keys
     $footerMeta = $footer['links'] ?? $siteSettings['site.links'] ?? [];
-    $privacyUrl = $footerMeta['privacy_policy_url'] ?? $footerMeta['privacy_policy'] ?? $footer['privacy_policy_url'] ?? $siteSettings['privacy_policy_url'] ?? '#';
+    $privacyUrl = $footerMeta['privacy_policy_url'] ?? $footerMeta['privacy_policy'] ?? $footer['privacy_policy_url'] ?? $siteSettings['privacy_policy_url'] ?? route('privacy');
     $termsUrl = $footerMeta['terms_service_url'] ?? $footerMeta['terms_url'] ?? $footerMeta['terms_of_service_url'] ?? $footer['terms_service_url'] ?? $siteSettings['terms_service_url'] ?? '#';
     $accessibilityUrl = $footerMeta['accessibility_url'] ?? $footerMeta['accessibility'] ?? $footer['accessibility_url'] ?? $siteSettings['accessibility_url'] ?? '#';
-    $sitemapUrl = $footerMeta['sitemap_url'] ?? $footerMeta['sitemap'] ?? $footer['sitemap_url'] ?? $siteSettings['sitemap_url'] ?? '#';
     
     // Social media links (you might want to add these to your settings)
   $socialLinks = [
@@ -240,7 +239,7 @@
                     <a href="{{ $accessibilityUrl }}" class="hover:text-orange-600 transition-colors duration-300">
                         {{ __('public.footer.accessibility') }}
                     </a>
-                    <a href="{{ $sitemapUrl }}" class="hover:text-orange-600 transition-colors duration-300">
+                    <a href="{{ route('sitemap.page') }}" class="hover:text-orange-600 transition-colors duration-300">
                         {{ __('public.footer.sitemap') }}
                     </a>
                 </div>

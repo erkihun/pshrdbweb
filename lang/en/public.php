@@ -109,4 +109,29 @@ return [
         'accessibility' => 'Accessibility',
         'sitemap' => 'Sitemap',
     ],
+    'sitemap_page' => [
+        'title' => 'Sitemap',
+        'description' => 'Access every public section of the portal from one page.',
+        'sections' => [
+            'general' => 'General',
+            'about' => 'About the Organization',
+            'staff' => 'Staff Directory',
+            'citizen_charter' => 'Citizen Charter',
+            'news' => 'News',
+            'announcements' => 'Announcements',
+            'downloads' => 'Downloads',
+            'tenders' => 'Tenders',
+            'vacancies' => 'Vacancies',
+        ],
+        'department_overview' => 'Visit :department overview',
+    ],
+    'privacy_page' => [
+        'title' => 'Privacy Policy',
+        'description' => 'We respect your rights and explain how we handle personal data collected through this portal.',
+        'body' => [
+            'We collect only the information necessary to deliver services, respond to inquiries, and comply with legal obligations.',
+            'Your data is stored securely, protected by industry-standard techniques, and only shared when required by law or with your explicit consent.',
+            'You can exercise privacy rights such as access, correction, and deletion by contacting the ICT Directorate with the information below.',
+        ],
+    ],
 ];
