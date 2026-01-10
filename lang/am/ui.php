@@ -51,6 +51,8 @@ return [
     'optional_group' => 'አማራጭ',
     'reports_exports' => 'ሪፖርቶች',
     'subscriptions' => 'አባላነቶች',
+    'vacancies' => 'ቅጥር ማስታወቂያዎች',
+    'vacancy_applications' => 'የቅጥር ማመልከቻዎች',
     'analytics' => 'ትንተናዎች',
     'analysis' => 'ትንተና',
       'partnerships' => 'አጋሮች',

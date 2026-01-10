@@ -16,13 +16,13 @@
     @endphp
 
     <div class="bg-slate-50 py-16">
-        <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-10">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
 
             {{-- Header --}}
             <div class="mb-10 space-y-3">
                 <a
                     href="{{ route('citizen-charter.department', $department) }}"
-                    class="text-xs font-semibold uppercase tracking-[0.3em] text-blue-600"
+                    class="text-xs font-semibold uppercase  text-blue-600"
                 >
                     {{ $department->display_name }}
                 </a>
@@ -40,7 +40,7 @@
                     class="sticky top-24 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm
                            max-h-[calc(100vh-6rem)] overflow-hidden"
                 >
-                    <div class="mb-4 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.3em] text-slate-500">
+                    <div class="mb-4 flex items-center gap-2 text-xs font-semibold uppercase  text-slate-500">
                         <x-heroicon-o-building-office-2 class="h-4 w-4 text-blue-600" aria-hidden="true" />
                         <span>{{ __('public.citizen_charter.department.services_label') }}</span>
                     </div>
@@ -88,7 +88,7 @@
 
                     {{-- Service Info --}}
                     <div class="space-y-4">
-                        <p class="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500">
+                        <p class="text-xs font-semibold uppercase  text-slate-500">
                             <span class="inline-flex items-center gap-2">
                                 <x-heroicon-o-information-circle class="h-4 w-4 text-slate-400" />
                                 {{ __('public.citizen_charter.service.info_heading') }}

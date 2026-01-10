@@ -49,6 +49,7 @@
             <div class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 shadow-sm ring-1 ring-slate-200/50">
                 <form method="POST" action="{{ route('locale.switch', 'am') }}" class="leading-none">
                     @csrf
+                    <input type="hidden" name="redirect_to" value="{{ url()->full() }}">
                     <button 
                         type="submit" 
                         class="rounded-full px-2 py-0.5 transition-all {{ $locale === 'am' ? 'bg-gradient-to-r from-brand-blue to-blue-600 text-white font-bold shadow-sm' : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100' }}"
@@ -59,6 +60,7 @@
                 <span class="text-slate-300">/</span>
                 <form method="POST" action="{{ route('locale.switch', 'en') }}" class="leading-none">
                     @csrf
+                    <input type="hidden" name="redirect_to" value="{{ url()->full() }}">
                     <button 
                         type="submit" 
                         class="rounded-full px-2 py-0.5 transition-all {{ $locale === 'en' ? 'bg-gradient-to-r from-brand-blue to-blue-600 text-white font-bold shadow-sm' : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100' }}"

@@ -75,6 +75,7 @@ return [
         'under_review' => 'በግምገማ ላይ',
         'approved' => 'ጸድቋል', // Fixed broken characters
         'rejected' => 'ውድቅ ተደርጓል', // Fixed typo
+        'withdrawn' => '?????',
         'completed' => 'ተጠናቋል',
         'ready' => 'ዝግጁ', // Fixed broken characters
         'delivered' => 'ደረሰ', // Fixed broken characters
@@ -105,6 +106,7 @@ return [
         'excerpt' => 'አጭር ማጠቃለያ',
         'body' => 'ዋና ጽሁፍ',
         'description' => 'መግለጫ',
+        'cover_letter' => 'የክፍል ደብዳቤ',
         'requirements' => 'መስፈርቶች',
         'category' => 'ምድብ',
         'publish_date' => 'የመለቀቂያ ቀን',
@@ -274,9 +276,9 @@ return [
             'sun' => 'እሑድ',
         ],
         'delivery_modes' => [
-            'in_person' => 'በቀጥታ',
+            'in_person' => 'በአካል',
             'online' => 'በኦንላይን',
-            'both' => 'በቀጥታ እና በኦንላይን',
+            'both' => 'በአካል እና በኦንላይን',
         ],
         'admin' => [
             'heading' => 'የዜግነት አገልግሎቶች',

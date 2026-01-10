@@ -29,7 +29,7 @@
         @if($bingVerification)
             <meta name="msvalidate.01" content="{{ $bingVerification }}">
         @endif
-        @include('partials.favicon')
+        {{-- favicon removed --}}
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link
@@ -59,7 +59,31 @@
                 @endphp
                 <x-breadcrumbs :items="$breadcrumbItems" variant="full" class="mb-6" />
             </div>
-            @yield('content')
+            @if(request()->routeIs('applicant.*') && !request()->routeIs('applicant.login*'))
+                <div class="mx-auto w-full max-w-full lg:max-w-screen-2xl px-4 sm:px-6 lg:px-10">
+                    <div class="flex flex-col gap-6 lg:flex-row">
+                        <aside class="lg:w-64 lg:shrink-0">
+                            <x-public.vacancy-nav />
+                        </aside>
+                        <div class="min-w-0 flex-1">
+                            @yield('content')
+                        </div>
+                    </div>
+                </div>
+            @elseif(request()->routeIs('vacancies.*'))
+                <div class="mx-auto w-full max-w-full lg:max-w-screen-2xl px-4 sm:px-6 lg:px-10">
+                    <div class="flex flex-col gap-6 lg:flex-row">
+                        <aside class="lg:w-64 lg:shrink-0">
+                            <x-public.vacancy-nav />
+                        </aside>
+                        <div class="min-w-0 flex-1">
+                            @yield('content')
+                        </div>
+                    </div>
+                </div>
+            @else
+                @yield('content')
+            @endif
         </main>
 
 
@@ -71,4 +95,3 @@
  
     </body>
 </html>
-

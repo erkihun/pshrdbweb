@@ -20,13 +20,12 @@
 @endphp
 
 <nav x-data="{ open: false, scrolled: false }"
-     @scroll.window="scrolled = window.scrollY > 20"
+     x-init="scrolled = window.scrollY > 20; window.addEventListener('scroll', () => { scrolled = window.scrollY > 20; });"
      @click.away="open = false"
      :class="{
-        'bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80 shadow-lg border-b border-gray-600': scrolled,
-        'bg-white border-b border-gray-100': !scrolled
+        'is-scrolled': scrolled
      }"
-     class=" sticky top-0 z-50 transition-all duration-300 public-navbar">
+     class="sticky top-0 z-50 transition-all duration-300 public-navbar">
 
     <div class="relative mx-auto max-w-full lg:max-w-screen-2xl w-full px-4 sm:px-6 lg:px-10">
         <div class="flex flex-col gap-3">
@@ -59,6 +58,7 @@
                     @foreach(['am', 'en'] as $locale)
                         <form method="POST" action="{{ route('locale.switch', $locale) }}" class="leading-none">
                             @csrf
+                            <input type="hidden" name="redirect_to" value="{{ url()->full() }}">
                             <button type="submit"
                                     title="{{ $localeMeta[$locale]['title'] }}"
                                     class="rounded-full px-2.5 py-1 text-[11px] font-semibold transition {{ app()->getLocale() === $locale ? 'bg-gradient-to-r from-brand-blue to-blue-600 text-white shadow-sm' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100' }}">
@@ -104,6 +104,15 @@
                         ['label' => __('public.navigation.citizen_charter'), 'href' => route('citizen-charter.index'), 'active' => request()->routeIs('citizen-charter.*'), 'icon' => 'document-text'],
                         ['label' => __('public.navigation.partnerships'), 'href' => route('public.mous.index'), 'active' => request()->routeIs('public.mous.*'), 'icon' => 'hand-thumb-up'],
                     ];
+
+                    if (Route::has('vacancies.index')) {
+                        array_unshift($navLinks, [
+                            'label' => __('public.navigation.vacancies'),
+                            'href' => route('vacancies.index'),
+                            'active' => request()->routeIs('vacancies.*'),
+                            'icon' => 'briefcase',
+                        ]);
+                    }
 
                     $isContactActive = collect($contactDropdown)->contains('active', true);
 
@@ -608,6 +617,7 @@
                         @foreach(['am', 'en'] as $locale)
                             <form method="POST" action="{{ route('locale.switch', $locale) }}" class="flex-1">
                                 @csrf
+                                <input type="hidden" name="redirect_to" value="{{ url()->full() }}">
                                 <button type="submit"
                                         @click="open = false"
                                         title="{{ $localeMeta[$locale]['title'] }}"
@@ -628,6 +638,16 @@
 </nav>
 
 <style>
+    .public-navbar {
+        background-color: transparent;
+    }
+
+    .public-navbar.is-scrolled {
+        background-color: #ffffff;
+        box-shadow: 0 10px 25px -15px rgba(15, 23, 42, 0.45);
+        border-bottom: 1px solid #e5e7eb;
+    }
+
     /* Focus: consistent, accessible */
     nav a:focus-visible,
     nav button:focus-visible {
@@ -650,3 +670,19 @@
         to   { transform: translateX(-50%) scaleX(1); }
     }
 </style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const navbar = document.querySelector('.public-navbar');
+        if (!navbar) {
+            return;
+        }
+
+        const updateNavbar = () => {
+            navbar.classList.toggle('is-scrolled', window.scrollY > 20);
+        };
+
+        updateNavbar();
+        window.addEventListener('scroll', updateNavbar, { passive: true });
+    });
+</script>

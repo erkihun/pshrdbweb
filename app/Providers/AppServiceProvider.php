@@ -13,11 +13,14 @@ use App\Listeners\SendTicketReplySms;
 use App\Models\VisitorLog;
 use App\Services\HttpSmsProvider;
 use App\Services\SiteSettingsService;
+use App\Models\VacancyApplication;
+use App\Policies\VacancyApplicationPolicy;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
@@ -81,6 +84,10 @@ class AppServiceProvider extends ServiceProvider
             return Limit::perMinute(5)->by($request->ip());
         });
 
+        RateLimiter::for('applicant_dashboard', function (Request $request) {
+            return Limit::perMinute(30)->by(($request->user()?->id ?? '') . $request->ip());
+        });
+
         RateLimiter::for('chat_start', function (Request $request) {
             return Limit::perMinute(5)->by($request->ip());
         });
@@ -116,5 +123,7 @@ class AppServiceProvider extends ServiceProvider
             $count = Cache::remember('visitor.count.total', now()->addMinutes(5), fn () => VisitorLog::count());
             $view->with('visitorCount', $count);
         });
+
+        Gate::policy(VacancyApplication::class, VacancyApplicationPolicy::class);
     }
 }

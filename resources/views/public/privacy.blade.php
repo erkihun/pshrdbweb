@@ -29,15 +29,17 @@
             <article class="rounded-3xl border border-slate-200 bg-white shadow-lg shadow-slate-200/60">
                 <div class="p-6 sm:p-10">
                     @if($policy)
-                        <x-rich-content class="text-justify space-y-4">
+                        <div class="prose prose-slate max-w-none text-justify leading-relaxed space-y-6 whitespace-pre-line">
                             {!! $policy->display_body !!}
-                        </x-rich-content>
+                        </div>
                     @else
-                        @foreach((array) $defaultBody as $paragraph)
-                            <p class="text-sm leading-relaxed text-slate-700 first:mt-0 mt-4 text-justify">
-                                {!! $paragraph !!}
-                            </p>
-                        @endforeach
+                        <div class="flex flex-col space-y-4 text-sm leading-relaxed text-slate-700 whitespace-pre-line">
+                            @foreach((array) $defaultBody as $paragraph)
+                                <p class="first:mt-0">
+                                    {!! $paragraph !!}
+                                </p>
+                            @endforeach
+                        </div>
                     @endif
                 </div>
             </article>

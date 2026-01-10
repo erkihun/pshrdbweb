@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('QUEUE_CONNECTION', 'database'),
+    'default' => env('QUEUE_CONNECTION', 'failover'),
 
     /*
     |--------------------------------------------------------------------------
@@ -85,7 +85,7 @@ return [
             'driver' => 'failover',
             'connections' => [
                 'database',
-                'deferred',
+                'sync',
             ],
         ],
 
@@ -124,6 +124,12 @@ return [
         'driver' => env('QUEUE_FAILED_DRIVER', 'database-uuids'),
         'database' => env('DB_CONNECTION', 'sqlite'),
         'table' => 'failed_jobs',
+    ],
+
+    'worker' => [
+        'sleep' => (int) env('QUEUE_WORKER_SLEEP', 3),
+        'max_tries' => (int) env('QUEUE_WORKER_TRIES', 3),
+        'timeout' => (int) env('QUEUE_WORKER_TIMEOUT', 60),
     ],
 
 ];

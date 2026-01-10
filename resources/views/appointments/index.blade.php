@@ -10,15 +10,11 @@
             <section class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-sky-600 to-indigo-700 p-8 text-white shadow-xl shadow-blue-900/40">
                 <div class="flex flex-col gap-6 lg:flex-row lg:items-center">
                     <div class="space-y-3">
-                        <p class="text-xs font-semibold uppercase tracking-[0.4em] text-blue-100">
-                            {{ __('common.nav.appointments') }}
-                        </p>
-                        <h1 class="text-4xl font-bold leading-tight sm:text-5xl">
+
+                        <h4 class="text-2xl font-bold leading-tight sm:text-2xl">
                             {{ __('common.labels.appointments') }}
-                        </h1>
-                        <p class="max-w-3xl text-base leading-relaxed text-white/80">
-                            {{ __('common.appointments.hero_description') }}
-                        </p>
+                        </h4>
+                      
                         <div class="flex flex-wrap gap-3">
                             <a
                                 href="{{ route('appointments.track.form') }}"
@@ -34,18 +30,7 @@
                             </a>
                         </div>
                     </div>
-                    <div class="rounded-2xl border border-white/30 bg-white/10 px-6 py-5 text-sm backdrop-blur">
-                        <p class="text-xs font-semibold uppercase tracking-[0.4em] text-blue-100">
-                            {{ __('common.gov.office_hours') }}
-                        </p>
-                        <p class="mt-2 text-lg text-white">
-                            {{ $officeHoursService->summary() }}
-                        </p>
-                        <div class="mt-3 inline-flex items-center gap-2 rounded-full bg-white/20 px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-wider text-white">
-                            <span class="h-2 w-2 rounded-full {{ $officeHoursService->isOpen() ? 'bg-emerald-400' : 'bg-rose-400' }}"></span>
-                            {{ $officeHoursService->isOpen() ? __('common.status.open') : __('common.status.closed') }}
-                        </div>
-                    </div>
+                  
                 </div>
                 <div class="pointer-events-none absolute inset-y-0 right-0 hidden w-64 opacity-10 lg:block">
                     <div class="absolute inset-0 rounded-3xl bg-white/30 blur-3xl"></div>
@@ -71,9 +56,7 @@
                         <h2 class="text-3xl font-bold text-slate-900">
                             {{ __('common.appointments.service_heading') }}
                         </h2>
-                        <p class="text-sm text-slate-500">
-                            {{ __('common.appointments.service_subtitle') }}
-                        </p>
+                      
                     </div>
                     <a
                         href="{{ route('appointments.track.form') }}"

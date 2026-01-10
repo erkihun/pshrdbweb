@@ -273,7 +273,7 @@
                                 <div class="text-gray-600 mt-1">{{ $officialTitle }}</div>
                             </div>
                             <div class="text-sm text-gray-500">
-                                {{ ethiopian_date(now(), 'dd MMMM yyyy') }}
+                              
                             </div>
                         </div>
                     </div>

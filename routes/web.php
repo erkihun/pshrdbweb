@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\EditorUploadController;
 use App\Http\Controllers\Admin\HomepageController as AdminHomepageController;
 use App\Http\Controllers\Admin\PageController as AdminPageController;
 use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\AnnouncementController;
 use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
 use App\Http\Controllers\Admin\StaffController as AdminStaffController;
 use App\Http\Controllers\Admin\TicketController as AdminTicketController;
@@ -27,6 +28,11 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SubscriberController;
 use App\Http\Controllers\NewsletterSubscriptionController;
 use App\Http\Controllers\Admin\TenderController;
+use App\Http\Controllers\Admin\VacancyController;
+use App\Http\Controllers\Admin\VacancyApplicationController;
+use App\Http\Controllers\Admin\VacancyAnalyticsController;
+use App\Http\Controllers\Public\VacancyController as PublicVacancyController;
+use App\Http\Controllers\Public\VacancyApplicationController as PublicVacancyApplicationController;
 use App\Http\Controllers\Admin\ChatController as AdminChatController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\CharterServiceController;
@@ -70,12 +76,34 @@ use App\Http\Controllers\PublicServantsController;
 use App\Http\Controllers\PublicServantDashboardController;
 use App\Http\Controllers\Admin\PartnerController;
 use App\Http\Controllers\Admin\MouController as AdminMouController;
+use App\Http\Controllers\Applicant\AuthController as ApplicantAuthController;
+use App\Http\Controllers\Applicant\DashboardController as ApplicantDashboardController;
+use App\Http\Controllers\Applicant\ProfileController as ApplicantProfileController;
 
 Route::get('/privacy', [PrivacyPolicyController::class, 'show'])->name('privacy');
 Route::get('/sitemap.xml', [SitemapController::class, 'sitemap'])->name('sitemap');
 Route::get('/sitemap-index.xml', [SitemapController::class, 'index'])->name('sitemap.index');
 Route::get('/robots.txt', [SitemapController::class, 'robots'])->name('robots.txt');
 Route::get('/sitemap', [SitemapPageController::class, 'index'])->name('sitemap.page');
+Route::prefix('vacancies')->name('vacancies.')->group(function () {
+    Route::get('/', [PublicVacancyController::class, 'index'])
+        ->name('index')
+        ->middleware('throttle:60,1');
+    Route::get('/track', [PublicVacancyApplicationController::class, 'trackForm'])
+        ->name('track')
+        ->middleware('vacancy.rate_limit:track');
+    Route::post('/track', [PublicVacancyApplicationController::class, 'track'])
+        ->name('track.submit')
+        ->middleware('vacancy.rate_limit:track');
+    Route::get('/apply/success/{code}', [PublicVacancyApplicationController::class, 'success'])->name('apply.success');
+    Route::get('/{slug}/apply', [PublicVacancyApplicationController::class, 'showApplyForm'])
+        ->name('apply')
+        ->middleware('vacancy.rate_limit:apply');
+    Route::post('/{slug}/apply', [PublicVacancyApplicationController::class, 'store'])
+        ->name('apply.store')
+        ->middleware('vacancy.rate_limit:apply');
+    Route::get('/{slug}', [PublicVacancyController::class, 'show'])->name('show');
+});
 
 Route::get('/', HomepageController::class)
     ->name('home')
@@ -95,6 +123,28 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::middleware(['auth:applicant', 'throttle:applicant_dashboard'])
+    ->prefix('applicant')
+    ->name('applicant.')
+    ->group(function () {
+        Route::get('/dashboard', [ApplicantDashboardController::class, 'index'])->name('dashboard');
+        Route::get('/applications/{application}', [ApplicantDashboardController::class, 'show'])->name('applications.show');
+        Route::get('/applications/{application}/download', [ApplicantDashboardController::class, 'download'])->name('applications.download');
+        Route::post('/applications/{application}/withdraw', [ApplicantDashboardController::class, 'withdraw'])->name('applications.withdraw');
+        Route::post('/application/{application}/withdraw', [ApplicantDashboardController::class, 'withdraw'])->name('application.withdraw');
+        Route::get('/profile', [ApplicantProfileController::class, 'show'])->name('profile');
+        Route::get('/profile/photo', [ApplicantProfileController::class, 'photo'])->name('profile.photo');
+        Route::post('/profile', [ApplicantProfileController::class, 'update'])->name('profile.update');
+        Route::put('/profile', [ApplicantProfileController::class, 'update'])->name('profile.update.put');
+        Route::post('/profile/password', [ApplicantProfileController::class, 'updatePassword'])->name('profile.password');
+    });
+
+Route::get('/applicant/login', [ApplicantAuthController::class, 'showLoginForm'])->name('applicant.login');
+Route::post('/applicant/login', [ApplicantAuthController::class, 'login'])
+    ->middleware('throttle:6,1')
+    ->name('applicant.login.submit');
+Route::post('/applicant/logout', [ApplicantAuthController::class, 'logout'])->name('applicant.logout');
+
 Route::middleware(['auth', 'verified'])
     ->prefix('admin')
     ->name('admin.')
@@ -105,6 +155,7 @@ Route::middleware(['auth', 'verified'])
         Route::get('profile/password', [ProfileController::class, 'passwordForm'])->name('profile.password.form');
         Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
         Route::resource('posts', PostController::class)->middleware('permission:manage posts');
+        Route::resource('announcements', AnnouncementController::class)->except(['show'])->middleware('permission:manage announcements');
         Route::post('editor/upload', [EditorUploadController::class, 'store'])->name('editor.upload');
         Route::resource('services', AdminServiceController::class)->middleware('permission:manage services');
         Route::resource('document-categories', DocumentCategoryController::class)->middleware('permission:manage documents');
@@ -154,6 +205,22 @@ Route::middleware(['auth', 'verified'])
         Route::get('exports', [ExportController::class, 'index'])->name('exports.index');
         Route::get('alerts', [AlertController::class, 'index'])->name('alerts.index');
         Route::resource('tenders', TenderController::class)->except(['show'])->middleware('permission:manage tenders');
+        Route::get('vacancies/applications', [VacancyApplicationController::class, 'index'])->name('vacancies.applications.index')->middleware('permission:manage vacancy applications');
+        Route::get('vacancies/{vacancy}/applications', [VacancyApplicationController::class, 'index'])->name('vacancies.applications.forVacancy')->middleware('permission:manage vacancy applications');
+        Route::get('vacancies/applications/export', [VacancyApplicationController::class, 'export'])
+            ->name('vacancies.applications.export')
+            ->middleware('permission:manage vacancies')
+            ->middleware('permission:manage vacancy applications');
+        Route::get('vacancies/applications/{application}', [VacancyApplicationController::class, 'show'])->name('vacancies.applications.show')->middleware('permission:manage vacancy applications');
+        Route::patch('vacancies/applications/{application}', [VacancyApplicationController::class, 'update'])->name('vacancies.applications.update')->middleware('permission:manage vacancy applications');
+        Route::get('vacancies/applications/{application}/download', [VacancyApplicationController::class, 'download'])->name('vacancies.applications.download')->middleware('permission:manage vacancy applications');
+        Route::get('vacancies/applications/{application}/document', [VacancyApplicationController::class, 'document'])->name('vacancies.applications.document')->middleware('permission:manage vacancy applications');
+        Route::get('vacancies/applications/{application}/photo', [VacancyApplicationController::class, 'photo'])->name('vacancies.applications.photo')->middleware('permission:manage vacancy applications');
+        Route::delete('vacancies/applications/{application}', [VacancyApplicationController::class, 'destroy'])->name('vacancies.applications.destroy')->middleware('permission:manage vacancy applications');
+        Route::get('vacancies/analytics', [VacancyAnalyticsController::class, 'index'])->name('vacancies.analytics')->middleware('permission:manage vacancies');
+        Route::resource('vacancies', VacancyController::class)->middleware('permission:manage vacancies');
+        Route::post('vacancies/{vacancy}/publish', [VacancyController::class, 'publish'])->name('vacancies.publish')->middleware('permission:manage vacancies');
+        Route::post('vacancies/{vacancy}/unpublish', [VacancyController::class, 'unpublish'])->name('vacancies.unpublish')->middleware('permission:manage vacancies');
         Route::resource('organizations', OrganizationController::class);
         Route::resource('partners', PartnerController::class);
         Route::resource('mous', AdminMouController::class);
@@ -252,7 +319,14 @@ Route::get('/signage/{signage_display:slug}', [SignageController::class, 'show']
 Route::get('/health', function () {
     try {
         DB::connection()->getPdo()->query('select 1');
-        return response()->json(['status' => 'ok', 'db' => 'ok']);
+        $storage = \App\Support\StorageHealth::snapshot();
+
+        return response()->json([
+            'status' => 'ok',
+            'db' => 'ok',
+            'storage' => $storage,
+            'storage_ok' => \App\Support\StorageHealth::hasMinimumFreeSpace(),
+        ]);
     } catch (\Throwable $e) {
         return response()->json(['status' => 'error', 'db' => 'error'], 500);
     }

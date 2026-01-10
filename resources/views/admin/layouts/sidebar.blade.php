@@ -135,6 +135,38 @@
                 ],
             ],
         ],
+        'vacancies' => [
+            'label' => __('ui.vacancies'),
+            'collapsible' => true,
+            'items' => [
+                [
+                    'label' => __('ui.vacancies'),
+                    'route' => 'admin.vacancies.index',
+                    'icon' => 'M3 7h4v10H3z M17 7h4v10h-4z M8 4h8l-4 5z',
+                    'permission' => 'manage vacancies',
+                    'patterns' => [
+                        'admin.vacancies.index',
+                        'admin.vacancies.create',
+                        'admin.vacancies.edit',
+                        'admin.vacancies.show',
+                    ],
+                ],
+                [
+                    'label' => __('ui.vacancy_applications'),
+                    'route' => 'admin.vacancies.applications.index',
+                    'icon' => 'M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2zm2 4h10M7 11h10M7 15h4',
+                    'permission' => 'manage vacancy applications',
+                    'patterns' => ['admin.vacancies.applications.*'],
+                ],
+                [
+                    'label' => __('ui.analytics'),
+                    'route' => 'admin.vacancies.analytics',
+                    'icon' => 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
+                    'permission' => 'manage vacancies',
+                    'patterns' => ['admin.vacancies.analytics'],
+                ],
+            ],
+        ],
         'resources' => [
             'label' => __('ui.resources_group'),
             'collapsible' => true,

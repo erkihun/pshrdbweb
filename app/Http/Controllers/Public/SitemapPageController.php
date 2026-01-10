@@ -286,7 +286,7 @@ class SitemapPageController extends Controller
         }
 
         $links[] = [
-            'label' => __('public.sitemap_page.sections.vacancies') ?: __('Vacancies'),
+            'label' => __('public.sitemap_page.sections.vacancies') ?: __('public.navigation.vacancies'),
             'url' => route('vacancies.index'),
         ];
 

@@ -9,15 +9,23 @@
             <div class="grid gap-6 sm:grid-cols-2">
                 <div>
                     <label class="block text-sm font-medium text-slate-900" for="type">{{ __('common.labels.type') }}</label>
-                    <select
-                        id="type"
-                        name="type"
-                        class="mt-2 w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 shadow-sm transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
-                        required
-                    >
-                        <option value="news" @selected(old('type', $post->type ?? 'news') === 'news')>{{ __('common.nav.news') }}</option>
-                        <option value="announcement" @selected(old('type', $post->type ?? '') === 'announcement')>{{ __('common.nav.announcements') }}</option>
-                    </select>
+                    @php
+                        $typeValue = old('type', $post->type ?? $fixedType ?? 'news');
+                    @endphp
+                    @if(empty($fixedType))
+                        <select
+                            id="type"
+                            name="type"
+                            class="mt-2 w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 shadow-sm transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+                            required
+                        >
+                            <option value="news" @selected($typeValue === 'news')>{{ __('common.nav.news') }}</option>
+                            <option value="announcement" @selected($typeValue === 'announcement')>{{ __('common.nav.announcements') }}</option>
+                        </select>
+                    @else
+                        <input type="hidden" name="type" value="{{ $fixedType }}">
+                        <p class="mt-2 text-sm text-slate-500">{{ __('common.nav.' . $fixedType) }}</p>
+                    @endif
                     @error('type')
                         <div class="mt-2 flex items-center gap-2 text-xs text-rose-600">
                             <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">

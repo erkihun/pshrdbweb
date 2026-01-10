@@ -3,15 +3,7 @@
 @section('content')
 <section class="bg-slate-50 py-12">
     <div class="mx-auto max-w-5xl space-y-6 px-4">
-        <nav class="text-sm text-slate-500">
-            <a href="{{ url('/') }}" class="hover:text-brand-blue">Home</a>
-            <span class="mx-2">/</span>
-            <a href="{{ route('announcements.index') }}" class="hover:text-brand-blue">Announcements</a>
-            <span class="mx-2">/</span>
-            <a href="{{ route('tenders.index') }}" class="hover:text-brand-blue">Tenders</a>
-            <span class="mx-2">/</span>
-            <span class="font-semibold text-slate-900">{{ $tender->title }}</span>
-        </nav>
+   
 
             <div class="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
             <div class="flex flex-col gap-3">

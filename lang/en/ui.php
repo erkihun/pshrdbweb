@@ -30,6 +30,8 @@ return [
     'audit_logs' => 'Audit Logs',
     'media' => 'Media',
     'tenders' => 'Tenders',
+    'vacancies' => 'Vacancies',
+    'vacancy_applications' => 'Vacancy applications',
     'news_announcements' => 'News & Announcements',
     'pages' => 'Pages',
     'home_slides' => 'Home Slides',

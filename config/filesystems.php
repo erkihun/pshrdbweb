@@ -77,4 +77,6 @@ return [
         public_path('storage') => storage_path('app/public'),
     ],
 
+    'upload_min_free_mb' => env('UPLOAD_MIN_FREE_MB', 200),
+
 ];

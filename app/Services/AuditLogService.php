@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Jobs\WriteAuditLog;
 use App\Models\AuditLog;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
@@ -14,13 +15,37 @@ class AuditLogService
         $metadata = static::sanitizeMetadata($metadata);
         $request = request();
 
+        try {
+            WriteAuditLog::dispatch(
+                Auth::id(),
+                $action,
+                $entityType,
+                $entityId,
+                $request?->ip(),
+                $request?->userAgent(),
+                $metadata
+            );
+        } catch (\Throwable $exception) {
+            report($exception);
+            static::writeNow($action, $entityType, $entityId, $metadata, $request?->ip(), $request?->userAgent());
+        }
+    }
+
+    private static function writeNow(
+        string $action,
+        string $entityType,
+        ?string $entityId,
+        array $metadata,
+        ?string $ipAddress,
+        ?string $userAgent
+    ): void {
         AuditLog::create([
             'user_id' => Auth::id(),
             'action' => $action,
             'entity_type' => $entityType,
             'entity_id' => $entityId,
-            'ip_address' => $request?->ip(),
-            'user_agent' => $request?->userAgent(),
+            'ip_address' => $ipAddress,
+            'user_agent' => $userAgent,
             'metadata' => $metadata,
         ]);
     }

@@ -15,6 +15,13 @@ class LocaleController extends Controller
 
         session()->put('locale', $locale);
 
+        $redirectTo = (string) $request->input('redirect_to');
+        $baseUrl = url('/');
+
+        if ($redirectTo !== '' && str_starts_with($redirectTo, $baseUrl)) {
+            return redirect()->to($redirectTo);
+        }
+
         return redirect()->back();
     }
 }
