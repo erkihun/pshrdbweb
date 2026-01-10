@@ -29,7 +29,7 @@
         @if($bingVerification)
             <meta name="msvalidate.01" content="{{ $bingVerification }}">
         @endif
-        {{-- favicon removed --}}
+        @include('partials.favicon')
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link
