@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class AnalysisController extends Controller
 {
@@ -27,15 +28,56 @@ class AnalysisController extends Controller
             [$start, $end] = [$end, $start];
         }
 
-        $stats = DB::table('analytics_daily_stats')
-            ->whereBetween('date', [$start->toDateString(), $end->toDateString()])
-            ->selectRaw('SUM(pageviews) as pageviews, SUM(visits) as visits, SUM(unique_visitors) as unique_visitors, SUM(authenticated_users) as authenticated_users')
-            ->first();
+        $pageviews = 0;
+        $visits = 0;
+        $uniqueVisitors = 0;
+        $authenticatedUsers = 0;
 
-        $pageviews = (int) ($stats->pageviews ?? 0);
-        $visits = (int) ($stats->visits ?? 0);
-        $uniqueVisitors = (int) ($stats->unique_visitors ?? 0);
-        $authenticatedUsers = (int) ($stats->authenticated_users ?? 0);
+        $startDay = $start->copy()->startOfDay();
+        $endDay = $end->copy()->endOfDay();
+        $hasDailyStats = Schema::hasTable('analytics_daily_stats');
+        $hasDailyStatsRows = false;
+
+        if ($hasDailyStats) {
+            $hasDailyStatsRows = DB::table('analytics_daily_stats')
+                ->whereBetween('date', [$start->toDateString(), $end->toDateString()])
+                ->exists();
+        }
+
+        if ($hasDailyStatsRows) {
+            $stats = DB::table('analytics_daily_stats')
+                ->whereBetween('date', [$start->toDateString(), $end->toDateString()])
+                ->selectRaw('SUM(pageviews) as pageviews, SUM(visits) as visits, SUM(unique_visitors) as unique_visitors, SUM(authenticated_users) as authenticated_users')
+                ->first();
+
+            $pageviews = (int) ($stats->pageviews ?? 0);
+            $visits = (int) ($stats->visits ?? 0);
+            $uniqueVisitors = (int) ($stats->unique_visitors ?? 0);
+            $authenticatedUsers = (int) ($stats->authenticated_users ?? 0);
+        } else {
+            if (Schema::hasTable('analytics_pageviews')) {
+                $pageviews = DB::table('analytics_pageviews')
+                    ->whereBetween('created_at', [$startDay, $endDay])
+                    ->count();
+
+                $authenticatedUsers = DB::table('analytics_pageviews')
+                    ->whereBetween('created_at', [$startDay, $endDay])
+                    ->whereNotNull('user_id')
+                    ->distinct('user_id')
+                    ->count('user_id');
+            }
+
+            if (Schema::hasTable('analytics_visits')) {
+                $visits = DB::table('analytics_visits')
+                    ->whereBetween('first_seen_at', [$startDay, $endDay])
+                    ->count();
+
+                $uniqueVisitors = DB::table('analytics_visits')
+                    ->whereBetween('last_seen_at', [$startDay, $endDay])
+                    ->distinct('ip_hash')
+                    ->count('ip_hash');
+            }
+        }
 
         $topPages = DB::table('analytics_pageviews')
             ->select('path', DB::raw('COUNT(*) as hits'))
@@ -75,10 +117,14 @@ class AnalysisController extends Controller
             ->limit(5)
             ->get();
 
-        $trendRecords = DB::table('analytics_daily_stats')
-            ->whereBetween('date', [$start->toDateString(), $end->toDateString()])
-            ->orderBy('date')
-            ->get(['date', 'pageviews', 'visits']);
+        $trendRecords = collect();
+
+        if ($hasDailyStats) {
+            $trendRecords = DB::table('analytics_daily_stats')
+                ->whereBetween('date', [$start->toDateString(), $end->toDateString()])
+                ->orderBy('date')
+                ->get(['date', 'pageviews', 'visits']);
+        }
 
         if ($trendRecords->isEmpty()) {
             $trendRecords = $this->buildFallbackTrend($start, $end);
