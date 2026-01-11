@@ -17,7 +17,7 @@
         "log1x/laravel-webfonts": "^2.0",
         "maatwebsite/excel": "^3.1",
         "phpmailer/phpmailer": "6.5",
-       
+        "plesk/ext-laravel-integration": "*",
         "spatie/laravel-permission": "^6.24"
     },
     "require-dev": {
@@ -59,6 +59,13 @@
         "dev": [
             "Composer\\Config::disableProcessTimeout",
             "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite --kill-others"
+        ],
+        "prod-install": [
+            "composer install --no-dev --no-scripts --prefer-dist --no-interaction",
+            "@php artisan package:discover --ansi",
+            "@php artisan config:cache --ansi",
+            "@php artisan route:cache --ansi",
+            "@php artisan view:cache --ansi"
         ],
         "prod": [
             "@php artisan config:cache --ansi",
