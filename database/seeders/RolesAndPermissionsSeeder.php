@@ -53,7 +53,7 @@ class RolesAndPermissionsSeeder extends Seeder
         $officer = Role::firstOrCreate(['name' => 'Officer']);
         $organizationAdmin = Role::firstOrCreate(['name' => 'Organization Admin']);
 
-        $admin->syncPermissions($permissions);
+        $admin->syncPermissions(Permission::query()->pluck('name')->all());
         $editor->syncPermissions(['view dashboard', 'manage posts', 'manage pages', 'manage media', 'manage services', 'manage documents', 'manage tenders']);
         $officer->syncPermissions(['view dashboard', 'manage tickets', 'manage service requests', 'manage appointments']);
         $organizationAdmin->syncPermissions(['view dashboard', 'manage organization profile']);
