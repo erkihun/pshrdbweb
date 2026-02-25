@@ -52,6 +52,8 @@ class PostController extends Controller
     public function store(StorePostRequest $request)
     {
         $data = $request->validated();
+        $galleryImages = $request->file('gallery_images', []);
+        $canPublishPosts = (bool) $request->user()?->can('publish posts');
         foreach (['body_am', 'body_en'] as $field) {
             if (! empty($data[$field])) {
                 $data[$field] = $this->sanitizeRichText($data[$field]);
@@ -66,19 +68,29 @@ class PostController extends Controller
         $data['body'] = $data['body_en'];
         $data['excerpt'] = $data['excerpt_en'] ?? null;
         $data['slug'] = $this->uniqueSlug($data['title_en']);
-        $data['is_published'] = $request->boolean('is_published');
+        $data['is_published'] = $canPublishPosts && $request->boolean('is_published');
         if ($data['is_published']) {
             $data['published_at'] = $data['published_at'] ?? Carbon::now();
         } else {
             $data['published_at'] = null;
         }
         $data['posted_at'] = Carbon::now();
+        $data['author_name'] = auth()->user()?->name ?? 'Admin';
 
         if ($request->hasFile('cover_image')) {
             $data['cover_image_path'] = $request->file('cover_image')->store('posts', 'public');
         }
 
         $post = Post::create($data);
+
+        if ($data['type'] === 'news' && is_array($galleryImages)) {
+            foreach (array_slice($galleryImages, 0, 4) as $index => $image) {
+                $post->images()->create([
+                    'image_path' => $image->store('posts', 'public'),
+                    'sort_order' => $index,
+                ]);
+            }
+        }
 
         AuditLogService::log('posts.created', 'post', $post->id, [
             'title' => $post->title,
@@ -106,6 +118,8 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
+        $post->load('images');
+
         return view('admin.posts.show', compact('post'));
     }
 
@@ -114,6 +128,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        $post->load('images');
+
         return view('admin.posts.edit', compact('post'));
     }
 
@@ -123,8 +139,12 @@ class PostController extends Controller
     public function update(UpdatePostRequest $request, Post $post)
     {
         $data = $request->validated();
+        $galleryImages = $request->file('gallery_images', []);
         $wasPublished = $post->is_published;
-        $data['is_published'] = $request->boolean('is_published');
+        $canPublishPosts = (bool) $request->user()?->can('publish posts');
+        $data['is_published'] = $canPublishPosts
+            ? $request->boolean('is_published')
+            : $post->is_published;
         if ($data['is_published']) {
             $data['published_at'] = $post->published_at ?? Carbon::now();
         } else {
@@ -148,6 +168,25 @@ class PostController extends Controller
         }
 
         $post->update($data);
+
+        if ($data['type'] !== 'news') {
+            foreach ($post->images as $image) {
+                Storage::disk('public')->delete($image->image_path);
+            }
+            $post->images()->delete();
+        } elseif (is_array($galleryImages) && count($galleryImages) > 0) {
+            foreach ($post->images as $image) {
+                Storage::disk('public')->delete($image->image_path);
+            }
+            $post->images()->delete();
+
+            foreach (array_slice($galleryImages, 0, 4) as $index => $image) {
+                $post->images()->create([
+                    'image_path' => $image->store('posts', 'public'),
+                    'sort_order' => $index,
+                ]);
+            }
+        }
 
         AuditLogService::log('posts.updated', 'post', $post->id, [
             'title' => $post->title,
@@ -177,6 +216,10 @@ class PostController extends Controller
     {
         if ($post->cover_image_path) {
             Storage::disk('public')->delete($post->cover_image_path);
+        }
+
+        foreach ($post->images as $image) {
+            Storage::disk('public')->delete($image->image_path);
         }
 
         AuditLogService::log('posts.deleted', 'post', $post->id, [

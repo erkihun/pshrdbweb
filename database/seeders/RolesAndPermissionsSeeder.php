@@ -18,6 +18,7 @@ class RolesAndPermissionsSeeder extends Seeder
             'manage users',
             'manage roles',
             'manage posts',
+            'publish posts',
             'manage announcements',
             'manage pages',
             'manage media',

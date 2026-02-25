@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Contracts\HomeController;
 class Post extends Model
 {
@@ -71,5 +72,10 @@ class Post extends Model
         static::deleted(function () {
             HomeController::clearHomepageCache();
         });
+    }
+
+    public function images(): HasMany
+    {
+        return $this->hasMany(PostImage::class)->orderBy('sort_order');
     }
 }

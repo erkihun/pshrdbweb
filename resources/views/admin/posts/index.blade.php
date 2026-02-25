@@ -183,7 +183,7 @@
                                 </td>
                                 <td class="px-6 py-4">
                                     <div class="text-sm text-slate-700 font-medium">
-                                        {{ $post->author_name ?? '—' }}
+                                        {{ filled($post->author_name) ? $post->author_name : __('common.labels.unknown') }}
                                     </div>
                                 </td>
                                 <td class="px-6 py-4">

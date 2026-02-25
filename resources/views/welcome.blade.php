@@ -499,11 +499,12 @@
 
             {{-- Horizontal slider track --}}
             <div
-                class="relative overflow-hidden "
+                id="leadersViewport"
+                class="relative overflow-x-auto scroll-smooth"
             >
                 <div
                     id="leadersTrack"
-                    class="leaders-track flex transition-transform duration-700 ease-in-out"
+                    class="leaders-track flex gap-6"
                 >
                 @foreach($staffMembers as $index => $staff)
                     @php
@@ -647,7 +648,12 @@
             </a>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="relative">
+            <div class="overflow-hidden">
+                <div
+                    id="servicesTrack"
+                    class="flex gap-6 overflow-x-auto pb-4 pr-4 lg:pr-0 scroll-smooth"
+                >
             @php
                 $servicePalettes = [
                     'from-blue-500 to-cyan-500',
@@ -669,7 +675,7 @@
                         ->take(3);
                 @endphp
 
-                <div class="group relative">
+                <div class="charter-card group relative flex-none w-80">
                     <div class="absolute -inset-0.5 bg-gradient-to-r {{ $palette }} rounded-2xl opacity-20 blur transition duration-500 group-hover:opacity-0"></div>
 
                     <div class="relative flex h-full flex-col rounded-2xl border border-transparent bg-white p-8 shadow-2xl transition-all duration-500 hover:border-gray-200 hover:shadow-sm">
@@ -693,6 +699,8 @@
                     </div>
                 </div>
             @endforeach
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -730,7 +738,7 @@
             <div class="overflow-hidden">
                 <div
                     id="citizenCharterTrack"
-                    class="flex snap-x snap-mandatory gap-6 overflow-x-auto pb-4 pr-4 lg:pr-0 scroll-smooth"
+                    class="flex gap-6 overflow-x-auto pb-4 pr-4 lg:pr-0 scroll-smooth"
                 >
                     @foreach($charterDepartments as $department)
                         <a
@@ -835,18 +843,16 @@ const indicators = document.querySelectorAll('[data-hero-indicator]');
 const totalSlides = slides.length;
 const enterAnimations = ['heroWaveIn', 'heroGlideIn', 'heroSwirlIn', 'heroDriftIn', 'heroPulseIn'];
 const exitAnimations = ['heroWaveOut', 'heroGlideOut', 'heroSwirlOut', 'heroDriftOut', 'heroPulseOut'];
-
-let charterMotionFrame = null;
+let charterAutoInterval = null;
 let charterMotionDirection = 1;
+let servicesAutoInterval = null;
+let servicesMotionDirection = 1;
+let leadersViewportElement = null;
 let leadersTrackElement = null;
-let leaderCards = [];
-let leadersCurrentIndex = 0;
-let leadersRawIndex = 1;
-let leadersOriginalCount = 0;
 let leadersAutoInterval = null;
-let leadersCardWidth = 0;
-let leadersCardGap = 0;
-const leadersAutoDelay = 4500;
+let leadersMotionDirection = 1;
+let leadersCardStep = 340;
+const leadersAutoDelay = 16;
 
     slides.forEach(function (slide) {
         slide.addEventListener('animationend', function (event) {
@@ -985,32 +991,29 @@ const leadersAutoDelay = 4500;
             }
         });
 
-        // Leaders autoplay slider
+        // Leaders autoplay slider (same pattern as services slider)
+        leadersViewportElement = document.getElementById('leadersViewport');
         leadersTrackElement = document.getElementById('leadersTrack');
-        if (leadersTrackElement) {
-            leaderCards = Array.prototype.slice.call(leadersTrackElement.querySelectorAll('.leader-card'));
-            leadersOriginalCount = leaderCards.length;
-            if (leadersOriginalCount > 1) {
-                addLeaderClones();
-            }
-            leaderCards = Array.prototype.slice.call(leadersTrackElement.querySelectorAll('.leader-card'));
+        if (leadersViewportElement && leadersTrackElement) {
             requestAnimationFrame(function () {
                 updateLeaderSliderLayout();
                 startLeaderAuto();
             });
+
             function pauseLeaders() {
                 stopLeaderAuto();
             }
+
             function resumeLeaders() {
                 startLeaderAuto();
             }
-            leadersTrackElement.addEventListener('mouseenter', pauseLeaders);
-            leadersTrackElement.addEventListener('mouseleave', resumeLeaders);
-            leadersTrackElement.addEventListener('touchstart', pauseLeaders);
-            leadersTrackElement.addEventListener('touchend', resumeLeaders);
-            leadersTrackElement.addEventListener('focusin', pauseLeaders);
-            leadersTrackElement.addEventListener('focusout', resumeLeaders);
-            leadersTrackElement.addEventListener('transitionend', handleLeaderTransitionEnd);
+
+            leadersViewportElement.addEventListener('mouseenter', pauseLeaders);
+            leadersViewportElement.addEventListener('mouseleave', resumeLeaders);
+            leadersViewportElement.addEventListener('touchstart', pauseLeaders, { passive: true });
+            leadersViewportElement.addEventListener('touchend', resumeLeaders, { passive: true });
+            leadersViewportElement.addEventListener('focusin', pauseLeaders);
+            leadersViewportElement.addEventListener('focusout', resumeLeaders);
             window.addEventListener('resize', function () {
                 updateLeaderSliderLayout();
             });
@@ -1018,25 +1021,87 @@ const leadersAutoDelay = 4500;
 
         const charterTrack = document.getElementById('citizenCharterTrack');
         if (charterTrack) {
-        function startCharterMotion() {
-            if (charterMotionFrame) {
-                return;
-            }
-            animateCharterTrack(charterTrack);
-        }
+            function startCharterMotion() {
+                if (charterAutoInterval) {
+                    return;
+                }
+                charterAutoInterval = setInterval(function () {
+                    const maxScrollLeft = charterTrack.scrollWidth - charterTrack.clientWidth;
+                    if (maxScrollLeft <= 0) {
+                        return;
+                    }
 
-        function stopCharterMotion() {
-            if (!charterMotionFrame) {
-                return;
-            }
-            cancelAnimationFrame(charterMotionFrame);
-            charterMotionFrame = null;
-        }
+                    const step = 2.0 * charterMotionDirection;
+                    const next = charterTrack.scrollLeft + step;
 
-        startCharterMotion();
+                    if (next >= maxScrollLeft) {
+                        charterTrack.scrollLeft = maxScrollLeft;
+                        charterMotionDirection = -1;
+                    } else if (next <= 0) {
+                        charterTrack.scrollLeft = 0;
+                        charterMotionDirection = 1;
+                    } else {
+                        charterTrack.scrollLeft = next;
+                    }
+                }, 16);
+            }
+
+            function stopCharterMotion() {
+                if (!charterAutoInterval) {
+                    return;
+                }
+                clearInterval(charterAutoInterval);
+                charterAutoInterval = null;
+            }
+
+            startCharterMotion();
 
             charterTrack.addEventListener('mouseenter', stopCharterMotion);
             charterTrack.addEventListener('mouseleave', startCharterMotion);
+            charterTrack.addEventListener('touchstart', stopCharterMotion, { passive: true });
+            charterTrack.addEventListener('touchend', startCharterMotion, { passive: true });
+        }
+
+        const servicesTrack = document.getElementById('servicesTrack');
+        if (servicesTrack) {
+            function startServicesMotion() {
+                if (servicesAutoInterval) {
+                    return;
+                }
+                servicesAutoInterval = setInterval(function () {
+                    const maxScrollLeft = servicesTrack.scrollWidth - servicesTrack.clientWidth;
+                    if (maxScrollLeft <= 0) {
+                        return;
+                    }
+
+                    const step = 2.2 * servicesMotionDirection;
+                    const next = servicesTrack.scrollLeft + step;
+
+                    if (next >= maxScrollLeft) {
+                        servicesTrack.scrollLeft = maxScrollLeft;
+                        servicesMotionDirection = -1;
+                    } else if (next <= 0) {
+                        servicesTrack.scrollLeft = 0;
+                        servicesMotionDirection = 1;
+                    } else {
+                        servicesTrack.scrollLeft = next;
+                    }
+                }, 16);
+            }
+
+            function stopServicesMotion() {
+                if (!servicesAutoInterval) {
+                    return;
+                }
+                clearInterval(servicesAutoInterval);
+                servicesAutoInterval = null;
+            }
+
+            startServicesMotion();
+            servicesTrack.addEventListener('mouseenter', stopServicesMotion);
+            servicesTrack.addEventListener('mouseleave', startServicesMotion);
+            servicesTrack.addEventListener('touchstart', stopServicesMotion, { passive: true });
+            servicesTrack.addEventListener('touchend', startServicesMotion, { passive: true });
         }
 
         animateStatCounters();
@@ -1062,115 +1127,61 @@ const leadersAutoDelay = 4500;
         initScrollSections();
     }
 
-    function addLeaderClones() {
-        if (!leadersTrackElement || leaderCards.length <= 1) {
-            return;
-        }
-        var firstCard = leaderCards[0];
-        var lastCard = leaderCards[leaderCards.length - 1];
-        var firstClone = firstCard.cloneNode(true);
-        var lastClone = lastCard.cloneNode(true);
-        leadersTrackElement.appendChild(firstClone);
-        leadersTrackElement.insertBefore(lastClone, leadersTrackElement.firstChild);
-        leadersRawIndex = 1;
-    }
-
-    // ========= Horizontal scroll for Leaders (with wrap) =========
-    function updateLeaderSliderLayout() {
-        if (!leadersTrackElement || leaderCards.length === 0) {
-            return;
-        }
-        var realCard = leaderCards[1] || leaderCards[0];
-        if (!realCard) {
-            return;
-        }
-        var computed = window.getComputedStyle(leadersTrackElement);
-        var gapValue = computed.gap || computed.columnGap || '0px';
-        leadersCardGap = parseFloat(gapValue) || 0;
-        leadersCardWidth = realCard.getBoundingClientRect().width;
-        var totalCards = leaderCards.length;
-        var trackWidth = leadersCardWidth * totalCards + leadersCardGap * (totalCards - 1);
-        leadersTrackElement.style.width = trackWidth + 'px';
-        translateToRawIndex(leadersRawIndex, false);
-    }
-
-    function translateToRawIndex(rawIndex, animate) {
-        if (!leadersTrackElement) {
-            return;
-        }
-        if (animate) {
-            leadersTrackElement.style.transition = 'transform 0.75s ease';
-        } else {
-            leadersTrackElement.style.transition = 'none';
-        }
-        var step = leadersCardWidth + leadersCardGap;
-        var translateX = step * rawIndex;
-        leadersTrackElement.style.transform = 'translateX(-' + translateX + 'px)';
-        leadersRawIndex = rawIndex;
-        updateLeaderActiveState();
-    }
-
-    function updateLeaderActiveState() {
-        if (!leaderCards.length) {
-            return;
-        }
-        leaderCards.forEach(function (card) {
-            card.classList.remove('leader-card-active');
-        });
-        var activeRawIndex = leadersRawIndex;
-        if (activeRawIndex > leadersOriginalCount) {
-            activeRawIndex = 1;
-        } else if (activeRawIndex === 0) {
-            activeRawIndex = leadersOriginalCount;
-        }
-        var activeCard = leaderCards[activeRawIndex];
-        if (activeCard) {
-            activeCard.classList.add('leader-card-active');
-        }
-    }
-
-    function handleLeaderTransitionEnd(event) {
-        if (!leadersTrackElement || event.target !== leadersTrackElement) {
-            return;
-        }
-        if (event.propertyName !== 'transform') {
-            return;
-        }
-        if (leadersRawIndex > leadersOriginalCount) {
-            translateToRawIndex(1, false);
-            leadersCurrentIndex = 0;
-            requestAnimationFrame(function () {
-                leadersTrackElement.style.transition = 'transform 0.75s ease';
-            });
-        } else if (leadersRawIndex === 0) {
-            translateToRawIndex(leadersOriginalCount, false);
-            leadersCurrentIndex = leadersOriginalCount - 1;
-            requestAnimationFrame(function () {
-                leadersTrackElement.style.transition = 'transform 0.75s ease';
-            });
-        }
-    }
-
     function goToLeaderSlide(direction) {
-        if (!leadersTrackElement || leadersOriginalCount <= 1) {
+        if (!leadersViewportElement) {
             return;
         }
-        var targetRawIndex = leadersRawIndex;
-        if (direction === 'next') {
-            targetRawIndex = leadersRawIndex + 1;
-            leadersCurrentIndex = (leadersCurrentIndex + 1) % leadersOriginalCount;
-        } else if (direction === 'prev') {
-            targetRawIndex = leadersRawIndex - 1;
-            leadersCurrentIndex = (leadersCurrentIndex - 1 + leadersOriginalCount) % leadersOriginalCount;
+        const delta = direction === 'next' ? leadersCardStep : -leadersCardStep;
+        const maxScrollLeft = leadersViewportElement.scrollWidth - leadersViewportElement.clientWidth;
+        const target = leadersViewportElement.scrollLeft + delta;
+        if (target >= maxScrollLeft) {
+            leadersViewportElement.scrollLeft = maxScrollLeft;
+            leadersMotionDirection = -1;
+        } else if (target <= 0) {
+            leadersViewportElement.scrollLeft = 0;
+            leadersMotionDirection = 1;
+        } else {
+            leadersViewportElement.scrollTo({ left: target, behavior: 'smooth' });
         }
-        translateToRawIndex(targetRawIndex, true);
         restartLeaderAuto();
     }
 
+    function updateLeaderSliderLayout() {
+        if (!leadersTrackElement) {
+            return;
+        }
+        const firstCard = leadersTrackElement.querySelector('.leader-card');
+        if (!firstCard) {
+            return;
+        }
+        const computed = window.getComputedStyle(leadersTrackElement);
+        const gapValue = computed.gap || computed.columnGap || '0px';
+        const gap = parseFloat(gapValue) || 0;
+        leadersCardStep = firstCard.getBoundingClientRect().width + gap;
+    }
+
     function startLeaderAuto() {
-        if (leaderCards.length <= 1 || leadersAutoInterval || leadersCardWidth <= 0) return;
+        if (!leadersViewportElement || leadersAutoInterval) {
+            return;
+        }
         leadersAutoInterval = setInterval(function () {
-            goToLeaderSlide('next');
+            const maxScrollLeft = leadersViewportElement.scrollWidth - leadersViewportElement.clientWidth;
+            if (maxScrollLeft <= 0) {
+                return;
+            }
+
+            const step = 1.6 * leadersMotionDirection;
+            const next = leadersViewportElement.scrollLeft + step;
+
+            if (next >= maxScrollLeft) {
+                leadersViewportElement.scrollLeft = maxScrollLeft;
+                leadersMotionDirection = -1;
+            } else if (next <= 0) {
+                leadersViewportElement.scrollLeft = 0;
+                leadersMotionDirection = 1;
+            } else {
+                leadersViewportElement.scrollLeft = next;
+            }
         }, leadersAutoDelay);
     }
 
@@ -1183,31 +1194,6 @@ const leadersAutoDelay = 4500;
     function restartLeaderAuto() {
         stopLeaderAuto();
         startLeaderAuto();
-    }
-
-    function animateCharterTrack(track) {
-        const maxScrollLeft = track.scrollWidth - track.clientWidth;
-        if (maxScrollLeft <= 0) {
-            charterMotionFrame = null;
-            return;
-        }
-
-        const step = 0.35 * charterMotionDirection;
-        const next = track.scrollLeft + step;
-
-        if (next >= maxScrollLeft) {
-            track.scrollLeft = maxScrollLeft;
-            charterMotionDirection = -1;
-        } else if (next <= 0) {
-            track.scrollLeft = 0;
-            charterMotionDirection = 1;
-        } else {
-            track.scrollLeft = next;
-        }
-
-        charterMotionFrame = requestAnimationFrame(function () {
-            animateCharterTrack(track);
-        });
     }
 
     function animateStatCounters() {
@@ -1260,7 +1246,6 @@ const leadersAutoDelay = 4500;
     /* Leaders section slider adjustments */
     #leadersTrack {
         display: flex;
-        transition: transform 0.75s ease;
         gap: 1.5rem;
         align-items: stretch;
         padding: 1.25rem 0;
@@ -1290,10 +1275,6 @@ const leadersAutoDelay = 4500;
         }
     }
 
-    .leaders-track {
-        will-change: transform;
-    }
-
     /* Leaders section cards: smooth reveal */
     #leaders-section .leader-card {
         opacity: 0;
@@ -1308,11 +1289,11 @@ const leadersAutoDelay = 4500;
         transform: translateY(0);
     }
 
-    /* Hide horizontal scrollbar visually for leaders track */
-    #leadersTrack {
+    /* Hide horizontal scrollbar visually for leaders viewport */
+    #leadersViewport {
         scrollbar-width: none; /* Firefox */
     }
-    #leadersTrack::-webkit-scrollbar {
+    #leadersViewport::-webkit-scrollbar {
         display: none; /* Chrome, Safari */
     }
 
@@ -1320,6 +1301,13 @@ const leadersAutoDelay = 4500;
         scrollbar-width: none;
     }
     #citizenCharterTrack::-webkit-scrollbar {
+        display: none;
+    }
+
+    #servicesTrack {
+        scrollbar-width: none;
+    }
+    #servicesTrack::-webkit-scrollbar {
         display: none;
     }
 

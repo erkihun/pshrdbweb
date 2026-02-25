@@ -1,4 +1,4 @@
-<div class="space-y-8" x-data="{ lang: 'am' }">
+<div class="space-y-8" x-data="{ lang: 'am', postType: '{{ old('type', $post->type ?? $fixedType ?? 'news') }}' }">
     <!-- Post Type & Status -->
     <div class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
         <div class="border-b border-slate-100 bg-slate-50/50 px-6 py-4">
@@ -16,6 +16,7 @@
                         <select
                             id="type"
                             name="type"
+                            x-model="postType"
                             class="mt-2 w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 shadow-sm transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
                             required
                         >
@@ -36,22 +37,41 @@
                     @enderror
                 </div>
 
-                <div class="flex items-start gap-3 pt-6">
-                    <div class="flex h-5 items-center">
-                        <input
-                            id="is_published"
-                            name="is_published"
-                            type="checkbox"
-                            value="1"
-                            class="h-4 w-4 rounded border-slate-300 bg-white text-indigo-600 shadow-sm transition focus:ring-indigo-500 focus:ring-offset-0"
-                            @checked(old('is_published', $post->is_published ?? false))
-                        >
-                    </div>
-                    <div class="flex-1">
-                        <label class="block text-sm font-medium text-slate-900" for="is_published">{{ __('common.labels.published') }}</label>
-                        <p class="mt-1 text-xs text-slate-500">Make this post visible to visitors</p>
-                    </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-900" for="author_name">{{ __('common.labels.author_name') }}</label>
+                    <input
+                        id="author_name"
+                        type="text"
+                        value="{{ old('author_name', $post->author_name ?? auth()->user()?->name ?? 'Admin') }}"
+                        class="mt-2 w-full rounded-lg border border-slate-300 bg-slate-100 px-4 py-2.5 text-sm text-slate-700 shadow-sm"
+                        readonly
+                    >
+                    <p class="mt-1 text-xs text-slate-500">Saved automatically from the logged in user.</p>
                 </div>
+
+                @can('publish posts')
+                    <div class="flex items-start gap-3 pt-6">
+                        <div class="flex h-5 items-center">
+                            <input
+                                id="is_published"
+                                name="is_published"
+                                type="checkbox"
+                                value="1"
+                                class="h-4 w-4 rounded border-slate-300 bg-white text-indigo-600 shadow-sm transition focus:ring-indigo-500 focus:ring-offset-0"
+                                @checked(old('is_published', $post->is_published ?? false))
+                            >
+                        </div>
+                        <div class="flex-1">
+                            <label class="block text-sm font-medium text-slate-900" for="is_published">{{ __('common.labels.published') }}</label>
+                            <p class="mt-1 text-xs text-slate-500">Make this post visible to visitors</p>
+                        </div>
+                    </div>
+                @else
+                    <div class="pt-6">
+                        <p class="text-sm font-medium text-slate-900">{{ __('common.labels.published') }}</p>
+                        <p class="mt-1 text-xs text-slate-500">You do not have permission to publish posts.</p>
+                    </div>
+                @endcan
             </div>
         </div>
     </div>
@@ -183,6 +203,47 @@
                         </div>
                     @enderror
                 </div>
+            </div>
+
+            <div class="mt-6" x-show="postType === 'news'" x-transition>
+                <label class="block text-sm font-medium text-slate-900" for="gallery_images">
+                    News Photos (Max 4)
+                </label>
+                <p class="mt-1 text-xs text-slate-500">Upload up to 4 photos for news posts. Uploading new photos replaces current gallery.</p>
+                <input
+                    id="gallery_images"
+                    name="gallery_images[]"
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    class="mt-3 block w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-700"
+                >
+                @error('gallery_images')
+                    <div class="mt-2 flex items-center gap-2 text-xs text-rose-600">
+                        <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span>{{ $message }}</span>
+                    </div>
+                @enderror
+                @error('gallery_images.*')
+                    <div class="mt-2 flex items-center gap-2 text-xs text-rose-600">
+                        <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span>{{ $message }}</span>
+                    </div>
+                @enderror
+
+                @if (!empty($post?->images) && $post->images->count())
+                    <div class="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                        @foreach ($post->images as $image)
+                            <div class="overflow-hidden rounded-lg border border-slate-200">
+                                <img src="{{ asset('storage/' . $image->image_path) }}" alt="Post photo" class="h-24 w-full object-cover" loading="lazy">
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
             </div>
         </div>
     </div>

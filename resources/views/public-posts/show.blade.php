@@ -2,7 +2,9 @@
     $metaTitle = $post->seo_title ?: $post->display_title;
     $metaDescription = $post->seo_description
         ?: ($post->display_excerpt ?: \Illuminate\Support\Str::limit(strip_tags($post->display_body), 160));
-    $ogImage = $post->cover_image_path ? asset('storage/' . $post->cover_image_path) : null;
+    $ogImage = $post->cover_image_path
+        ? asset('storage/' . $post->cover_image_path)
+        : ($post->images->first() ? asset('storage/' . $post->images->first()->image_path) : null);
     $siteSettings = app(\App\Services\SiteSettingsService::class)->all();
     $contact = $siteSettings['site.contact'] ?? [];
     $location = $contact['address_en'] ?? 'Addis Ababa, Ethiopia';
@@ -148,6 +150,19 @@
                             class="mt-6 h-64 w-full rounded-2xl object-cover"
                             loading="lazy"
                         >
+                    @endif
+
+                    @if ($type === 'news' && $post->images->count())
+                        <div class="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                            @foreach ($post->images as $image)
+                                <img
+                                    src="{{ asset('storage/' . $image->image_path) }}"
+                                    alt="{{ $post->display_title }}"
+                                    class="h-40 w-full rounded-xl object-cover"
+                                    loading="lazy"
+                                >
+                            @endforeach
+                        </div>
                     @endif
 
                     @if ($post->display_excerpt)

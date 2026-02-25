@@ -87,6 +87,22 @@
                 </div>
             @endif
 
+            @if ($post->type === 'news' && $post->images->count())
+                <div class="mt-6">
+                    <p class="text-xs uppercase tracking-wide text-slate-400">News Photos</p>
+                    <div class="mt-2 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                        @foreach ($post->images as $image)
+                            <img
+                                src="{{ asset('storage/' . $image->image_path) }}"
+                                alt="{{ $post->display_title }}"
+                                class="h-40 w-full rounded-lg object-cover"
+                                loading="lazy"
+                            >
+                        @endforeach
+                    </div>
+                </div>
+            @endif
+
             <div class="mt-6 border-t border-slate-100 pt-6 text-sm text-slate-700">
                 <h2 class="text-sm font-semibold text-slate-900">{{ __('common.labels.body') }}</h2>
                 <div class="mt-4">

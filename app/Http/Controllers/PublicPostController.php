@@ -72,6 +72,7 @@ class PublicPostController extends Controller
     private function showByType(string $slug, string $type)
     {
         $post = Post::where('type', $type)
+            ->with('images')
             ->where('is_published', true)
             ->where(function ($q) {
                 $q->whereNull('published_at')
@@ -81,6 +82,7 @@ class PublicPostController extends Controller
             ->firstOrFail();
 
         $relatedPosts = Post::where('type', $type)
+            ->with('images')
             ->where('is_published', true)
             ->where(function ($q) {
                 $q->whereNull('published_at')
