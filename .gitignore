@@ -1,0 +1,45 @@
+# Laravel / Node runtime
+/vendor
+/node_modules
+
+# Storage / cache
+/public/storage
+storage/*.key
+storage/app/private
+storage/app/public/*
+!storage/app/public/.gitignore
+storage/framework/cache/*
+!storage/framework/cache/.gitignore
+storage/framework/sessions/*
+!storage/framework/sessions/.gitignore
+storage/framework/views/*
+!storage/framework/views/.gitignore
+storage/logs/*
+!storage/logs/.gitignore
+bootstrap/cache/*
+!bootstrap/cache/.gitignore
+
+# Environment
+.env
+.env.*
+.env.example
+
+# Logs / OS
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDEs
+.idea/
+.vscode/
+
+# Coverage / tests
+coverage/
+.phpunit.result.cache
+
+# Vite / build outputs
+public/hot
+public/build
