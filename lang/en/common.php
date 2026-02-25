@@ -448,6 +448,7 @@ return [
         'appointment_not_found' => 'We could not find an appointment with that reference code.',
         'pages_defined' => 'All predefined pages are configured.',
         'current_cover_image' => 'Current: :path',
+        'admin_session_expired' => 'Your session expired. Please sign in again.',
     ],
     'official_message_form' => [
         'heading' => 'Edit Message',
@@ -729,4 +730,3 @@ return [
    
 ],
 ];
-

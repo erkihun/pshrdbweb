@@ -1,4 +1,10 @@
 <x-guest-layout>
+    <div class="mb-6">
+        <p class="text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">Admin Portal</p>
+        <h1 class="mt-2 text-2xl font-semibold text-slate-900">Sign in</h1>
+        <p class="mt-1 text-sm text-slate-600">Use your admin account credentials.</p>
+    </div>
+
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 

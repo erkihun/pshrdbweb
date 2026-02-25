@@ -32,7 +32,7 @@ return [
     ],
     'actions' => [
         'create' => 'ፍጠር',
-        'edit' => 'አርትዕ',
+        'edit' => 'አስተካክል',
         'update' => 'አዘምን',
         'save' => 'አስቀምጥ',
         'delete' => 'ሰርዝ',
@@ -295,7 +295,7 @@ return [
             'actions' => [
                 'create_title' => 'የቻርተር አገልግሎት አክል',
                 'create_description' => 'የአቅርቦት ዝርዝሮችን፣ መስፈርቶችን እና መርሐግብሮችን ይያዙ።',
-                'edit_title' => 'አርትዕ :name',
+                'edit_title' => 'አስተካክል :name',
                 'edit_description' => 'የአቅርቦት ዘዴን፣ የስራ ሰዓቶችን ወይም ቅድመ ሁኔታዎችን ያዘምኑ።',
             ],
             'created' => 'የቻርተር አገልግሎት ተቀምጧል።',
@@ -415,9 +415,10 @@ return [
         'too_many_feedback' => 'ለዚህ አገልግሎት ዛሬ ቀደም ሲል አስተያየት ልከዋል።',
         'pages_defined' => 'ሁሉም አስቀድሞ የተወሰኑ ገፆች ተዋቅረዋል።',
         'current_cover_image' => 'አሁን ያለው: :path',
+        'admin_session_expired' => 'ክፍለ-ጊዜዎ አልቋል። እባክዎ እንደገና ይግቡ።',
     ],
     'official_message_form' => [
-        'heading' => 'መልእክት አርትዕ',
+        'heading' => 'መልእክት አስተካክል',
         'description' => "የባለስልጣኑን መረጃ እና መልእክት ያዘምኑ",
         'name' => 'ስም',
         'title' => 'ማዕረግ / ቦታ',
@@ -503,8 +504,8 @@ return [
     'admin_organizations' => [
         'actions' => [
             'create' => 'ድርጅት ፍጠር',
-            'edit' => 'አርትዕ',
-            'edit_title' => 'አርትዕ :name',
+            'edit' => 'አስተካክል',
+            'edit_title' => 'አስተካክል :name',
             'view' => 'ተመልከት',
             'delete' => 'ሰርዝ',
             'back' => 'ወደ ድርጅቶች ተመለስ',
@@ -675,7 +676,7 @@ return [
         ],
     ],
     'admin_org_stats' => [
-        'edit_title' => 'ለ:name ስታቲስቲክስ አርትዕ',
+        'edit_title' => 'ለ:name ስታቲስቲክስ አስተካክል',
         'edit_description' => 'ለዚህ ክፍል ቁጥሮችን እና የጊዜ ገደብን ያስተካክሉ።',
         'saved_segments' => 'የተቀመጡ ክፍሎች ዝርዝር',
     ],

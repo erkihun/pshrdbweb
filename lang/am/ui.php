@@ -35,7 +35,7 @@ return [
     'news_announcements' => 'ዜና እና ማስታወቂያዎች',
     'pages' => 'ገፆች',
     'home_slides' => 'የዋና ገፅ ስላይዶች',
-    'edit_slide' => 'ስላይድ አርትዕ',
+    'edit_slide' => 'ስላይድ አስተካክል',
     'higher_official_message' => 'የከፍተኛ ባለስልጣን መልእክት',
     'tickets_complaints' => 'ቲኬቶች እና ቅሬታዎች',
     'live_chat' => 'የቀጥታ ውይይት',

@@ -144,7 +144,7 @@ Route::post('/applicant/login', [ApplicantAuthController::class, 'login'])
     ->name('applicant.login.submit');
 Route::post('/applicant/logout', [ApplicantAuthController::class, 'logout'])->name('applicant.logout');
 
-Route::middleware(['auth', 'verified'])
+Route::middleware(['auth', 'verified', 'admin.session.timeout'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
