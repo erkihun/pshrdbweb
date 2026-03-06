@@ -24,6 +24,7 @@
     use App\Models\HomeSlide;
     use App\Models\Post;
     use App\Models\Service;
+    use App\Models\StayConnected;
     use App\Models\Staff;
 
     $slides = HomeSlide::query()
@@ -64,6 +65,13 @@
     $services = Service::query()
         ->where('is_active', true)
         ->orderBy('sort_order')
+        ->take(6)
+        ->get();
+
+    $stayConnectedItems = StayConnected::query()
+        ->active()
+        ->orderBy('sort_order')
+        ->orderByDesc('id')
         ->take(6)
         ->get();
 
@@ -374,60 +382,44 @@
 </section>
 @endif
 
-<section id="quick-access-section" class="scroll-section bg-gradient-to-b from-white to-gray-50 py-10 overflow-hidden">
-    <div class="relative mx-auto max-w-full lg:max-w-screen-2xl w-full px-6 sm:px-8 lg:px-12">
-        <div class="flex items-center gap-3 mb-8">
-            <x-heroicon-o-link class="h-6 w-6 text-blue-600" aria-hidden="true" />
-            <h5 class="text-2xl lg:text-3xl font-bold text-gray-900">Stay connected</h5>
-        </div>
-        <div class="rounded-3xl border border-gray-200 bg-white p-6 shadow-lg shadow-blue-500/10">
-            <div class="grid gap-8 lg:grid-cols-3 items-stretch">
-                <div class="flex flex-col h-full group">
-                    
-                    <div class="relative mt-6 flex-1 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition duration-500 ease-out group-hover:-translate-y-1 group-hover:shadow-[0_20px_45px_rgba(37,99,235,0.4)]">
-                        <iframe
-                            class="h-full w-full"
-                            src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fweb.facebook.com%2Fprofile.php%3Fid%3D100067771711638&tabs=timeline&width=500&height=600&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
-                            width="500"
-                            height="600"
-                            style="border:none;overflow:hidden"
-                            scrolling="no"
-                            frameborder="0"
-                            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-                            title="AAC Public Facebook page preview"
-                        ></iframe>
-                    </div>
-                </div>
-                <div class="flex flex-col h-full group">
-                    <div class="mt-6 flex-1 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition duration-500 ease-out group-hover:-translate-y-1 group-hover:shadow-[0_20px_45px_rgba(239,68,68,0.4)]">
-                        <iframe
-                            class="h-full w-full"
-                            src="https://ethiocoders.et/"
-                            loading="lazy"
-                            style="border:none;overflow:hidden"
-                            scrolling="yes"
-                            frameborder="0"
-                            title="Ethiocoders quick access"
-                        ></iframe>
-                    </div>
-                </div>
-                <div class="flex flex-col h-full group">
-                    <div class="mt-6 flex-1 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition duration-500 ease-out group-hover:-translate-y-1 group-hover:shadow-[0_20px_45px_rgba(16,185,129,0.45)]">
-                        <iframe
-                            class="h-full w-full"
-                            src="https://addis.mesobcenter.et/"
-                            loading="lazy"
-                            style="border:none;overflow:hidden"
-                            scrolling="yes"
-                            frameborder="0"
-                            title="Addis Mesob Center quick access"
-                        ></iframe>
-                    </div>
+@if($stayConnectedItems->count())
+    <section id="quick-access-section" class="scroll-section bg-gradient-to-b from-white to-gray-50 py-10 overflow-hidden">
+        <div class="relative mx-auto max-w-full lg:max-w-screen-2xl w-full px-6 sm:px-8 lg:px-12">
+            <div class="flex items-center gap-3 mb-8">
+                <x-heroicon-o-link class="h-6 w-6 text-blue-600" aria-hidden="true" />
+                <h5 class="text-2xl lg:text-3xl font-bold text-gray-900">Stay connected</h5>
+            </div>
+            <div class="rounded-3xl border border-gray-200 bg-white p-6 shadow-lg shadow-blue-500/10">
+                <div class="grid gap-8 lg:grid-cols-3 items-stretch">
+                    @foreach($stayConnectedItems as $item)
+                        <div class="flex flex-col h-full group">
+                            <div class="flex items-center justify-between">
+                                <h6 class="text-base font-semibold text-slate-800">{{ $item->display_title }}</h6>
+                                @if($item->url)
+                                    <a href="{{ $item->url }}" target="_blank" rel="noopener noreferrer" class="text-sm font-semibold text-blue-600 hover:text-blue-800">
+                                        {{ __('common.labels.open') }}
+                                    </a>
+                                @endif
+                            </div>
+
+                            <div class="relative mt-4 flex-1 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition duration-500 ease-out group-hover:-translate-y-1 group-hover:shadow-[0_20px_45px_rgba(37,99,235,0.28)]">
+                                <iframe
+                                    class="h-full w-full min-h-[420px]"
+                                    src="{{ $item->embed_url }}"
+                                    loading="lazy"
+                                    style="border:none;overflow:hidden"
+                                    scrolling="yes"
+                                    frameborder="0"
+                                    title="{{ $item->display_title }}"
+                                ></iframe>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
+@endif
 
 
 @if($staffMembers->count())

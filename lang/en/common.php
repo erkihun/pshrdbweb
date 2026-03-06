@@ -235,6 +235,7 @@ return [
         'queued' => 'Queued',
         'other_documents' => 'Other Document',
         'learn_more' => 'Learn More',
+        'open' => 'Open',
       
     ],
       'sides' => [

@@ -314,6 +314,13 @@
                     'permission' => 'manage settings',
                     'patterns' => ['admin.settings.*', 'admin.homepage.*', 'admin.sms-settings.*'],
                 ],
+                [
+                    'label' => __('ui.stay_connected'),
+                    'route' => 'admin.stay-connected.index',
+                    'icon' => 'M13 10V3L4 14h7v7l9-11h-7z',
+                    'permission' => null,
+                    'patterns' => ['admin.stay-connected.*'],
+                ],
             ],
         ],
         'optional' => [

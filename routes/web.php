@@ -25,6 +25,7 @@ use App\Http\Controllers\Admin\ExportController;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\StayConnectedController;
 use App\Http\Controllers\Admin\SubscriberController;
 use App\Http\Controllers\NewsletterSubscriptionController;
 use App\Http\Controllers\Admin\TenderController;
@@ -232,6 +233,9 @@ Route::middleware(['auth', 'verified', 'admin.session.timeout'])
         Route::get('subscribers', [SubscriberController::class, 'index'])->name('subscribers.index');
         Route::resource('contact-info', ContactInfoController::class)
             ->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])
+            ->middleware('permission:manage settings');
+        Route::resource('stay-connected', StayConnectedController::class)
+            ->except(['show'])
             ->middleware('permission:manage settings');
         Route::resource('charter-services', CharterServiceController::class)->middleware('permission:manage services');
         Route::middleware('ensure.manage.signage')

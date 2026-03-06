@@ -219,6 +219,7 @@ return [
         'approved' => 'ጸድቋል',
         'other_documents' => 'ሌላ ሰነድ',
         'learn_more' => 'ተጨማሪ ለማወቅ',
+        'open' => 'ክፈት',
       
     ],
       'sides' => [

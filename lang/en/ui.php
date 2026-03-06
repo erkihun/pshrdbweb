@@ -64,4 +64,5 @@ return [
     'signage' => 'Signage',
     'signage_templates' => 'Templates',
     'signage_displays' => 'Displays',
+    'stay_connected' => 'Stay Connected',
 ];

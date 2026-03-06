@@ -63,4 +63,5 @@ return [
     'signage' => 'ምልክት ማድረጊያ',
     'signage_templates' => 'አብነቶች',
     'signage_displays' => 'ማሳያዎች',
+    'stay_connected' => 'Stay Connected',
 ];
