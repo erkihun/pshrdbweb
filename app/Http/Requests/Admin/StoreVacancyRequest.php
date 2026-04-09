@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Admin;
 
-use App\Models\Vacancy;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreVacancyRequest extends FormRequest
@@ -16,24 +15,16 @@ class StoreVacancyRequest extends FormRequest
     {
         return [
             'title' => ['required', 'string', 'max:255'],
-            'description' => ['nullable', 'string'],
-            'location' => ['nullable', 'string', 'max:255'],
-            'code' => ['nullable', 'string', 'max:100'],
-            'notes' => ['nullable', 'string'],
-            'status' => ['required', 'in:' . implode(',', Vacancy::statuses())],
-            'deadline' => ['nullable', 'date'],
-            'published_at' => ['nullable', 'date'],
-            'is_published' => ['sometimes', 'boolean'],
-            'slots' => ['required', 'integer', 'min:1'],
+            'description' => ['required', 'string'],
+            'deadline' => ['required', 'date'],
         ];
     }
 
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'title' => trim($this->input('title')),
-            'location' => trim($this->input('location')),
-            'code' => trim($this->input('code')),
+            'title' => trim((string) $this->input('title')),
+            'description' => trim((string) $this->input('description')),
         ]);
     }
 }

@@ -1,68 +1,55 @@
 @extends('layouts.public')
 
+@php
+    $breadcrumbItems = [
+        ['label' => __('vacancies.public.title'), 'url' => route('vacancies.index')],
+    ];
+@endphp
+
 @section('content')
-<div class="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-8">
-    <div class="max-w-3xl w-full space-y-6">
-        <div class="bg-white rounded-xl shadow-md p-6 text-center space-y-4">
+<div class="min-h-screen bg-gradient-to-b from-slate-50 via-white to-sky-50 py-10">
+    <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+        <section class="rounded-3xl border border-slate-200 bg-white px-6 py-8 shadow-lg shadow-slate-200/60 sm:px-8">
+                @if($vacancies->count())
+                    <div class="space-y-4">
+                        @foreach($vacancies as $vacancy)
+                            @php
+                                $safeTitle = trim(html_entity_decode(strip_tags((string) $vacancy->title), ENT_QUOTES | ENT_HTML5, 'UTF-8'));
+                            @endphp
 
-            <h1 class="text-2xl font-bold text-gray-900">
-                የፈተና ጥሪ ማስታወቂያ
-            </h1>
+                            <article class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:border-sky-200 hover:shadow-md sm:p-7">
+                                <h2 class="text-xl font-bold leading-tight text-slate-900 sm:text-2xl">
+                                    {{ $safeTitle !== '' ? $safeTitle : __('vacancies.public.title') }}
+                                </h2>
 
-            <p class="text-gray-700 leading-relaxed text-left">
-                የአዲስ አበባ ከተማ አስተዳደር የፐብሊክ ሰርቪስና የሰው ሀብት ልማት ቢሮ ለአዲስ መሶብ ዲጂታል የመንግስት አገልግሎት መ/ቤት በተለያዩ የስራ መደቦች በወጣው ማስታወቂያ
-                መሰረት ያመለከታችሁ እና ስማችሁ ከዚህ በታች የተዘረዘረ አመልካቾች ፈተና የሚሰጥ ስለሆነ ማንነታችሁን የሚገልፅ መታወቂያ በመያዝ በሰአቱ እንድትገኙ እናሳስባለን።
-            </p>
+                                <div class="mt-5 rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4">
+                                    <div class="prose max-w-none text-sm leading-7 text-slate-700 prose-headings:text-slate-900 prose-a:text-sky-700 prose-img:rounded-2xl prose-img:shadow-sm sm:text-base">
+                                        {!! $vacancy->description !!}
+                                    </div>
+                                </div>
+                            </article>
+                        @endforeach
+                    </div>
 
-            <div class="text-left text-gray-700 space-y-2">
-                <p><strong>ቀን፡</strong> 28/06/2018 ዓ.ም</p>
-                <p><strong>ሰዓት፡</strong> ከጥዋቱ 2፡30</p>
-                <p><strong>ቦታ፡</strong> የአዲስ አበባ ሳይንስና ቴክኖሎጂ ዩኒቨርሲቲ (AASTU)</p>
-            </div>
+                    <div class="mt-8 border-t border-slate-200 pt-6">
+                        {{ $vacancies->links() }}
+                    </div>
+                @else
+                    <div class="rounded-3xl border border-dashed border-slate-300 bg-slate-50 px-6 py-16 text-center shadow-sm">
+                        <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-100 text-slate-500">
+                            <svg class="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h3m-6 5h12a2 2 0 0 0 2-2V7.828a2 2 0 0 0-.586-1.414l-3.828-3.828A2 2 0 0 0 14.172 2H6a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2Z" />
+                            </svg>
+                        </div>
 
-            <div class="pt-4">
-                <p class="text-lg font-semibold text-gray-800 mb-3">
-                    የስም ዝርዝር ለማየት ሊንኩን ያጫኑ
-                </p>
-
-                <a href="https://docs.google.com/spreadsheets/d/1TbWLFLTIJAgDDzvP1gWn4CxXiey9gNiSftL5dHQsTx0/edit?usp=sharing"
-                    target="_blank" rel="noopener noreferrer"
-                    class="inline-block px-6 py-3 text-white font-semibold rounded-lg bg-blue-600 hover:bg-blue-700 transition">
-                    የስም ዝርዝር ሊንክ
-                </a>
-            </div>
-        </div>
-
-        <div class="bg-white rounded-xl shadow-md p-6 text-center space-y-4">
-            <h2 class="text-2xl font-bold text-gray-900">
-                የቅጥር ማስታወቂያ
-            </h2>
-
-            <p class="text-gray-700 leading-relaxed text-left">
-                የአዲስ አበባ ከተማ አስተዳደር የፐብሊክ ሰርቪስና የሰው ሀብት ልማት ቢሮ ለተለያ መ/ቤቶች
-                የስራ ልምድ ያላቸውን የካሜራ ማን ቀጥሮ ለማሰራት ይፈልጋል። ፍላጎት ያላችሁ እና
-                መስፈርቱን የምታሟሉ ሁሉ ይህ ማስታወቂያ በአዲስ ዘመን ጋዜጣ ታትሞ ከወጣበት ቀን ጀምሮ
-                ባሉ ተከታታይ 7 ቀናት መመዝገብ የምትችሉ እናሳውቃለን።
-            </p>
-
-            <div class="text-left text-gray-700 space-y-2">
-                <p class="font-semibold text-gray-900">ማሳሰቢያ</p>
-                <p>👉 ምዝገባ የሚካሄደው በኦንላይን በመሆኑ በአካል ቀርቦ መመዝገብ አይፈቀድም።</p>
-                <p>👉 ማንኛውም ተመዝጋቢ የናሽናል አይዲ ቁጥር (FAN ወይም FCN) የሚለውን ባለ16 ዲጂታል መታወቂያ ቁጥር ሊኖረው ይገባል።</p>
-                <p>👉 የዲፕሎማ እና የሌቭል ተመራቂዎች ሲኦሲ (COC) ማስረጃቸውን ማቅረብ ይጠበቅባቸዋል።</p>
-            </div>
-
-            <div class="pt-4">
-                <p class="text-lg font-semibold text-gray-800 mb-3">
-                    ለመመዝገብ ሊንኩን ይጫኑ
-                </p>
-                <a href="https://aacapsjobs.gov.et/"
-                    target="_blank" rel="noopener noreferrer"
-                    class="inline-block px-6 py-3 text-white font-semibold rounded-lg bg-green-600 hover:bg-green-700 transition">
-                    https://aacapsjobs.gov.et/
-                </a>
-            </div>
-        </div>
+                        <h2 class="mt-6 text-2xl font-bold tracking-tight text-slate-900">No active vacancy announcements</h2>
+                        <p class="mx-auto mt-3 max-w-xl text-sm leading-7 text-slate-600">
+                            There are currently no published vacancy announcements available for public application.
+                            Please check again later for new openings.
+                        </p>
+                    </div>
+                @endif
+        </section>
     </div>
 </div>
 @endsection

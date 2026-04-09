@@ -102,6 +102,7 @@ return [
         'open' => 'Open',
         'location' => 'Location',
         'deadline' => 'Deadline',
+        'slots' => 'Slots',
         'view_details' => 'View details',
         'apply_now' => 'Apply now',
         'apply_label' => 'Apply',

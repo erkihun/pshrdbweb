@@ -3,6 +3,7 @@
 use App\Models\Document;
 use App\Models\Post;
 use App\Models\Service;
+use App\Models\Vacancy;
 
 it('shows only published news posts', function () {
     $published = Post::factory()->create([
@@ -85,4 +86,53 @@ it('shows only published downloads', function () {
         ->assertSee($published->title_en)
         ->assertDontSee($draft->title_en)
         ->assertDontSee($future->title_en);
+});
+
+it('shows only published vacancies on the public vacancy index', function () {
+    $published = Vacancy::create([
+        'title' => 'Published Vacancy',
+        'description' => 'Published vacancy description',
+        'location' => 'Addis Ababa',
+        'status' => Vacancy::STATUS_OPEN,
+        'deadline' => today()->addDays(10),
+        'published_at' => now()->subDay(),
+        'is_published' => true,
+        'code' => 'PUB-001',
+        'notes' => 'Published vacancy note',
+        'slots' => 3,
+    ]);
+
+    Vacancy::create([
+        'title' => 'Draft Vacancy',
+        'description' => 'Draft vacancy description',
+        'location' => 'Addis Ababa',
+        'status' => Vacancy::STATUS_OPEN,
+        'deadline' => today()->addDays(10),
+        'published_at' => null,
+        'is_published' => false,
+        'code' => 'DRF-001',
+        'notes' => 'Draft vacancy note',
+        'slots' => 2,
+    ]);
+
+    Vacancy::create([
+        'title' => 'Scheduled Vacancy',
+        'description' => 'Scheduled vacancy description',
+        'location' => 'Addis Ababa',
+        'status' => Vacancy::STATUS_OPEN,
+        'deadline' => today()->addDays(10),
+        'published_at' => now()->addDay(),
+        'is_published' => true,
+        'code' => 'SCH-001',
+        'notes' => 'Scheduled vacancy note',
+        'slots' => 4,
+    ]);
+
+    $response = $this->get('/vacancies');
+
+    $response
+        ->assertOk()
+        ->assertSee($published->title)
+        ->assertDontSee('Draft Vacancy')
+        ->assertDontSee('Scheduled Vacancy');
 });

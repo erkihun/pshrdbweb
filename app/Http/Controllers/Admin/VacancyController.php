@@ -22,33 +22,31 @@ class VacancyController extends Controller
             $query->where('title', 'like', '%' . $request->q . '%');
         }
 
-        if ($request->filled('status') && in_array($request->status, Vacancy::statuses(), true)) {
-            $query->where('status', $request->status);
-        }
-
         $vacancies = $query->orderByDesc('created_at')->paginate(12)->withQueryString();
 
         return view('admin.vacancies.index', [
             'vacancies' => $vacancies,
-            'statuses' => Vacancy::statuses(),
         ]);
     }
 
     public function create(): View
     {
-        return view('admin.vacancies.create', [
-            'statuses' => Vacancy::statuses(),
-        ]);
+        return view('admin.vacancies.create');
     }
 
     public function store(StoreVacancyRequest $request): RedirectResponse
     {
-        Vacancy::create(array_merge(
-            $request->validated(),
-            ['is_published' => $request->boolean('is_published')]
-        ));
+        Vacancy::create(array_merge($request->validated(), [
+            'location' => null,
+            'status' => Vacancy::STATUS_OPEN,
+            'published_at' => null,
+            'is_published' => false,
+            'code' => null,
+            'notes' => null,
+            'slots' => 1,
+        ]));
 
-        return redirect()->route('admin.vacancies.index')->with('success', 'Vacancy created.');
+        return redirect()->route('admin.vacancies.index')->with('success', 'Vacancy announcement created.');
     }
 
     public function show(Vacancy $vacancy): View
@@ -62,25 +60,27 @@ class VacancyController extends Controller
     {
         return view('admin.vacancies.edit', [
             'vacancy' => $vacancy,
-            'statuses' => Vacancy::statuses(),
         ]);
     }
 
     public function update(UpdateVacancyRequest $request, Vacancy $vacancy): RedirectResponse
     {
-        $vacancy->update(array_merge(
-            $request->validated(),
-            ['is_published' => $request->boolean('is_published')]
-        ));
+        $vacancy->update(array_merge($request->validated(), [
+            'location' => null,
+            'status' => Vacancy::STATUS_OPEN,
+            'code' => null,
+            'notes' => null,
+            'slots' => 1,
+        ]));
 
-        return redirect()->route('admin.vacancies.index')->with('success', 'Vacancy updated.');
+        return redirect()->route('admin.vacancies.index')->with('success', 'Vacancy announcement updated.');
     }
 
     public function destroy(Vacancy $vacancy): RedirectResponse
     {
         $vacancy->delete();
 
-        return back()->with('success', 'Vacancy removed.');
+        return back()->with('success', 'Vacancy announcement deleted.');
     }
 
     public function publish(Vacancy $vacancy): RedirectResponse
@@ -92,7 +92,7 @@ class VacancyController extends Controller
 
         return redirect()
             ->route('admin.vacancies.index')
-            ->with('success', 'Vacancy published.');
+            ->with('success', 'Vacancy announcement published.');
     }
 
     public function unpublish(Vacancy $vacancy): RedirectResponse
@@ -103,6 +103,6 @@ class VacancyController extends Controller
 
         return redirect()
             ->route('admin.vacancies.index')
-            ->with('success', 'Vacancy unpublished.');
+            ->with('success', 'Vacancy announcement unpublished.');
     }
 }
