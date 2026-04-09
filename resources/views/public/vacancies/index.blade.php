@@ -8,7 +8,7 @@
 
 @section('content')
 <div class="min-h-screen bg-gradient-to-b from-slate-50 via-white to-sky-50 py-10">
-    <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <section class="rounded-3xl border border-slate-200 bg-white px-6 py-8 shadow-lg shadow-slate-200/60 sm:px-8">
                 @if($vacancies->count())
                     <div class="space-y-4">
@@ -22,10 +22,8 @@
                                     {{ $safeTitle !== '' ? $safeTitle : __('vacancies.public.title') }}
                                 </h2>
 
-                                <div class="mt-5 rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4">
-                                    <div class="prose max-w-none text-sm leading-7 text-slate-700 prose-headings:text-slate-900 prose-a:text-sky-700 prose-img:rounded-2xl prose-img:shadow-sm sm:text-base">
-                                        {!! $vacancy->description !!}
-                                    </div>
+                                <div class="prose mt-5 max-w-none text-sm leading-7 text-slate-700 prose-headings:text-slate-900 prose-a:text-sky-700 prose-img:rounded-2xl prose-img:shadow-sm sm:text-base">
+                                    {!! $vacancy->description !!}
                                 </div>
                             </article>
                         @endforeach

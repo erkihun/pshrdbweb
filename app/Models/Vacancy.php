@@ -76,15 +76,19 @@ class Vacancy extends Model
     public function scopeVisibleForPublic($query)
     {
         return $query->where('is_published', true)
-            ->where('published_at', '<=', now())
-            ->whereNotNull('deadline')
-            ->whereDate('deadline', '>=', today());
+            ->where(function ($builder) {
+                $builder->whereNull('published_at')
+                    ->orWhere('published_at', '<=', now());
+            });
     }
 
     public function scopePublishedForPublic($query)
     {
         return $query->where('is_published', true)
-            ->where('published_at', '<=', now());
+            ->where(function ($builder) {
+                $builder->whereNull('published_at')
+                    ->orWhere('published_at', '<=', now());
+            });
     }
 
     public function getPublicSlugAttribute(): string

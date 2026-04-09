@@ -11,13 +11,13 @@ class VacancyController extends Controller
 {
     public function index(Request $request): View
     {
-        $vacancyQuery = Vacancy::visibleForPublic();
+        $vacancyQuery = Vacancy::publishedForPublic();
         $vacancies = $vacancyQuery
-            ->orderBy('deadline')
+            ->orderByDesc('published_at')
             ->paginate(9)
             ->withQueryString();
         $activeCount = (clone $vacancyQuery)->count();
-        $latestDeadline = (clone $vacancyQuery)->orderBy('deadline')->value('deadline');
+        $latestDeadline = (clone $vacancyQuery)->orderByDesc('published_at')->value('deadline');
 
         $seoMeta = [
             'title' => __('vacancies.public.title'),
@@ -36,7 +36,7 @@ class VacancyController extends Controller
 
     public function show(string $slug): View
     {
-        $vacancy = Vacancy::visibleForPublic()
+        $vacancy = Vacancy::publishedForPublic()
             ->where(function ($query) use ($slug) {
                 $query->where('id', $slug)
                     ->orWhere('code', $slug);
