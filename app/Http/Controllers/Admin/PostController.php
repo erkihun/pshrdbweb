@@ -146,7 +146,7 @@ class PostController extends Controller
             ? $request->boolean('is_published')
             : $post->is_published;
         if ($data['is_published']) {
-            $data['published_at'] = $post->published_at ?? Carbon::now();
+            $data['published_at'] = $data['published_at'] ?? $post->published_at ?? Carbon::now();
         } else {
             $data['published_at'] = null;
         }

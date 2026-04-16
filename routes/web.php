@@ -194,8 +194,13 @@ Route::middleware(['auth', 'verified', 'admin.session.timeout'])
         Route::resource('tickets', AdminTicketController::class)->only(['index', 'show', 'update', 'destroy'])->middleware('permission:manage tickets');
         Route::resource('service-requests', \App\Http\Controllers\Admin\ServiceRequestController::class)->only(['index', 'show', 'update'])->middleware('permission:manage service requests');
         Route::resource('service-feedback', AdminServiceFeedbackController::class)->only(['index', 'show', 'update', 'destroy'])->middleware('permission:manage service feedback');
-        Route::resource('chats', AdminChatController::class)->only(['index', 'show', 'update'])->middleware('permission:manage chat');
-        Route::post('chats/{chatSession}/messages', [AdminChatController::class, 'storeMessage'])->name('admin.chats.messages.store')->middleware('permission:manage chat');
+        Route::resource('chats', AdminChatController::class)
+            ->parameters(['chats' => 'chatSession'])
+            ->only(['index', 'show', 'update'])
+            ->middleware('permission:manage chat');
+        Route::post('chats/{chatSession}/messages', [AdminChatController::class, 'storeMessage'])
+            ->name('chats.messages.store')
+            ->middleware('permission:manage chat');
         Route::resource('document-request-types', DocumentRequestTypeController::class)->except(['show'])->middleware('permission:manage document requests');
         Route::resource('document-requests', AdminDocumentRequestController::class)->only(['index', 'show', 'update'])->middleware('permission:manage document requests');
         Route::get('document-requests/{documentRequest}/attachment', [AdminDocumentRequestController::class, 'download'])->name('admin.document-requests.attachment')->middleware('permission:manage document requests');

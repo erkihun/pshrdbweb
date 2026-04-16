@@ -31,6 +31,7 @@ class UpdatePostRequest extends FormRequest
             'body_en' => ['nullable', 'string'],
             'body' => ['nullable', 'string'],
             'is_published' => ['sometimes', 'boolean'],
+            'published_at' => ['nullable', 'date'],
             'cover_image' => ['nullable', 'image', 'max:2048'],
             'gallery_images' => ['nullable', 'array', 'max:4'],
             'gallery_images.*' => ['image', 'max:4096'],

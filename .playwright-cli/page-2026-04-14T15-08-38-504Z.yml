@@ -1,0 +1,191 @@
+- generic [ref=e2]:
+  - complementary "Admin navigation" [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e8]:
+        - img "የፐብሊክ ሰርቪስና የሰው ሀብት ልማት ቢሮ" [ref=e10]
+        - generic [ref=e12]: የፐብሊክ ሰርቪስና የሰው ሀብት ልማት ቢሮ
+      - generic [ref=e14]:
+        - navigation [ref=e15]:
+          - link "ዳሽቦርድ" [ref=e16] [cursor=pointer]:
+            - /url: http://127.0.0.1:8000/admin
+            - img [ref=e18]
+            - generic [ref=e20]: ዳሽቦርድ
+        - button "ይዘት" [ref=e22] [cursor=pointer]:
+          - generic [ref=e23]: ይዘት
+          - img [ref=e24]
+        - generic [ref=e26]:
+          - button "ክዋኔዎች" [expanded] [ref=e27] [cursor=pointer]:
+            - generic [ref=e28]: ክዋኔዎች
+            - img [ref=e29]
+          - region "ክዋኔዎች" [ref=e31]:
+            - link "ቲኬቶች እና ቅሬታዎች" [ref=e32] [cursor=pointer]:
+              - /url: http://127.0.0.1:8000/admin/tickets
+              - img [ref=e34]
+              - generic [ref=e36]: ቲኬቶች እና ቅሬታዎች
+            - link "የቀጥታ ውይይት" [ref=e37] [cursor=pointer]:
+              - /url: http://127.0.0.1:8000/admin/chats
+              - img [ref=e39]
+              - generic [ref=e41]: የቀጥታ ውይይት
+            - link "የአገልግሎት ጥያቄዎች" [ref=e43] [cursor=pointer]:
+              - /url: http://127.0.0.1:8000/admin/service-requests
+              - img [ref=e45]
+              - generic [ref=e47]: የአገልግሎት ጥያቄዎች
+            - link "የሰነድ ጥያቄዎች" [ref=e48] [cursor=pointer]:
+              - /url: http://127.0.0.1:8000/admin/document-requests
+              - img [ref=e50]
+              - generic [ref=e52]: የሰነድ ጥያቄዎች
+            - link "የሰነድ ጥያቄ አይነቶች" [ref=e53] [cursor=pointer]:
+              - /url: http://127.0.0.1:8000/admin/document-request-types
+              - img [ref=e55]
+              - generic [ref=e57]: የሰነድ ጥያቄ አይነቶች
+            - link "ቀጠሮዎች" [ref=e58] [cursor=pointer]:
+              - /url: http://127.0.0.1:8000/admin/appointments
+              - img [ref=e60]
+              - generic [ref=e62]: ቀጠሮዎች
+            - link "የቀጠሮ ሰዓቶች" [ref=e63] [cursor=pointer]:
+              - /url: http://127.0.0.1:8000/admin/appointment-slots
+              - img [ref=e65]
+              - generic [ref=e67]: የቀጠሮ ሰዓቶች
+            - link "የቀጠሮ አገልግሎት" [ref=e68] [cursor=pointer]:
+              - /url: http://127.0.0.1:8000/admin/appointment-services
+              - img [ref=e70]
+              - generic [ref=e72]: የቀጠሮ አገልግሎት
+        - button "ክፍት የስራ ቦታዎች" [ref=e74] [cursor=pointer]:
+          - generic [ref=e75]: ክፍት የስራ ቦታዎች
+          - img [ref=e76]
+        - button "ሀብቶች" [ref=e79] [cursor=pointer]:
+          - generic [ref=e80]: ሀብቶች
+          - img [ref=e81]
+        - button "ምልክት ማድረጊያ" [ref=e84] [cursor=pointer]:
+          - generic [ref=e85]: ምልክት ማድረጊያ
+          - img [ref=e86]
+        - button "አጋርነቶች" [ref=e89] [cursor=pointer]:
+          - generic [ref=e90]: አጋርነቶች
+          - img [ref=e91]
+        - button "የዜጎች ቻርተር" [ref=e94] [cursor=pointer]:
+          - generic [ref=e95]: የዜጎች ቻርተር
+          - img [ref=e96]
+        - button "አስተዳደር" [ref=e99] [cursor=pointer]:
+          - generic [ref=e100]: አስተዳደር
+          - img [ref=e101]
+        - button "አማራጭ" [ref=e104] [cursor=pointer]:
+          - generic [ref=e105]: አማራጭ
+          - img [ref=e106]
+  - generic [ref=e109]:
+    - banner [ref=e110]:
+      - generic [ref=e111]:
+        - heading "ዳሽቦርድ" [level=1] [ref=e114]
+        - generic [ref=e115]:
+          - button "Notifications" [ref=e116] [cursor=pointer]:
+            - img [ref=e117]
+          - generic [ref=e119]:
+            - button "አማ" [ref=e121] [cursor=pointer]
+            - generic [ref=e122]: /
+            - button "እንግ" [ref=e124] [cursor=pointer]
+          - button "A መገለጫ Admin User" [ref=e126] [cursor=pointer]:
+            - generic [ref=e127]: A
+            - generic [ref=e128]:
+              - paragraph [ref=e129]: መገለጫ
+              - paragraph [ref=e130]: Admin User
+            - img [ref=e131]
+    - main [ref=e134]:
+      - generic [ref=e135]:
+        - navigation "Breadcrumb" [ref=e137]:
+          - list [ref=e138]:
+            - listitem [ref=e139]:
+              - link "ዳሽቦርድ" [ref=e140] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/admin
+                - img [ref=e143]
+                - generic [ref=e145]: ዳሽቦርድ
+            - listitem [ref=e147]:
+              - link "Chats" [ref=e150] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/chats
+                - text: Chats
+            - listitem [ref=e152]:
+              - 'link "Chat Session #1" [ref=e155] [cursor=pointer]':
+                - /url: http://127.0.0.1:8000/chats/019b8303-27ac-7058-9d81-673320b8e47b
+                - generic [ref=e156]: "Chat Session #1"
+        - alert [ref=e158]: መልእክት ተልኳል።
+        - generic [ref=e159]:
+          - generic [ref=e160]:
+            - generic [ref=e161]:
+              - heading "የቀጥታ ድጋፍ" [level=1] [ref=e162]
+              - paragraph [ref=e163]: ወኪሎችን ለመመደብ፣ ሁኔታዎችን ለማዘመን እና ለጎብኚዎች መልስ ለመስጠት ይህን ገፅ ይጠቀሙ።
+            - link "ተመለስ" [ref=e164] [cursor=pointer]:
+              - /url: http://127.0.0.1:8000/admin/chats
+          - generic [ref=e165]:
+            - generic [ref=e166]:
+              - generic [ref=e167]:
+                - generic [ref=e168]: ጎብኚ
+                - generic [ref=e169]: ስም-አልባ
+                - generic [ref=e170]: ኢሜይል
+                - generic [ref=e171]: ስልክ
+              - generic [ref=e172]:
+                - generic [ref=e173]: ሁኔታ
+                - generic [ref=e174]: active
+                - generic [ref=e175]: 25 ታኅሣሥ 2018 2:39 ከሰዓት
+              - generic [ref=e176]:
+                - generic [ref=e177]: common.labels.assigned_to
+                - generic [ref=e178]: Erkihun Bewket
+            - generic [ref=e179]:
+              - generic [ref=e180]:
+                - text: ወኪል
+                - combobox "ወኪል" [ref=e181]:
+                  - option "ያልተመደበ"
+                  - option "Admin User"
+                  - option "Erkihun Bewket" [selected]
+                  - option "Test User"
+              - generic [ref=e182]:
+                - text: ሁኔታ
+                - combobox "ሁኔታ" [ref=e183]:
+                  - option "Waiting"
+                  - option "Active" [selected]
+                  - option "Closed"
+              - button "አስቀምጥ" [ref=e185] [cursor=pointer]
+          - generic [ref=e186]:
+            - heading "መልዕክቶች" [level=2] [ref=e187]
+            - generic [ref=e188]:
+              - generic [ref=e189]:
+                - generic [ref=e190]:
+                  - generic [ref=e191]: ወኪል
+                  - generic [ref=e192]: 06 ሚያዝያ 2018 5:59 ከሰዓት
+                - paragraph [ref=e193]: test
+              - generic [ref=e194]:
+                - generic [ref=e195]:
+                  - generic [ref=e196]: ወኪል
+                  - generic [ref=e197]: 06 ሚያዝያ 2018 6:00 ከሰዓት
+                - paragraph [ref=e198]: test
+              - generic [ref=e199]:
+                - generic [ref=e200]:
+                  - generic [ref=e201]: ወኪል
+                  - generic [ref=e202]: 06 ሚያዝያ 2018 6:02 ከሰዓት
+                - paragraph [ref=e203]: test
+              - generic [ref=e204]:
+                - generic [ref=e205]:
+                  - generic [ref=e206]: ወኪል
+                  - generic [ref=e207]: 06 ሚያዝያ 2018 6:02 ከሰዓት
+                - paragraph [ref=e208]: test
+              - generic [ref=e209]:
+                - generic [ref=e210]:
+                  - generic [ref=e211]: ወኪል
+                  - generic [ref=e212]: 06 ሚያዝያ 2018 6:03 ከሰዓት
+                - paragraph [ref=e213]: test
+              - generic [ref=e214]:
+                - generic [ref=e215]:
+                  - generic [ref=e216]: ወኪል
+                  - generic [ref=e217]: 06 ሚያዝያ 2018 6:04 ከሰዓት
+                - paragraph [ref=e218]: test
+              - generic [ref=e219]:
+                - generic [ref=e220]:
+                  - generic [ref=e221]: ወኪል
+                  - generic [ref=e222]: 06 ሚያዝያ 2018 6:06 ከሰዓት
+                - paragraph [ref=e223]: test
+              - generic [ref=e224]:
+                - generic [ref=e225]:
+                  - generic [ref=e226]: ወኪል
+                  - generic [ref=e227]: 06 ሚያዝያ 2018 6:08 ከሰዓት
+                - paragraph [ref=e228]: fix verification message
+            - generic [ref=e229]:
+              - text: መልእክት
+              - textbox "መልእክት" [ref=e230]
+              - button "ላክ" [ref=e232] [cursor=pointer]

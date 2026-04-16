@@ -88,7 +88,7 @@ class AnnouncementController extends Controller
         $wasPublished = $announcement->is_published;
 
         if ($request->boolean('is_published')) {
-            $data['published_at'] = $announcement->published_at ?? Carbon::now();
+            $data['published_at'] = $data['published_at'] ?? $announcement->published_at ?? Carbon::now();
         } else {
             $data['published_at'] = null;
         }

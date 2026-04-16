@@ -1,0 +1,28 @@
+- generic [ref=e5]:
+  - generic [ref=e6]:
+    - generic [ref=e7]:
+      - img "የፐብሊክ ሰርቪስና የሰው ሀብት ልማት ቢሮ logo" [ref=e9]
+      - generic [ref=e10]:
+        - paragraph [ref=e11]: Admin Portal
+        - heading "የፐብሊክ ሰርቪስና የሰው ሀብት ልማት ቢሮ" [level=1] [ref=e12]
+        - paragraph [ref=e13]: Secure access for administrators and officers.
+    - paragraph [ref=e14]: © 2026 የፐብሊክ ሰርቪስና የሰው ሀብት ልማት ቢሮ
+  - generic [ref=e15]:
+    - generic [ref=e16]:
+      - paragraph [ref=e17]: Admin Portal
+      - heading "Sign in" [level=1] [ref=e18]
+      - paragraph [ref=e19]: Use your admin account credentials.
+    - generic [ref=e20]:
+      - generic [ref=e21]:
+        - generic [ref=e22]: Email
+        - textbox "Email" [active] [ref=e23]
+      - generic [ref=e24]:
+        - generic [ref=e25]: Password
+        - textbox "Password" [ref=e26]
+      - generic [ref=e28]:
+        - checkbox "Remember me" [ref=e29]
+        - generic [ref=e30]: Remember me
+      - generic [ref=e31]:
+        - link "Forgot your password?" [ref=e32] [cursor=pointer]:
+          - /url: http://127.0.0.1:8000/forgot-password
+        - button "Log in" [ref=e33] [cursor=pointer]

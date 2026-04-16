@@ -12,7 +12,7 @@
                 <h2 class="text-lg font-semibold text-slate-900">{{ __('common.labels.waiting') }}</h2>
                 <div class="mt-4 space-y-3">
                     @forelse ($waiting as $session)
-                        <a href="{{ route('admin.chats.show', $session) }}" class="block rounded-xl border border-slate-100 px-4 py-3 text-sm font-medium text-slate-700 transition hover:border-slate-300">
+                        <a href="{{ route('admin.chats.show', ['chatSession' => $session]) }}" class="block rounded-xl border border-slate-100 px-4 py-3 text-sm font-medium text-slate-700 transition hover:border-slate-300">
                             <div class="flex items-center justify-between text-xs uppercase tracking-wide text-slate-400">
                                 <span>{{ $session->visitor_name ?? __('common.labels.anonymous') }}</span>
                                 <span>{{ $session->started_at ? ethiopian_date($session->started_at, 'dd MMMM yyyy h:mm a', 'Africa/Addis_Ababa', null, 'M d, H:i', true) : '' }}</span>
@@ -29,7 +29,7 @@
                 <h2 class="text-lg font-semibold text-slate-900">{{ __('common.labels.active') }}</h2>
                 <div class="mt-4 space-y-3">
                     @forelse ($active as $session)
-                        <a href="{{ route('admin.chats.show', $session) }}" class="block rounded-xl border border-slate-100 px-4 py-3 text-sm font-medium text-slate-700 transition hover:border-slate-300">
+                        <a href="{{ route('admin.chats.show', ['chatSession' => $session]) }}" class="block rounded-xl border border-slate-100 px-4 py-3 text-sm font-medium text-slate-700 transition hover:border-slate-300">
                             <div class="flex items-center justify-between text-xs uppercase tracking-wide text-slate-400">
                                 <span>{{ $session->visitor_name ?? __('common.labels.anonymous') }}</span>
                                 <span>{{ $session->started_at ? ethiopian_date($session->started_at, 'dd MMMM yyyy h:mm a', 'Africa/Addis_Ababa', null, 'M d, H:i', true) : '' }}</span>
@@ -46,7 +46,7 @@
                 <h2 class="text-lg font-semibold text-slate-900">{{ __('common.labels.closed') }}</h2>
                 <div class="mt-4 space-y-3">
                     @forelse ($closed as $session)
-                        <a href="{{ route('admin.chats.show', $session) }}" class="block rounded-xl border border-slate-100 px-4 py-3 text-sm font-medium text-slate-700 transition hover:border-slate-300">
+                        <a href="{{ route('admin.chats.show', ['chatSession' => $session]) }}" class="block rounded-xl border border-slate-100 px-4 py-3 text-sm font-medium text-slate-700 transition hover:border-slate-300">
                             <div class="flex items-center justify-between text-xs uppercase tracking-wide text-slate-400">
                                 <span>{{ $session->visitor_name ?? __('common.labels.anonymous') }}</span>
                                 <span>{{ $session->closed_at ? ethiopian_date($session->closed_at, 'dd MMMM yyyy h:mm a', 'Africa/Addis_Ababa', null, 'M d, H:i', true) : '' }}</span>
@@ -61,4 +61,3 @@
         </div>
     </div>
 @endsection
-

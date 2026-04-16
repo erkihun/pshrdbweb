@@ -29,7 +29,7 @@
                 </div>
             </div>
 
-            <form action="{{ route('admin.chats.update', $chatSession) }}" method="POST" class="mt-6 grid gap-4 md:grid-cols-3">
+            <form action="{{ route('admin.chats.update', ['chatSession' => $chatSession]) }}" method="POST" class="mt-6 grid gap-4 md:grid-cols-3">
                 @csrf
                 @method('PUT')
                 <div class="space-y-2">
@@ -68,7 +68,7 @@
                     </div>
                 @endforeach
             </div>
-            <form action="{{ route('admin.chats.messages.store', $chatSession) }}" method="POST" class="mt-6 space-y-3">
+            <form action="{{ route('admin.chats.messages.store', ['chatSession' => $chatSession]) }}" method="POST" class="mt-6 space-y-3">
                 @csrf
                 <label class="text-xs font-semibold text-slate-500" for="message">{{ __('common.labels.message') }}</label>
                 <textarea id="message" name="message" rows="3" class="form-textarea w-full"></textarea>
@@ -79,4 +79,3 @@
         </div>
     </div>
 @endsection
-
