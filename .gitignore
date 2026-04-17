@@ -43,3 +43,7 @@ coverage/
 # Vite / build outputs
 public/hot
 public/build
+
+# Nested local repos
+psweb/
+psweb2/
