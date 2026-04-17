@@ -97,7 +97,7 @@ $socialLinks = [
 
                     @if(isset($pageviewCount))
                     <div class="text-sm font-semibold text-gray-300">
-                        {{ number_format($pageviewCount) }} Pageviews
+                        {{ number_format($pageviewCount) }} የተጎበኙ ገፆች
                     </div>
                     @endif
 
