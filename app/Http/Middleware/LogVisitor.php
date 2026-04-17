@@ -7,9 +7,12 @@ namespace App\Http\Middleware;
 use App\Models\VisitorLog;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 final class LogVisitor
 {
+    private const REFERER_MAX_LENGTH = 255;
+
     public function handle(Request $request, Closure $next)
     {
         if (app()->environment(['local', 'testing'])) {
@@ -31,12 +34,18 @@ final class LogVisitor
             ->exists();
 
         if (! $exists) {
-            VisitorLog::create([
-                'ip_address' => $ip,
-                'path' => $path,
-                'user_agent' => $request->header('User-Agent') ?? '',
-                'referer' => $request->headers->get('referer'),
-            ]);
+            try {
+                VisitorLog::create([
+                    'ip_address' => $ip,
+                    'path' => $path,
+                    'user_agent' => $request->header('User-Agent') ?? '',
+                    'referer' => $this->sanitizeReferer(
+                        $request->headers->get('referer') ?? $request->headers->get('referrer')
+                    ),
+                ]);
+            } catch (\Throwable $exception) {
+                report($exception);
+            }
         }
 
         return $response;
@@ -53,5 +62,14 @@ final class LogVisitor
         }
 
         return true;
+    }
+
+    private function sanitizeReferer(?string $referer): ?string
+    {
+        if ($referer === null || $referer === '') {
+            return null;
+        }
+
+        return Str::substr($referer, 0, self::REFERER_MAX_LENGTH);
     }
 }
