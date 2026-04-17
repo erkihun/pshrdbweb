@@ -21,9 +21,11 @@ use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -122,8 +124,28 @@ class AppServiceProvider extends ServiceProvider
         }
 
         View::composer('layouts.public-footer', function ($view) {
-            $count = Cache::remember('visitor.count.total', now()->addMinutes(5), fn () => VisitorLog::count());
-            $view->with('visitorCount', $count);
+            $visitorCount = Cache::remember('visitor.count.total', now()->addMinutes(5), fn () => VisitorLog::count());
+            $pageviewCount = Cache::remember('pageviews.count.total', now()->addMinutes(5), function () {
+                if (
+                    Schema::hasTable('analytics_daily_stats') &&
+                    DB::table('analytics_daily_stats')
+                        ->exists()
+                ) {
+                    return (int) DB::table('analytics_daily_stats')
+                        ->sum('pageviews');
+                }
+
+                if (Schema::hasTable('analytics_pageviews')) {
+                    return (int) DB::table('analytics_pageviews')->count();
+                }
+
+                return 0;
+            });
+
+            $view->with([
+                'visitorCount' => $visitorCount,
+                'pageviewCount' => $pageviewCount,
+            ]);
         });
 
         Gate::policy(VacancyApplication::class, VacancyApplicationPolicy::class);
