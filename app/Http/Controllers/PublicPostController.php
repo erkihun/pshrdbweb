@@ -106,11 +106,21 @@ class PublicPostController extends Controller
 
     private function resolveWeatherInfo(): string
     {
-        return Cache::remember('weather.addis_ababa', 300, function () {
+        return Cache::remember('weather.addis_ababa.plain', 300, function () {
             try {
-                $response = Http::timeout(5)->get('https://wttr.in/Addis%20Ababa?format=%l+%c+%t');
+                $response = Http::timeout(5)
+                    ->accept('text/plain')
+                    ->withHeaders([
+                        'User-Agent' => 'curl/8.0.1',
+                    ])
+                    ->get('https://wttr.in/Addis%20Ababa?format=3');
+
                 if ($response->ok()) {
-                    return trim($response->body());
+                    $weather = trim($response->body());
+
+                    if ($weather !== '' && ! str_contains(strtolower($weather), '<html')) {
+                        return $weather;
+                    }
                 }
             } catch (\Exception $e) {
                 //
