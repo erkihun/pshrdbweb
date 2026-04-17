@@ -46,8 +46,8 @@ class Post extends Model
     public function getDisplayTitleAttribute(): string
     {
         return app()->getLocale() === 'am'
-            ? ($this->title_am ?: $this->title_en ?: $this->title)
-            : ($this->title_en ?: $this->title_am ?: $this->title);
+            ? ($this->title_am ?: $this->title_en ?: $this->title ?: $this->slug ?: '')
+            : ($this->title_en ?: $this->title_am ?: $this->title ?: $this->slug ?: '');
     }
 
     public function getDisplayExcerptAttribute(): ?string
@@ -60,8 +60,8 @@ class Post extends Model
     public function getDisplayBodyAttribute(): string
     {
         return app()->getLocale() === 'am'
-            ? ($this->body_am ?: $this->body_en ?: $this->body)
-            : ($this->body_en ?: $this->body_am ?: $this->body);
+            ? ($this->body_am ?: $this->body_en ?: $this->body ?: '')
+            : ($this->body_en ?: $this->body_am ?: $this->body ?: '');
     }
     protected static function booted()
     {
