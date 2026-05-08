@@ -9,7 +9,7 @@
 @section('content')
 <div class="min-h-screen bg-gradient-to-b from-slate-50 via-white to-sky-50 py-10">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <section class="w-full">
+        <section class="rounded-3xl border border-slate-200 bg-white px-6 py-8 shadow-lg shadow-slate-200/60 sm:px-8">
                 @if($vacancies->count())
                     <div class="space-y-4">
                         @foreach($vacancies as $vacancy)
@@ -17,7 +17,7 @@
                                 $safeTitle = trim(html_entity_decode(strip_tags((string) $vacancy->title), ENT_QUOTES | ENT_HTML5, 'UTF-8'));
                             @endphp
 
-                            <article class="w-full py-6 sm:py-7">
+                            <article class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:border-sky-200 hover:shadow-md sm:p-7">
                                 <h2 class="text-xl font-bold leading-tight text-slate-900 sm:text-2xl">
                                     {{ $safeTitle !== '' ? $safeTitle : __('vacancies.public.title') }}
                                 </h2>
