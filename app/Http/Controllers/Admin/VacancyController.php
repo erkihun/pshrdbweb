@@ -31,7 +31,9 @@ class VacancyController extends Controller
 
     public function create(): View
     {
-        return view('admin.vacancies.create');
+        return view('admin.vacancies.create', [
+            'vacancy' => new Vacancy(),
+        ]);
     }
 
     public function store(StoreVacancyRequest $request): RedirectResponse

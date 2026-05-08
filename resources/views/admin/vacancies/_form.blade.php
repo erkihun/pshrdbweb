@@ -1,7 +1,3 @@
-@php
-    $vacancy ??= null;
-@endphp
-
 <div class="space-y-6">
     <div>
         <label class="block text-sm font-semibold text-slate-700" for="deadline">Date</label>

@@ -36,8 +36,10 @@
 
         <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
             <h2 class="mb-4 text-lg font-semibold text-slate-900">Main Content</h2>
-            <div class="prose max-w-none text-slate-700">
-                {!! $vacancy->description !!}
+            <div class="max-w-full overflow-x-auto">
+                <div class="prose max-w-none text-slate-700 [&_table]:min-w-full [&_table]:border-collapse [&_table]:text-sm [&_th]:whitespace-nowrap [&_td]:align-top">
+                    {!! $vacancy->description !!}
+                </div>
             </div>
         </div>
 

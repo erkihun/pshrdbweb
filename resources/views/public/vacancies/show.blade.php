@@ -29,8 +29,10 @@
 
             <div class="px-6 py-8 sm:px-8 lg:px-10">
                 <div class="max-w-none">
-                    <div class="prose max-w-none text-slate-700 prose-headings:text-slate-900 prose-a:text-sky-700 prose-img:rounded-2xl prose-img:shadow-sm">
+                    <div class="max-w-full overflow-x-auto">
+                        <div class="prose max-w-none text-slate-700 prose-headings:text-slate-900 prose-a:text-sky-700 prose-img:rounded-2xl prose-img:shadow-sm [&_table]:min-w-full [&_table]:border-collapse [&_table]:text-sm [&_th]:whitespace-nowrap [&_td]:align-top">
                         {!! $vacancy->description !!}
+                        </div>
                     </div>
 
                     <div class="mt-10">

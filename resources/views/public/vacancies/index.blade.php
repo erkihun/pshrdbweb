@@ -22,8 +22,10 @@
                                     {{ $safeTitle !== '' ? $safeTitle : __('vacancies.public.title') }}
                                 </h2>
 
-                                <div class="prose mt-5 max-w-none text-sm leading-7 text-slate-700 prose-headings:text-slate-900 prose-a:text-sky-700 prose-img:rounded-2xl prose-img:shadow-sm sm:text-base">
-                                    {!! $vacancy->description !!}
+                                <div class="mt-5 max-w-full overflow-x-auto">
+                                    <div class="prose max-w-none text-sm leading-7 text-slate-700 prose-headings:text-slate-900 prose-a:text-sky-700 prose-img:rounded-2xl prose-img:shadow-sm sm:text-base [&_table]:min-w-full [&_table]:border-collapse [&_table]:text-sm [&_th]:whitespace-nowrap [&_td]:align-top">
+                                        {!! $vacancy->description !!}
+                                    </div>
                                 </div>
                             </article>
                         @endforeach
